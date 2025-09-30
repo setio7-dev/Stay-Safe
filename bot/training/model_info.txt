@@ -1,0 +1,4 @@
+Best Model: Linear SVM
+Test Accuracy: 0.8827
+Emotions: anger, fear, happy, love, sadness, surprise
+Number of features: 3000

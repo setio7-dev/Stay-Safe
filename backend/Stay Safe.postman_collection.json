@@ -1,0 +1,3328 @@
+{
+	"info": {
+		"_postman_id": "896be9cf-835b-44f4-aab9-b818f418f08d",
+		"name": "Stay Safe",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36803101"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// {\r\n//     \"email\": \"setionugraha@gmail.com\",\r\n//     \"password\": \"setio123\"\r\n// }\r\n\r\n{\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\": \"admin123\"\r\n}\r\n\r\n// {\r\n//     \"email\": \"alexagrayati@gmail.com\",\r\n//     \"password\": \"Dr. Alexandra Lovennita\"\r\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// {\r\n//     \"name\": \"Setio Nugraha\",\r\n//     \"email\": \"setionugraha@gmail.com\",\r\n//     \"password\": \"setio123\"\r\n// }\r\n\r\n{\r\n    \"name\": \"Dr. Alexa Grayati\",\r\n    \"email\": \"alexagrayati@gmail.com\",\r\n    \"password\": \"alexa123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Me",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "1|9A2RAsUqhJ63U5JfFY6lLEXNYKIHmbQ8T6HI0wki8d98aca1",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/me",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "4|PiV0EY6O1q6LD5xJiUeSf6smM7PJQttfnrAxswkF624dbcbb",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/logout",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Guest",
+			"item": [
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "Get By ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "1|9A2RAsUqhJ63U5JfFY6lLEXNYKIHmbQ8T6HI0wki8d98aca1",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/user/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"user",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "8|3rIFHDDtBeHeC12M3u9yuxHAQdvybQraahHAkv8a6765bab5",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "_method",
+											"value": "PUT",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/D:/Proyek Setio/Codingan/Stay Safe/design/dokter2.jpg"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/user/3",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"user",
+										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "News",
+					"item": [
+						{
+							"name": "Get",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "2|oTOScv7gWzfmlVhH9BpHbFC1T2mwJ8Qhlwd9MTYI936198b2",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/news",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"news"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get By ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "2|oTOScv7gWzfmlVhH9BpHbFC1T2mwJ8Qhlwd9MTYI936198b2",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/news/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"news",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Report",
+					"item": [
+						{
+							"name": "Create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "5|wgzSKh7pDv9sJbI2TFTsRyMwqhLjjs8T3aQqiM0od98ecb3d",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "category",
+											"value": "Kecelakaan",
+											"type": "text"
+										},
+										{
+											"key": "message",
+											"value": "Tabrakan motor dan mobil di perempatan jalan Sudirman.",
+											"type": "text"
+										},
+										{
+											"key": "location",
+											"value": "https://maps.google.com/?q=-6.215789,106.820000",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/C:/Users/nugra/Downloads/kecelakaan.jpeg"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/report",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"report"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Fact",
+					"item": [
+						{
+							"name": "Get",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "6|e2ThJHcAsf8YdUgNU9OQsXcHMUfu6aMgSZgxfvX7d7a6add8",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/guest/fact",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"guest",
+										"fact"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get By ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "6|e2ThJHcAsf8YdUgNU9OQsXcHMUfu6aMgSZgxfvX7d7a6add8",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/guest/fact/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"guest",
+										"fact",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Zone",
+					"item": [
+						{
+							"name": "Get",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "7|F2BeqvH0jhlBRM7Tm86IjkIS8IDVHIdyYwkzIBBh90575598",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/guest/zone",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"guest",
+										"zone"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Music",
+					"item": [
+						{
+							"name": "Get",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "7|F2BeqvH0jhlBRM7Tm86IjkIS8IDVHIdyYwkzIBBh90575598",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/guest/music",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"guest",
+										"music"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get By ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "2|QMi9P9CtLXBYt1L47f29p6Sehpte8OvcD3KnwPxq88ef64c4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/guest/music/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"guest",
+										"music",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Meditation",
+					"item": [
+						{
+							"name": "Get",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "7|F2BeqvH0jhlBRM7Tm86IjkIS8IDVHIdyYwkzIBBh90575598",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/guest/meditation",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"guest",
+										"meditation"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get By ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "2|QMi9P9CtLXBYt1L47f29p6Sehpte8OvcD3KnwPxq88ef64c4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/guest/meditation/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"guest",
+										"meditation",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Event",
+					"item": [
+						{
+							"name": "Event Transaction",
+							"item": [
+								{
+									"name": "Get",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "1|blmqmoEpaVDF9RDFgCqqmAz3AWsVseVs1tPnk5m325e67f10",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/events/transaction",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"events",
+												"transaction"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get By ID",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "1|blmqmoEpaVDF9RDFgCqqmAz3AWsVseVs1tPnk5m325e67f10",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/events/transaction/1",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"events",
+												"transaction",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "2|pzgcXuzwiPjVKbg8blccA8QrPBnszLK5Orti1YaG61b37b97",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"event_id\": 1\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/events/transaction",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"events",
+												"transaction"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Get",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "1|blmqmoEpaVDF9RDFgCqqmAz3AWsVseVs1tPnk5m325e67f10",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/event",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"event"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get By ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "1|blmqmoEpaVDF9RDFgCqqmAz3AWsVseVs1tPnk5m325e67f10",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/event/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"event",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Doctor",
+					"item": [
+						{
+							"name": "Get",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "4|DGLOcrgAof6ZsGOCVVpwGo8tmcXjE13rLPH8mY1C2e7fd7e2",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/guest/doctor",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"guest",
+										"doctor"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get By ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/guest/doctor/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"guest",
+										"doctor",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Community",
+					"item": [
+						{
+							"name": "Join Community",
+							"item": [
+								{
+									"name": "Create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "6|SWYkbpaaCTP5Pl1yDg7OACvwknPjhtM7G0WcwYFY9ce8aa7e",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"community_id\": 1\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/member/community",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"member",
+												"community"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "6|SWYkbpaaCTP5Pl1yDg7OACvwknPjhtM7G0WcwYFY9ce8aa7e",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"community_id\": 1\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/member/community",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"member",
+												"community"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Community Post",
+							"item": [
+								{
+									"name": "Create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "6|SWYkbpaaCTP5Pl1yDg7OACvwknPjhtM7G0WcwYFY9ce8aa7e",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "community_id",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "image",
+													"type": "file",
+													"src": "/D:/Proyek Setio/Codingan/Stay Safe/design/community-post1.jpg"
+												},
+												{
+													"key": "message",
+													"value": "Dari yang aku baca, sekarang tuh banyak banget hoax bertebaran di medsos 🤔. Gimana ya menurut kalian cara paling efektif buat ngelawan hoax?",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/communities/post",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"communities",
+												"post"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "6|SWYkbpaaCTP5Pl1yDg7OACvwknPjhtM7G0WcwYFY9ce8aa7e",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "community_id",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "image",
+													"type": "file",
+													"src": "/D:/Proyek Setio/Codingan/Stay Safe/design/community-post1.jpg"
+												},
+												{
+													"key": "message",
+													"value": "Dari yang aku baca, sekarang tuh banyak banget hoax bertebaran di medsos 🤔. Gimana ya menurut kalian cara paling efektif buat ngelawan hoax?",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/communities/post/1",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"communities",
+												"post",
+												"1"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Get",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "9|yl9A7ZQHzdB1IdCVtuEYwWvs7ASMIaQEhXUxxaiQ346b9b56",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/guest/community",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"guest",
+										"community"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get By ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "9|yl9A7ZQHzdB1IdCVtuEYwWvs7ASMIaQEhXUxxaiQ346b9b56",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/guest/community/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"guest",
+										"community",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Community",
+					"item": [
+						{
+							"name": "Join Community",
+							"item": [
+								{
+									"name": "Create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "6|SWYkbpaaCTP5Pl1yDg7OACvwknPjhtM7G0WcwYFY9ce8aa7e",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"community_id\": 1\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/member/community",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"member",
+												"community"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "6|SWYkbpaaCTP5Pl1yDg7OACvwknPjhtM7G0WcwYFY9ce8aa7e",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"community_id\": 1\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/member/community",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"member",
+												"community"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Community Post",
+							"item": [
+								{
+									"name": "Create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "6|SWYkbpaaCTP5Pl1yDg7OACvwknPjhtM7G0WcwYFY9ce8aa7e",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "community_id",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "image",
+													"type": "file",
+													"src": "/D:/Proyek Setio/Codingan/Stay Safe/design/community-post1.jpg"
+												},
+												{
+													"key": "message",
+													"value": "Dari yang aku baca, sekarang tuh banyak banget hoax bertebaran di medsos 🤔. Gimana ya menurut kalian cara paling efektif buat ngelawan hoax?",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/communities/post",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"communities",
+												"post"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "6|SWYkbpaaCTP5Pl1yDg7OACvwknPjhtM7G0WcwYFY9ce8aa7e",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "community_id",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "image",
+													"type": "file",
+													"src": "/D:/Proyek Setio/Codingan/Stay Safe/design/community-post1.jpg"
+												},
+												{
+													"key": "message",
+													"value": "Dari yang aku baca, sekarang tuh banyak banget hoax bertebaran di medsos 🤔. Gimana ya menurut kalian cara paling efektif buat ngelawan hoax?",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/communities/post/1",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"communities",
+												"post",
+												"1"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Get",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "9|yl9A7ZQHzdB1IdCVtuEYwWvs7ASMIaQEhXUxxaiQ346b9b56",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/guest/community",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"guest",
+										"community"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get By ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "9|yl9A7ZQHzdB1IdCVtuEYwWvs7ASMIaQEhXUxxaiQ346b9b56",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/guest/community/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"guest",
+										"community",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "Get By ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "2|oTOScv7gWzfmlVhH9BpHbFC1T2mwJ8Qhlwd9MTYI936198b2",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/user/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"user",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "1|9A2RAsUqhJ63U5JfFY6lLEXNYKIHmbQ8T6HI0wki8d98aca1",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Setio Nugraha\",\r\n    \"email\": \"setionugraha@gmail.com\",\r\n    \"password\": \"setio123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/user/2",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"user",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/user/2",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"user",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "1|9A2RAsUqhJ63U5JfFY6lLEXNYKIHmbQ8T6HI0wki8d98aca1",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/user",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"user"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "News",
+					"item": [
+						{
+							"name": "Get",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "6|SWYkbpaaCTP5Pl1yDg7OACvwknPjhtM7G0WcwYFY9ce8aa7e",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/news",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"news"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get By ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "2|oTOScv7gWzfmlVhH9BpHbFC1T2mwJ8Qhlwd9MTYI936198b2",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/news/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"news",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "2|oTOScv7gWzfmlVhH9BpHbFC1T2mwJ8Qhlwd9MTYI936198b2",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/news/2",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"news",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "3|zJoEyL2IUbLEFEs32MAgL3xzgImL67HS3IGnHu4y68d57c00",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "Hoaks, Kenaikan Biaya Administrasi Bulanan Bank Agustus 2025",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/D:/Proyek Setio/Codingan/Stay Safe/design/news1.png"
+										},
+										{
+											"key": "desc",
+											"value": "KBRN, Jakarta: Beredar unggahan di media sosial Facebook mengenai informasi kenaikan biaya administrasi bank yang disebut berlaku mulai Agustus 2025.",
+											"type": "text"
+										},
+										{
+											"key": "detail",
+											"value": "KBRN, Jakarta: Beredar unggahan di media sosial Facebook mengenai informasi kenaikan biaya administrasi bank yang disebut berlaku mulai Agustus 2025. Informasi tersebut menyebutkan adanya penyesuaian tarif pada Bank Rakyat Indonesia (BRI), Bank Mandiri, Bank Negara Indonesia (BNI), dan Bank Tabungan Negara (BTN).\n\nDalam unggahan tersebut juga dicantumkan rincian nominal kenaikan biaya administrasi bulanan. Angka-angka itu ditulis seolah-olah telah ditetapkan secara resmi oleh pihak perbankan.\n\nFaktanya, informasi tersebut tidak benar. Dilansir dari komdigi.go.id, tidak ada perubahan biaya administrasi bulanan yang diberlakukan oleh BRI, Bank Mandiri, BNI, maupun BTN.\n\nHingga saat ini, keempat bank tersebut juga belum pernah mengeluarkan pengumuman resmi terkait kenaikan tarif layanan. Informasi yang beredar di media sosial itu dipastikan hoaks.",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/news",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"news"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "3|zJoEyL2IUbLEFEs32MAgL3xzgImL67HS3IGnHu4y68d57c00",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "_method",
+											"value": "PUT",
+											"type": "text"
+										},
+										{
+											"key": "title",
+											"value": "Hoaks, Kenaikan Biaya Administrasi Bulanan Bank Agustus 2025",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/D:/Proyek Setio/Codingan/Stay Safe/design/news1.png"
+										},
+										{
+											"key": "desc",
+											"value": "KBRN, Jakarta: Beredar unggahan di media sosial Facebook mengenai informasi kenaikan biaya administrasi bank yang disebut berlaku mulai Agustus 2025.",
+											"type": "text"
+										},
+										{
+											"key": "detail",
+											"value": "KBRN, Jakarta: Beredar unggahan di media sosial Facebook mengenai informasi kenaikan biaya administrasi bank yang disebut berlaku mulai Agustus 2025. Informasi tersebut menyebutkan adanya penyesuaian tarif pada Bank Rakyat Indonesia (BRI), Bank Mandiri, Bank Negara Indonesia (BNI), dan Bank Tabungan Negara (BTN).\n\nDalam unggahan tersebut juga dicantumkan rincian nominal kenaikan biaya administrasi bulanan. Angka-angka itu ditulis seolah-olah telah ditetapkan secara resmi oleh pihak perbankan.\n\nFaktanya, informasi tersebut tidak benar. Dilansir dari komdigi.go.id, tidak ada perubahan biaya administrasi bulanan yang diberlakukan oleh BRI, Bank Mandiri, BNI, maupun BTN.\n\nHingga saat ini, keempat bank tersebut juga belum pernah mengeluarkan pengumuman resmi terkait kenaikan tarif layanan. Informasi yang beredar di media sosial itu dipastikan hoaks.",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/news/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"news",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Event",
+					"item": [
+						{
+							"name": "Event Transaction",
+							"item": [
+								{
+									"name": "Get",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "1|blmqmoEpaVDF9RDFgCqqmAz3AWsVseVs1tPnk5m325e67f10",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/events/transaction",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"events",
+												"transaction"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get By ID",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "1|blmqmoEpaVDF9RDFgCqqmAz3AWsVseVs1tPnk5m325e67f10",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/events/transaction/1",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"events",
+												"transaction",
+												"1"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Get",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "1|blmqmoEpaVDF9RDFgCqqmAz3AWsVseVs1tPnk5m325e67f10",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/event",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"event"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get By ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "1|blmqmoEpaVDF9RDFgCqqmAz3AWsVseVs1tPnk5m325e67f10",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/event/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"event",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "1|blmqmoEpaVDF9RDFgCqqmAz3AWsVseVs1tPnk5m325e67f10",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/event/2",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"event",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "1|blmqmoEpaVDF9RDFgCqqmAz3AWsVseVs1tPnk5m325e67f10",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "Menghadapi Bullying di Media Sosial",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/D:/Proyek Setio/Codingan/Stay Safe/design/event1.jpg"
+										},
+										{
+											"key": "desc",
+											"value": "Lindungi Dirimu, Lindungi Bersama. Mari Bersatu Lawan Bullying",
+											"type": "text"
+										},
+										{
+											"key": "detail",
+											"value": "Menghadapi Bullying di Media Sosial membahas cara mengenali, mencegah, dan mengatasi dampak negatif perundungan online. Melalui sesi ini, peserta diajak memahami strategi menjaga kesehatan mental, membangun kepercayaan diri, serta memanfaatkan media sosial dengan lebih positif dan aman.",
+											"type": "text"
+										},
+										{
+											"key": "location",
+											"value": "Jl Jaya Kusuma, Taman Sari, Jakarta Barat",
+											"type": "text"
+										},
+										{
+											"key": "date",
+											"value": "2025-10-04",
+											"type": "text"
+										},
+										{
+											"key": "price",
+											"value": "25000",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/event",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"event"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "1|blmqmoEpaVDF9RDFgCqqmAz3AWsVseVs1tPnk5m325e67f10",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "_method",
+											"value": "PUT",
+											"type": "text"
+										},
+										{
+											"key": "title",
+											"value": "Menghadapi Bullying di Media Sosial",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/D:/Proyek Setio/Codingan/Stay Safe/design/event1.jpg"
+										},
+										{
+											"key": "desc",
+											"value": "Lindungi Dirimu, Lindungi Bersama. Mari Bersatu Lawan Bullying",
+											"type": "text"
+										},
+										{
+											"key": "detail",
+											"value": "Menghadapi Bullying di Media Sosial membahas cara mengenali, mencegah, dan mengatasi dampak negatif perundungan online. Melalui sesi ini, peserta diajak memahami strategi menjaga kesehatan mental, membangun kepercayaan diri, serta memanfaatkan media sosial dengan lebih positif dan aman.",
+											"type": "text"
+										},
+										{
+											"key": "location",
+											"value": "Jl Jaya Kusuma, Taman Sari, Jakarta Barat",
+											"type": "text"
+										},
+										{
+											"key": "date",
+											"value": "2025-10-04",
+											"type": "text"
+										},
+										{
+											"key": "price",
+											"value": "25000",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/event/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"event",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Fact",
+					"item": [
+						{
+							"name": "Get",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "6|e2ThJHcAsf8YdUgNU9OQsXcHMUfu6aMgSZgxfvX7d7a6add8",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/fact",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"fact"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get By ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "6|e2ThJHcAsf8YdUgNU9OQsXcHMUfu6aMgSZgxfvX7d7a6add8",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/fact/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"fact",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "2|oTOScv7gWzfmlVhH9BpHbFC1T2mwJ8Qhlwd9MTYI936198b2",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/fact/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"fact",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "6|e2ThJHcAsf8YdUgNU9OQsXcHMUfu6aMgSZgxfvX7d7a6add8",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "Hoaks, Kenaikan Biaya Administrasi Bulanan Bank Agustus 2025",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "postman-cloud:///1f0257a7-cbb1-4a80-9bf2-13f56b00d92e"
+										},
+										{
+											"key": "desc",
+											"value": "KBRN, Jakarta: Beredar unggahan di media sosial Facebook mengenai informasi kenaikan biaya administrasi bank yang disebut berlaku mulai Agustus 2025.",
+											"type": "text"
+										},
+										{
+											"key": "detail",
+											"value": "KBRN, Jakarta: Beredar unggahan di media sosial Facebook mengenai informasi kenaikan biaya administrasi bank yang disebut berlaku mulai Agustus 2025. Informasi tersebut menyebutkan adanya penyesuaian tarif pada Bank Rakyat Indonesia (BRI), Bank Mandiri, Bank Negara Indonesia (BNI), dan Bank Tabungan Negara (BTN).\n\nDalam unggahan tersebut juga dicantumkan rincian nominal kenaikan biaya administrasi bulanan. Angka-angka itu ditulis seolah-olah telah ditetapkan secara resmi oleh pihak perbankan.\n\nFaktanya, informasi tersebut tidak benar. Dilansir dari komdigi.go.id, tidak ada perubahan biaya administrasi bulanan yang diberlakukan oleh BRI, Bank Mandiri, BNI, maupun BTN.\n\nHingga saat ini, keempat bank tersebut juga belum pernah mengeluarkan pengumuman resmi terkait kenaikan tarif layanan. Informasi yang beredar di media sosial itu dipastikan hoaks.",
+											"type": "text"
+										},
+										{
+											"key": "category",
+											"value": "asall yaa",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/fact",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"fact"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "6|e2ThJHcAsf8YdUgNU9OQsXcHMUfu6aMgSZgxfvX7d7a6add8",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "_method",
+											"value": "PUT",
+											"type": "text"
+										},
+										{
+											"key": "title",
+											"value": "Hoaks, Kenaikan Biaya Administrasi Bulanan Bank Agustus 2025",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/D:/Proyek Setio/Codingan/Stay Safe/design/news1.png"
+										},
+										{
+											"key": "desc",
+											"value": "KBRN, Jakarta: Beredar unggahan di media sosial Facebook mengenai informasi kenaikan biaya administrasi bank yang disebut berlaku mulai Agustus 2025.",
+											"type": "text"
+										},
+										{
+											"key": "detail",
+											"value": "KBRN, Jakarta: Beredar unggahan di media sosial Facebook mengenai informasi kenaikan biaya administrasi bank yang disebut berlaku mulai Agustus 2025. Informasi tersebut menyebutkan adanya penyesuaian tarif pada Bank Rakyat Indonesia (BRI), Bank Mandiri, Bank Negara Indonesia (BNI), dan Bank Tabungan Negara (BTN).\n\nDalam unggahan tersebut juga dicantumkan rincian nominal kenaikan biaya administrasi bulanan. Angka-angka itu ditulis seolah-olah telah ditetapkan secara resmi oleh pihak perbankan.\n\nFaktanya, informasi tersebut tidak benar. Dilansir dari komdigi.go.id, tidak ada perubahan biaya administrasi bulanan yang diberlakukan oleh BRI, Bank Mandiri, BNI, maupun BTN.\n\nHingga saat ini, keempat bank tersebut juga belum pernah mengeluarkan pengumuman resmi terkait kenaikan tarif layanan. Informasi yang beredar di media sosial itu dipastikan hoaks.",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/fact/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"fact",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Report",
+					"item": [
+						{
+							"name": "Get",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "3|zJoEyL2IUbLEFEs32MAgL3xzgImL67HS3IGnHu4y68d57c00",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/report",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"report"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get By ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "3|zJoEyL2IUbLEFEs32MAgL3xzgImL67HS3IGnHu4y68d57c00",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/report/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"report",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Zone",
+					"item": [
+						{
+							"name": "Get",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "7|F2BeqvH0jhlBRM7Tm86IjkIS8IDVHIdyYwkzIBBh90575598",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/zone",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"zone"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get By ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "7|F2BeqvH0jhlBRM7Tm86IjkIS8IDVHIdyYwkzIBBh90575598",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/zone/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"zone",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "7|F2BeqvH0jhlBRM7Tm86IjkIS8IDVHIdyYwkzIBBh90575598",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/zone/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"zone",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "7|F2BeqvH0jhlBRM7Tm86IjkIS8IDVHIdyYwkzIBBh90575598",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Monas, Jakarta Pusat\",\r\n    \"latitude\": -6.175392,\r\n    \"longitude\": 106.827153,\r\n    \"radius\": 500,\r\n    \"category\": \"Merah\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/zone",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"zone"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "7|F2BeqvH0jhlBRM7Tm86IjkIS8IDVHIdyYwkzIBBh90575598",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Monas, Jakarta Pusat\",\r\n    \"latitude\": -6.175392,\r\n    \"longitude\": 106.827153,\r\n    \"radius\": 500,\r\n    \"category\": \"Merah\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/zone/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"zone",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Music",
+					"item": [
+						{
+							"name": "Get",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "3|V278bxF6kp7BpWfLNrxQpxsy2PlychVcmjC7H2Wlf7ce8566",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/music",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"music"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "3|V278bxF6kp7BpWfLNrxQpxsy2PlychVcmjC7H2Wlf7ce8566",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "Weightless",
+											"type": "text"
+										},
+										{
+											"key": "author",
+											"value": "Marconi Union",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/D:/Proyek Setio/Codingan/Stay Safe/design/song1.png"
+										},
+										{
+											"key": "song",
+											"type": "file",
+											"src": "/D:/Proyek Setio/Codingan/Stay Safe/design/song1.mp3"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/music",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"music"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "3|V278bxF6kp7BpWfLNrxQpxsy2PlychVcmjC7H2Wlf7ce8566",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "_method",
+											"value": "PUT",
+											"type": "text"
+										},
+										{
+											"key": "title",
+											"value": "Weightlessaa",
+											"type": "text"
+										},
+										{
+											"key": "author",
+											"value": "Marconi Union",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/D:/Proyek Setio/Codingan/Stay Safe/design/song1.png"
+										},
+										{
+											"key": "song",
+											"type": "file",
+											"src": "/D:/Proyek Setio/Codingan/Stay Safe/design/song1.mp3"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/music/2",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"music",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get By ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "2|QMi9P9CtLXBYt1L47f29p6Sehpte8OvcD3KnwPxq88ef64c4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/music/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"music",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "2|QMi9P9CtLXBYt1L47f29p6Sehpte8OvcD3KnwPxq88ef64c4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/music/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"music",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Meditation",
+					"item": [
+						{
+							"name": "Get",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "3|V278bxF6kp7BpWfLNrxQpxsy2PlychVcmjC7H2Wlf7ce8566",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/meditation",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"meditation"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "3|V278bxF6kp7BpWfLNrxQpxsy2PlychVcmjC7H2Wlf7ce8566",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "Sering mengalami stres? Atasi Dengan Mengikuti Meditasi ini!",
+											"type": "text"
+										},
+										{
+											"key": "author",
+											"value": "SKWAD Fitness",
+											"type": "text"
+										},
+										{
+											"key": "thumbnail",
+											"type": "file",
+											"src": "/D:/Proyek Setio/Codingan/Stay Safe/design/Video1.png"
+										},
+										{
+											"key": "video",
+											"type": "file",
+											"src": "/D:/Proyek Setio/Codingan/Stay Safe/design/Video1.mp4"
+										},
+										{
+											"key": "desc",
+											"value": "Meditasi merupakan salah satu cara terbaik untuk membantu menenangkan pikiran dan mengurangi stres. Di tengah rutinitas yang padat, meluangkan waktu sejenak untuk berfokus pada napas dapat membuat tubuh dan pikiran terasa lebih ringan.",
+											"type": "text"
+										},
+										{
+											"key": "detail",
+											"value": "Meditasi merupakan salah satu cara terbaik untuk membantu menenangkan pikiran dan mengurangi stres. Di tengah rutinitas yang padat, meluangkan waktu sejenak untuk berfokus pada napas dapat membuat tubuh dan pikiran terasa lebih ringan. Video ini dirancang agar Anda bisa mengikuti langkah-langkah sederhana tanpa memerlukan pengalaman sebelumnya.\n\nDengan mengikuti panduan, Anda akan diajak untuk menarik napas dalam, mengatur ritme pernapasan, dan melepaskan segala beban yang mengganggu pikiran. Setiap instruksi dibuat agar mudah diikuti, sehingga siapa pun bisa merasakan manfaat meditasi hanya dalam beberapa menit.\n\nPraktik ini tidak hanya membantu menghadirkan ketenangan sesaat, tetapi juga melatih Anda untuk lebih fokus, menjaga emosi tetap stabil, dan menumbuhkan energi positif. Semakin konsisten dilakukan, meditasi akan menjadi kebiasaan baik yang mendukung kesehatan mental dan kualitas hidup Anda.",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/meditation",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"meditation"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "3|V278bxF6kp7BpWfLNrxQpxsy2PlychVcmjC7H2Wlf7ce8566",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "_method",
+											"value": "PUT",
+											"type": "text"
+										},
+										{
+											"key": "title",
+											"value": "Sering mengalami stres? Atasi Dengan Mengikuti Meditasi ini!",
+											"type": "text"
+										},
+										{
+											"key": "author",
+											"value": "SKWAD Fitness",
+											"type": "text"
+										},
+										{
+											"key": "thumbnail",
+											"type": "file",
+											"src": "/D:/Proyek Setio/Codingan/Stay Safe/design/Video1.png"
+										},
+										{
+											"key": "video",
+											"type": "file",
+											"src": "/D:/Proyek Setio/Codingan/Stay Safe/design/Video1.mp4"
+										},
+										{
+											"key": "desc",
+											"value": "Meditasi merupakan salah satu cara terbaik untuk membantu menenangkan pikiran dan mengurangi stres. Di tengah rutinitas yang padat, meluangkan waktu sejenak untuk berfokus pada napas dapat membuat tubuh dan pikiran terasa lebih ringan.",
+											"type": "text"
+										},
+										{
+											"key": "detail",
+											"value": "Meditasi merupakan salah satu cara terbaik untuk membantu menenangkan pikiran dan mengurangi stres. Di tengah rutinitas yang padat, meluangkan waktu sejenak untuk berfokus pada napas dapat membuat tubuh dan pikiran terasa lebih ringan. Video ini dirancang agar Anda bisa mengikuti langkah-langkah sederhana tanpa memerlukan pengalaman sebelumnya.\n\nDengan mengikuti panduan, Anda akan diajak untuk menarik napas dalam, mengatur ritme pernapasan, dan melepaskan segala beban yang mengganggu pikiran. Setiap instruksi dibuat agar mudah diikuti, sehingga siapa pun bisa merasakan manfaat meditasi hanya dalam beberapa menit.\n\nPraktik ini tidak hanya membantu menghadirkan ketenangan sesaat, tetapi juga melatih Anda untuk lebih fokus, menjaga emosi tetap stabil, dan menumbuhkan energi positif. Semakin konsisten dilakukan, meditasi akan menjadi kebiasaan baik yang mendukung kesehatan mental dan kualitas hidup Anda.",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/meditation/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"meditation",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get By ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "2|QMi9P9CtLXBYt1L47f29p6Sehpte8OvcD3KnwPxq88ef64c4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/meditation/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"meditation",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "2|QMi9P9CtLXBYt1L47f29p6Sehpte8OvcD3KnwPxq88ef64c4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/meditation/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"meditation",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Doctor",
+					"item": [
+						{
+							"name": "Get",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "4|DGLOcrgAof6ZsGOCVVpwGo8tmcXjE13rLPH8mY1C2e7fd7e2",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/doctor",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"doctor"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "4|DGLOcrgAof6ZsGOCVVpwGo8tmcXjE13rLPH8mY1C2e7fd7e2",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user_id\": 3,\r\n    \"category\": \"Spesialis Mental\",\r\n    \"hospital\": \"RS. Hermina\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/doctor",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"doctor"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "4|DGLOcrgAof6ZsGOCVVpwGo8tmcXjE13rLPH8mY1C2e7fd7e2",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user_id\": 3,\r\n    \"category\": \"Spesialis Mental\",\r\n    \"hospital\": \"RS. Hermina\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/doctor/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"doctor",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get By ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/doctor/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"doctor",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/doctor/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"doctor",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Community",
+					"item": [
+						{
+							"name": "Community Post",
+							"item": [
+								{
+									"name": "Create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "6|SWYkbpaaCTP5Pl1yDg7OACvwknPjhtM7G0WcwYFY9ce8aa7e",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "community_id",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "image",
+													"type": "file",
+													"src": "/D:/Proyek Setio/Codingan/Stay Safe/design/community-post1.jpg"
+												},
+												{
+													"key": "message",
+													"value": "Dari yang aku baca, sekarang tuh banyak banget hoax bertebaran di medsos 🤔. Gimana ya menurut kalian cara paling efektif buat ngelawan hoax?",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/communities/post",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"communities",
+												"post"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "6|SWYkbpaaCTP5Pl1yDg7OACvwknPjhtM7G0WcwYFY9ce8aa7e",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "community_id",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "image",
+													"type": "file",
+													"src": "/D:/Proyek Setio/Codingan/Stay Safe/design/community-post1.jpg"
+												},
+												{
+													"key": "message",
+													"value": "Dari yang aku baca, sekarang tuh banyak banget hoax bertebaran di medsos 🤔. Gimana ya menurut kalian cara paling efektif buat ngelawan hoax?",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/communities/post/1",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"communities",
+												"post",
+												"1"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Get",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "9|yl9A7ZQHzdB1IdCVtuEYwWvs7ASMIaQEhXUxxaiQ346b9b56",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/community",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"community"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "9|yl9A7ZQHzdB1IdCVtuEYwWvs7ASMIaQEhXUxxaiQ346b9b56",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Anti Hoax",
+											"type": "text"
+										},
+										{
+											"key": "desc",
+											"value": "Tolak Hoax",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/D:/Proyek Setio/Codingan/Stay Safe/design/community-logo1.jpg"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/community",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"community"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "9|yl9A7ZQHzdB1IdCVtuEYwWvs7ASMIaQEhXUxxaiQ346b9b56",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "_method",
+											"value": "PUT",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "Anti Hoax",
+											"type": "text"
+										},
+										{
+											"key": "desc",
+											"value": "Tolak Hoax",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/D:/Proyek Setio/Codingan/Stay Safe/design/community-logo1.jpg"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/community/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"community",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get By ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "9|yl9A7ZQHzdB1IdCVtuEYwWvs7ASMIaQEhXUxxaiQ346b9b56",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/community/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"community",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "9|yl9A7ZQHzdB1IdCVtuEYwWvs7ASMIaQEhXUxxaiQ346b9b56",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/community/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"community",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Conversation",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "8|3rIFHDDtBeHeC12M3u9yuxHAQdvybQraahHAkv8a6765bab5",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/conversation",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"conversation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "1|blmqmoEpaVDF9RDFgCqqmAz3AWsVseVs1tPnk5m325e67f10",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/conversation/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"conversation",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "5|qdWP1mwmu4RDkUI7m3cu3za4C6FtbM16oP4gKyJm2457d123",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"receiver\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/conversation",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"conversation"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Message",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "6|SWYkbpaaCTP5Pl1yDg7OACvwknPjhtM7G0WcwYFY9ce8aa7e",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/conversations/message/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"conversations",
+								"message",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "6|SWYkbpaaCTP5Pl1yDg7OACvwknPjhtM7G0WcwYFY9ce8aa7e",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/conversations/message/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"conversations",
+								"message",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "6|SWYkbpaaCTP5Pl1yDg7OACvwknPjhtM7G0WcwYFY9ce8aa7e",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "conversation_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "message",
+									"value": "Saya ada problem dok",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/conversations/message",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"conversations",
+								"message"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
