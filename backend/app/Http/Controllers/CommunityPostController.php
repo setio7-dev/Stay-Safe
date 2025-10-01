@@ -38,7 +38,7 @@ class CommunityPostController extends Controller
         $user = Auth::user();
         $validateData = Validator::make($request->all(), [
             "community_id" => "required",
-            "image" => "required|mimes:jpg,jpeg,png,web",
+            "image" => "mimes:jpg,jpeg,png,web",
             "message" => "required",
         ]);
 
@@ -49,13 +49,17 @@ class CommunityPostController extends Controller
             ], 422);
         }
 
-        $file = Storage::disk("public")->putFile("community/post", $request->image);
+        if ($request->hasFile("image")) {
+            $file = Storage::disk("public")->putFile("community/post", $request->image);
+        }
+        
         $community = CommunityPost::create([
             "user_id" => $user->id,
             "message" => $request->message,
-            "image" => $file,
+            "image" => $file ?? null,
             "community_id" => $request->community_id
         ]);
+
         return response()->json([
             "message" => "Data Berhasil Ditambah!",
             "data" => $community
