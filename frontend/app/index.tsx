@@ -1,43 +1,24 @@
 import "./global.css"
-import { Text, View } from "react-native";
-import { useState, useEffect } from "react";
-import axios from 'axios';
+import { View, Image } from "react-native";
+import logo from "@/assets/images/logo/logo.png";
+import { useEffect } from "react";
+import { useRouter } from "expo-router";
 
 export default function Index() {
-  const [data, setData] = useState<dataProp[]>([]);
-
-  interface dataProp {
-    id: number;
-    desc: string;
-    name: string;
-    created_at: string;
-    updated_at: string;
-  }
+  const navigate = useRouter();
 
   useEffect(() => {
-    const getData = async() => {
-    try {
-        const response = await axios.get('https://imam-admin.setionugraha.my.id/api/photos');
-        setData(response.data.data);
-        console.log(data);
-      } catch (error) {
-        console.error(error);
-      }
+    const showOnBoarding = async() => {
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      navigate.push("/auth/login");
     }
 
-    getData();
-  }, []);
+    showOnBoarding();
+  });
+
   return (
-    <View className="flex justify-center h-screen flex-col items-center">
-      <Text className="">Edit app/index.tsx to edit this screen.</Text>
-      {data.map((item) => (
-        <View className="" key={item.id}>
-          <Text>{item.name}</Text>
-          <Text>{item.desc}</Text>
-          <Text>{item.created_at}</Text>
-          <Text>{item.updated_at}</Text>
-        </View>
-      ))}
+    <View className="bg-primary w-full h-full flex justify-center items-center">
+      <Image source={logo} className="w-[200px] h-[200px]"/>
     </View>
   );
 }
