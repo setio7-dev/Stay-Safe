@@ -64,15 +64,17 @@ export default function Register() {
                   <Text className='text-black font-poppins_medium text-[14px]'>Kata Sandi</Text>
                   <TextInput value={password} onChangeText={(e) => setPassword(e)} className='border-2 pl-4 font-poppins_regular text-[12px] rounded-lg border-gray w-full focus:border-primary' placeholder='Masukkan Kata Sandi' placeholderTextColor="#ACACAC"/>
                 </View>
-                <LinearGradient
-                  colors={["#1D4ED8", "#137DD3"]}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                  className="px-8 py-4 mt-10"
-                  style={{ borderRadius: 8 }}
-                >
-                  <Text onPress={handleLogin} className='font-poppins_medium text-white text-center text-[16px]'>Masuk</Text>
-                </LinearGradient>
+                <TouchableOpacity onPress={handleLogin}>
+                  <LinearGradient
+                    colors={["#1D4ED8", "#137DD3"]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    className="px-8 py-4 mt-10"
+                    style={{ borderRadius: 8 }}
+                  >
+                    <Text className='font-poppins_medium text-white text-center text-[16px]'>Masuk</Text>
+                  </LinearGradient>
+                </TouchableOpacity>
                 <Text className='text-center font-poppins_regular text-gray text-[14px]'>Atau Dengan</Text>
                 <TouchableOpacity onPress={() => navigate.push("/home")} className='border-2 z-50 rounded-sm border-gray flex-row justify-center items-center gap-2 py-3'>
                   <Image source={google} className='w-[22px] h-[22px]'/>

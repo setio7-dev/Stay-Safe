@@ -13,7 +13,8 @@ module.exports = {
         secondary: "#137DD3",
         black: "#454545",
         gray: "#ACACAC",
-        red: "#DF3828"
+        red: "#DF3828",
+        green: "#24D921"
       },
       fontFamily: {
         poppins_medium: ["poppins_medium"],

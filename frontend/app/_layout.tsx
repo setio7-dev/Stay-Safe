@@ -2,6 +2,7 @@ import { Stack, Redirect } from "expo-router";
 import "./global.css";
 import { useFontLoader } from "./context/fontLoaded";
 import Toast from "react-native-toast-message"
+import { StatusBar } from 'expo-status-bar';
 
 export default function RootLayout() {
   const fontLoaded = useFontLoader();
@@ -9,7 +10,8 @@ export default function RootLayout() {
   
   return (
     <>
-      {/* <Redirect href="/home"/> */}
+      <Redirect href="/home"/>
+      <StatusBar style="light" backgroundColor="#1D4ED8" />
       <Stack screenOptions={{
         headerShown: false,
         animation: "fade"
