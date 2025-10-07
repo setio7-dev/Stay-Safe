@@ -74,7 +74,7 @@ export default function Register() {
                   <Text onPress={handleLogin} className='font-poppins_medium text-white text-center text-[16px]'>Masuk</Text>
                 </LinearGradient>
                 <Text className='text-center font-poppins_regular text-gray text-[14px]'>Atau Dengan</Text>
-                <TouchableOpacity onPress={() => navigate.push("/onboarding")} className='border-2 z-50 rounded-sm border-gray flex-row justify-center items-center gap-2 py-3'>
+                <TouchableOpacity onPress={() => navigate.push("/home")} className='border-2 z-50 rounded-sm border-gray flex-row justify-center items-center gap-2 py-3'>
                   <Image source={google} className='w-[22px] h-[22px]'/>
                   <Text className='font-poppins_regular text-gray text-center text-[12px]'>Google</Text>
                 </TouchableOpacity>

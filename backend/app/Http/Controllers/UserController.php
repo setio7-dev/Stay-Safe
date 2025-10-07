@@ -92,7 +92,7 @@ class UserController extends Controller
 
     public function me() 
     {
-        $user = User::with('communities')->find(Auth::id());
+        $user = User::with('community')->find(Auth::id());
         return response()->json([
             'message' => "Data Berhasil Diambil!",
             "data" => $user

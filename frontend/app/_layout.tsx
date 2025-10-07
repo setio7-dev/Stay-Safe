@@ -9,7 +9,7 @@ export default function RootLayout() {
   
   return (
     <>
-      <Redirect href="/onboarding"/>
+      {/* <Redirect href="/home"/> */}
       <Stack screenOptions={{
         headerShown: false,
         animation: "fade"
