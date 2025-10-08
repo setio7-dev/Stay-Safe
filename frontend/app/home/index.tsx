@@ -24,6 +24,7 @@ import fitur8 from "@/assets/images/home/fitur8.png";
 import laporCepat from "@/assets/images/home/lapor-cepat.png";
 import post1 from "@/assets/images/home/post1.png";
 import CommunityProp from '../components/communityProp';
+import NewsProp from '../components/newsProp';
 
 const width = Dimensions.get("window").width;
 const fiturArray = [
@@ -177,7 +178,7 @@ export default function Index() {
             colors={["#1D4ED8", "#137DD3"]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
-            className="px-6 py-8 h-[50vh] flex-col gap-4"
+            className="px-6 py-8 h-[48vh] flex-col gap-4"
             style={{ borderBottomLeftRadius: 12, borderBottomRightRadius: 12, }}
           >
             <View className='flex-row gap-4 w-full justify-between items-center'>
@@ -225,7 +226,7 @@ export default function Index() {
               )}
               <View className='flex-col'>
                 <Text className='text-gray font-poppins_medium text-[8px]'>Lokasi Kamu</Text>
-                <Text className='text-primary font-poppins_semibold text-[16px]'>{address?.district ?? "Loading..."}</Text>
+                <Text className='text-primary font-poppins_semibold text-[16px]'>{address?.district ?? "Memuat..."}</Text>
                 <Text className='text-gray font-poppins_medium text-[8px]'>Status</Text>
                 <View className='flex-row items-center gap-2'>
                   <View className='bg-red w-2 h-2 rounded-full'></View>
@@ -286,9 +287,13 @@ export default function Index() {
               </View>
             ))}
           </Animated.View>
-          <View className='px-6 mt-6'>
-            <Text className='font-poppins_semibold text-[20px] text-black mt-4'>Komunitas</Text>
+          <View className='pl-6 mt-6'>
+            <Text className='font-poppins_semibold text-[20px] text-black mt-4'>Komunitas Anda</Text>
             <CommunityProp/>
+          </View>
+          <View className='pl-6 mt-6 pb-14'>
+            <Text className='font-poppins_semibold text-[20px] text-black mt-4'>Berita Terkini</Text>
+            <NewsProp/>
           </View>
         </ScrollView>
     </SafeAreaView>

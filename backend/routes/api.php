@@ -65,6 +65,10 @@ Route::middleware('auth')->group(function() {
     }); 
     
     Route::middleware('role:guest')->group(function() {
+        // News
+        Route::get("/guest/news", [NewsController::class, 'index']);
+        Route::get("/guest/news/{id}", [NewsController::class, 'show']);
+
         // Report
         Route::post("/guest/report", [ReportController::class, "store"]);
         
@@ -99,10 +103,6 @@ Route::middleware('auth')->group(function() {
         Route::post("/member/community", [CommunityMemberController::class, "store"]);
         Route::delete("/member/community", [CommunityMemberController::class, "destroy"]);
     });
-
-    // News
-    Route::get("/news", [NewsController::class, 'index']);
-    Route::get("/news/{id}", [NewsController::class, 'show']);
 
     // Report
     Route::get("/report/{id}", [ReportController::class, "show"]);

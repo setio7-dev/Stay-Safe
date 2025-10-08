@@ -33,7 +33,13 @@ export default function CommunityProp() {
                     }
                 });
 
-                setCommunity(response.data.data);
+                const community = response.data.data;
+                const communityFilter = community.filter((item: any) => {
+                    const data = item.user.length > 0 ? true : false;
+                    return data;
+                });
+
+                setCommunity(communityFilter);
             } catch (error: any) {
                 showError(error.response.data.message);
             }
@@ -44,7 +50,7 @@ export default function CommunityProp() {
 
   return (
     <ScrollView horizontal className='overflow-x-auto'>
-        <View className='flex-row items-center gap-4 mt-4 pb-24'>
+        <View className='flex-row items-center gap-4 mt-4 mr-6'>
           {community.map((item) => (
             <View key={item.id} className='flex-col bg-white drop-shadow-2xl rounded-lg w-[200px] h-[300px] items-center justify-center gap-6'>
                 <Image source={{ uri: `${StorageAPI}/${item.image}` }} className='w-[60px] h-[60px]'/>
