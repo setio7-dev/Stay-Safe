@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react'
-import { ScrollView, View, Text, Image, TouchableOpacity, Dimensions, Animated } from 'react-native'
+import { ScrollView, View, Text, Image, TouchableOpacity, Dimensions, Animated, StatusBar } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient';
 import logo from "@/assets/images/home/logo.png"
 import notif from "@/assets/images/home/notif.png";
@@ -133,7 +133,7 @@ export default function Index() {
       }
 
       const currentLocation = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.High,
+        accuracy: Location.Accuracy.Balanced,
       });
 
       const [placemark] = await Location.reverseGeocodeAsync({
@@ -172,13 +172,14 @@ export default function Index() {
   }
   
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }} edges={['top']}>
+      <StatusBar backgroundColor="#1D4ED8" />
         <ScrollView>
           <LinearGradient
             colors={["#1D4ED8", "#137DD3"]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
-            className="px-6 py-8 h-[48vh] flex-col gap-4"
+            className="px-6 py-8 h-[50vh] flex-col gap-4"
             style={{ borderBottomLeftRadius: 12, borderBottomRightRadius: 12, }}
           >
             <View className='flex-row gap-4 w-full justify-between items-center'>
@@ -291,7 +292,7 @@ export default function Index() {
             <Text className='font-poppins_semibold text-[20px] text-black mt-4'>Komunitas Anda</Text>
             <CommunityProp/>
           </View>
-          <View className='pl-6 mt-6 pb-14'>
+          <View className='pl-6 mt-6 pb-12'>
             <Text className='font-poppins_semibold text-[20px] text-black mt-4'>Berita Terkini</Text>
             <NewsProp/>
           </View>

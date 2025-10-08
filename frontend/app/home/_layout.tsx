@@ -11,13 +11,12 @@ export default function HomeLayout() {
         tabBarActiveTintColor: "#1D4ED8",   
         tabBarInactiveTintColor: "#9CA3AF", 
         tabBarHideOnKeyboard: true,
-        tabBarStyle: {
+        tabBarStyle: {          
           backgroundColor: "#FFFFFF",       
           borderTopWidth: 0.5,
           borderTopColor: "#E5E7EB",
-          paddingBottom: 5,
           paddingTop: 10,
-          height: 60, 
+          height: 110
         },
         tabBarLabelStyle: {
           fontSize: 10,

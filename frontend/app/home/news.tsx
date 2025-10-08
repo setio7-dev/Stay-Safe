@@ -8,6 +8,7 @@ import { useRouter } from 'expo-router';
 import { showError } from '../lib/toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import API, { StorageAPI } from '../lib/server'
+import { StatusBar } from 'react-native'
 
 export default function News() {
   interface newsProp {
@@ -42,7 +43,8 @@ export default function News() {
         fetchNews();
     }, []);
   return (
-    <SafeAreaView>
+    <SafeAreaView edges={['top']}>
+      <StatusBar backgroundColor="#1D4ED8" />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView>
             <LinearGradient
