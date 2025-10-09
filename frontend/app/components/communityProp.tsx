@@ -50,11 +50,18 @@ export default function CommunityProp() {
     }, []);
 
   return (
-    <ScrollView horizontal className='overflow-x-auto'>
+    <ScrollView horizontal contentContainerStyle={{ paddingHorizontal: 6 }} className='py-2'>
         <View className='flex-row items-center gap-4 mt-4 mr-6'>
           {community.length > 0 ? (
             community.map((item) => (
-              <View key={item.id} className='flex-col bg-white drop-shadow-2xl rounded-lg w-[200px] h-[300px] items-center justify-center gap-6'>
+              <View key={item.id} className='flex-col bg-white rounded-lg w-[200px] h-[300px] items-center justify-center gap-6'
+               style={{
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 0 },
+                  shadowOpacity: 0.40,
+                  shadowRadius: 4.84,
+                  elevation: 5,
+                }}>
                   <Image source={{ uri: `${StorageAPI}/${item.image}` }} className='w-[60px] h-[60px]'/>
                   <View>
                       <Text className='font-poppins_semibold text-[16px text-black]'>{item.name}</Text>

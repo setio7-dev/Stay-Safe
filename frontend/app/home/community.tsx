@@ -12,6 +12,7 @@ import API, { StorageAPI } from '../lib/server'
 import LoaderCircle from '../lib/loaderCircle'
 import guest from "@/assets/images/home/guest.png"
 import { timeAgo } from '../lib/timeAgo'
+import hamburger from "@/assets/images/icon/hambuger.png"
 
 export default function Community() {
   interface communityPostProp {
@@ -52,7 +53,6 @@ export default function Community() {
         });
 
         setCommunityPost(response.data?.data);
-        console.log(communityPost);
       } catch (error: any) {
         showError(error.response.data.message);
       }
@@ -61,7 +61,7 @@ export default function Community() {
     fetchCommunity();
   }, []);
   return (
-    <SafeAreaView edges={["top"]}>
+    <SafeAreaView edges={["top"]} className='bg-white'>
       <StatusBar backgroundColor="#1D4ED8" />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView>
@@ -81,7 +81,14 @@ export default function Community() {
             </View>
           </LinearGradient>
            <View className='flex-col px-6'>
-              <View className='px-6 bg-white rounded-lg py-2 flex-row items-center gap-4 -mt-8 drop-shadow-2xl'>
+              <View className='px-6 bg-white rounded-lg py-2 flex-row items-center gap-4 -mt-8 drop-shadow-2xl'
+                style={{
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 0 },
+                  shadowOpacity: 0.40,
+                  shadowRadius: 4.84,
+                  elevation: 5,
+                }}>
                 <Image source={search} className='w-[20px] h-[20px]'/>
                 <TextInput placeholder='Cari Sesuatu...' placeholderTextColor="#ACACAC" className='font-poppins_regular text-[14px] pr-8' />
               </View>
@@ -91,13 +98,20 @@ export default function Community() {
                 <CommunityProp/>
               </View>
             </ScrollView>
-            <View className='px-6 mt-8'>
+            <View className='px-6 mt-8 pb-14'>
               <Text className='text-black font-poppins_semibold text-[18px]'>Postingan Terbaru</Text>
-              <View className='flex-col justify-center w-full mt-6'>
+              <View className='flex-col justify-center w-full mt-6 gap-6'>
                 {communityPost.length > 0 ? (
                   communityPost.map((item) => (
-                    <View key={item.id} className='w-full h-auto bg-white drop-shadow-2xl px-6 py-8 rounded-lg'>
-                        <View className='flex-row items-center justify-between'>
+                    <View key={item.id} className='w-full h-auto bg-white px-6 py-8 rounded-lg' 
+                    style={{
+                      shadowColor: '#000',
+                      shadowOffset: { width: 0, height: 0 },
+                      shadowOpacity: 0.40,
+                      shadowRadius: 5.84,
+                      elevation: 5,
+                    }}>
+                        <View className='flex-row items-start justify-between'>
                           <View className='flex-row items-center gap-4'>
                             <Image
                               source={
@@ -112,7 +126,10 @@ export default function Community() {
                               <Text className='text-black font-poppins_regular text-[10px]'>{timeAgo(item.created_at)}</Text>
                             </View>
                           </View>
+                          <Image source={hamburger} className='w-[18px] h-[4px] mt-2'/>
                         </View>
+                        <Image source={{ uri: `${StorageAPI}/${item.image}` }} className='w-full h-[42vh] object-cover bg-cover bg-center roudned-lg mt-6'/>
+                        <Text className='text-justify mt-4 font-poppins_semibold text-[10px] text-black'>{item.message}</Text>
                     </View>
                   ))
                 ) : (

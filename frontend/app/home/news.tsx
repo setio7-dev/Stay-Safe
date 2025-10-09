@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
-import { ScrollView, View, Text, Image, TextInput, TouchableWithoutFeedback, Keyboard, StatusBar } from 'react-native'
+import { ScrollView, View, Text, Image, TextInput, TouchableWithoutFeedback, Keyboard, StatusBar, TouchableOpacity } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import search from "@/assets/images/news/search.png"
 import NewsProp from '../components/newsProp'
@@ -43,7 +43,7 @@ export default function News() {
         fetchNews();
     }, []);
   return (
-    <SafeAreaView edges={['top']}>
+    <SafeAreaView edges={['top']} className='bg-white'>
       <StatusBar backgroundColor="#1D4ED8" />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView>            
@@ -60,7 +60,14 @@ export default function News() {
               </View>
             </LinearGradient>
             <View className='flex-col px-6'>
-                <View className='px-6 bg-white rounded-lg py-2 flex-row items-center gap-4 -mt-8 drop-shadow-2xl'>
+                <View className='px-6 bg-white rounded-lg py-2 flex-row items-center gap-4 -mt-8 drop-shadow-2xl' 
+                style={{
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 0 },
+                  shadowOpacity: 0.40,
+                  shadowRadius: 4.84,
+                  elevation: 5,
+                }}>
                   <Image source={search} className='w-[20px] h-[20px]'/>
                   <TextInput placeholder='Cari Sesuatu...' placeholderTextColor="#ACACAC" className='font-poppins_regular text-[14px] pr-8' />
                 </View>
@@ -74,13 +81,15 @@ export default function News() {
               <View className='flex-col gap-6 mt-4'>
                 {news.length > 0 ? (
                   news.map((item) => (
-                    <View key={item.id} className='flex-row gap-4 items-center pr-28'>
-                      <Image source={{ uri: `${StorageAPI}/${item.image}` }} className='w-[90px] rounded-lg h-[90px]'/>
-                      <View className='flex-col gap-2'>
-                        <Text className='text-black font-poppins_semibold text-[12px] text-justify'>{item.title}</Text>
-                        <Text className='text-black font-poppins_medium text-[10px] text-justify'>{item.desc.slice(0, 110) + "..."}</Text>
+                    <TouchableOpacity key={item.id} onPress={() => navigate.push({ pathname: '/news/[id]', params: { id: item.id } })}>
+                      <View className='flex-row gap-4 items-center pr-28'>
+                        <Image source={{ uri: `${StorageAPI}/${item.image}` }} className='w-[90px] rounded-lg h-[90px]'/>
+                        <View className='flex-col gap-2'>
+                          <Text className='text-black font-poppins_semibold text-[12px] text-justify'>{item.title}</Text>
+                          <Text className='text-black font-poppins_medium text-[10px] text-justify'>{item.desc.slice(0, 110) + "..."}</Text>
+                        </View>
                       </View>
-                    </View>
+                    </TouchableOpacity>
                   ))
                 ) : (
                   <View className='w-full flex-col mt-12 gap-24 items-center justify-center'>

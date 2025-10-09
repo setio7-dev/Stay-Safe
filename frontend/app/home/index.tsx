@@ -177,7 +177,7 @@ export default function Index() {
   }
   
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={['top']}>
+    <SafeAreaView style={{ flex: 1 }} edges={['top']} className='bg-white'>
       <StatusBar backgroundColor="#1D4ED8" />
         <Authenticated>
           <ScrollView>
