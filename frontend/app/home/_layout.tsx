@@ -33,7 +33,7 @@ export default function HomeLayout() {
               borderTopWidth: 0.5,
               borderTopColor: "#E5E7EB",
               paddingTop: 10,
-              height: 80
+              height: 100
             },
             tabBarLabelStyle: {
               fontSize: 10,

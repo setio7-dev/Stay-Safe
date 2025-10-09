@@ -16,4 +16,19 @@ class CommunityPost extends Model
         "message",
         "image"
     ];
+
+    /**
+     * Get the user that owns the CommunityPost
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function community()
+    {
+        return $this->belongsTo(Community::class, 'community_id');
+    }
 }

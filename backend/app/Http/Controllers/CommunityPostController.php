@@ -15,7 +15,7 @@ class CommunityPostController extends Controller
      */
     public function index()
     {
-        $community = CommunityPost::orderBy("created_at", "DESC")->get();
+        $community = CommunityPost::with(["user", "community"])->orderBy("created_at", "DESC")->get();
         return response()->json([
             'message' => "Data Berhasil Diambil!",
             "data" => $community

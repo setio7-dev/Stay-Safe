@@ -51,7 +51,7 @@ export default function News() {
               colors={["#1D4ED8", "#137DD3"]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
-              className="px-6 py-8 relative h-[26vh] flex-col gap-4"
+              className="px-6 pt-8 pb-16 relative h-auto flex-col gap-4"
               style={{ borderBottomLeftRadius: 12, borderBottomRightRadius: 12, }}
             >
               <View className='flex-col gap-4 mt-4'>
