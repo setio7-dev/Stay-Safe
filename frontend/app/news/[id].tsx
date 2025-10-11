@@ -1,6 +1,6 @@
 import { LinearGradient } from 'expo-linear-gradient'
 import React, { useEffect, useState } from 'react'
-import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native'
+import { View, Text, Image, ScrollView, TouchableOpacity, RefreshControl } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import back from "@/assets/images/icon/back.png"
 import { useRouter, useLocalSearchParams } from 'expo-router'
@@ -9,6 +9,7 @@ import API, { StorageAPI } from '../lib/server'
 import { dateFormat } from '../lib/dateFormat'
 import { Loader } from '../lib/loader'
 import { showError } from '../lib/toast'
+import useRefresh from '../lib/refresh'
 
 export default function NewsDetail() {
   interface newsProp {
@@ -24,6 +25,11 @@ export default function NewsDetail() {
   const { id } = useLocalSearchParams();
   const [news, setNews] = useState<newsProp | null>(null);
   const [isLoader, setIsLoader] = useState(true);
+
+  const fetchData = async() => {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+  }
+  const { refreshing, onRefresh } = useRefresh(fetchData);
 
   useEffect(() => {
     const fetchNews = async() => {
@@ -52,7 +58,7 @@ export default function NewsDetail() {
           <Loader/>
         </View>
       ) : (
-        <ScrollView>
+        <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
           <LinearGradient
               colors={["#1D4ED8", "#137DD3"]}
               start={{ x: 0, y: 0 }}

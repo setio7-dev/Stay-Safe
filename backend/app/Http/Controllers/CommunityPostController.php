@@ -38,14 +38,13 @@ class CommunityPostController extends Controller
         $user = Auth::user();
         $validateData = Validator::make($request->all(), [
             "community_id" => "required",
-            "image" => "mimes:jpg,jpeg,png,web",
             "message" => "required",
         ]);
 
         if ($validateData->fails()) {
             return response()->json([
                 "message" => "Data Harus Diisi!",
-                "data" => null
+                "data" => null,
             ], 422);
         }
 

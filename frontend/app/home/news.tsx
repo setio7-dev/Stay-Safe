@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
-import { ScrollView, View, Text, Image, TextInput, TouchableWithoutFeedback, Keyboard, StatusBar, TouchableOpacity } from 'react-native'
+import { ScrollView, View, Text, Image, TextInput, TouchableWithoutFeedback, Keyboard, StatusBar, TouchableOpacity, RefreshControl } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import search from "@/assets/images/news/search.png"
+import search from "@/assets/images/icon/search.png"
 import NewsProp from '../components/newsProp'
 import { useRouter } from 'expo-router';
 import { showError } from '../lib/toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import API, { StorageAPI } from '../lib/server';
 import LoaderCircle from '../lib/loaderCircle'
+import useRefresh from '../lib/refresh'
+import Authenticated from '../context/Authenticated'
 
 export default function News() {
   interface newsProp {
@@ -22,6 +24,11 @@ export default function News() {
 
     const [news, setNews] = useState<newsProp[]>([]);    
     const navigate = useRouter();
+
+    const fetchData = async () => {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+    };
+    const { refreshing, onRefresh } = useRefresh(fetchData);
 
     useEffect(() => {
         const fetchNews = async() => {
@@ -46,61 +53,63 @@ export default function News() {
     <SafeAreaView edges={['top']} className='bg-white h-full'>
       <StatusBar backgroundColor="#1D4ED8" />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView>            
-            <LinearGradient
-              colors={["#1D4ED8", "#137DD3"]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              className="px-6 pt-8 pb-16 relative h-auto flex-col gap-4"
-              style={{ borderBottomLeftRadius: 12, borderBottomRightRadius: 12, }}
-            >
-              <View className='flex-col gap-4 mt-4'>
-                <Text className='text-white font-poppins_semibold text-[18px]'>Temukan Semua Berita yang ingin Anda Ketahui</Text>
-                <Text className='font-poppins_regular text-[12px] text-white'>Tetap Terhubung dengan Informasi Terkini</Text>
-              </View>
-            </LinearGradient>
-            <View className='flex-col px-6'>
-                <View className='px-6 bg-white rounded-lg py-2 flex-row items-center gap-4 -mt-8 drop-shadow-2xl' 
-                style={{
-                  shadowColor: '#000',
-                  shadowOffset: { width: 0, height: 0 },
-                  shadowOpacity: 0.40,
-                  shadowRadius: 4.84,
-                  elevation: 5,
-                }}>
-                  <Image source={search} className='w-[20px] h-[20px]'/>
-                  <TextInput placeholder='Cari Sesuatu...' placeholderTextColor="#ACACAC" className='font-poppins_regular text-[14px] pr-8' />
+        <Authenticated>
+          <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+              <LinearGradient
+                colors={["#1D4ED8", "#137DD3"]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                className="px-6 pt-8 pb-16 relative h-auto flex-col gap-4"
+                style={{ borderBottomLeftRadius: 12, borderBottomRightRadius: 12, }}
+              >
+                <View className='flex-col gap-4 mt-4'>
+                  <Text className='text-white font-poppins_semibold text-[18px]'>Temukan Semua Berita yang ingin Anda Ketahui</Text>
+                  <Text className='font-poppins_regular text-[12px] text-white'>Tetap Terhubung dengan Informasi Terkini</Text>
                 </View>
-            </View>
-            <View className='pl-6 mt-2'>
-              <Text className='font-poppins_semibold text-[20px] text-black mt-4'>Berita Terkini</Text>
-              <NewsProp/>
-            </View>
-            <View className='px-6 pb-10'>
-              <Text className='font-poppins_semibold text-black text-[20px] mt-8'>Rekomendasi</Text>
-              <View className='flex-col gap-6 mt-4'>
-                {news.length > 0 ? (
-                  news.map((item) => (
-                    <TouchableOpacity key={item.id} onPress={() => navigate.push({ pathname: '/news/[id]', params: { id: item.id } })}>
-                      <View className='flex-row gap-4 items-center pr-28'>
-                        <Image source={{ uri: `${StorageAPI}/${item.image}` }} className='w-[90px] rounded-lg h-[90px]'/>
-                        <View className='flex-col gap-2'>
-                          <Text className='text-black font-poppins_semibold text-[12px] text-justify'>{item.title}</Text>
-                          <Text className='text-black font-poppins_medium text-[10px] text-justify'>{item.desc.slice(0, 110) + "..."}</Text>                          
-                        </View>
-                      </View>
-                    </TouchableOpacity>
-                  ))
-                ) : (
-                  <View className='w-full flex-col mt-12 gap-24 items-center justify-center'>
-                    {[1, 2, 3].map((item, index) => (
-                      <LoaderCircle key={index}/>
-                    ))}
+              </LinearGradient>
+              <View className='flex-col px-6'>
+                  <View className='px-6 bg-white rounded-lg py-2 flex-row items-center gap-4 -mt-8 drop-shadow-2xl' 
+                  style={{
+                    shadowColor: '#000',
+                    shadowOffset: { width: 0, height: 0 },
+                    shadowOpacity: 0.40,
+                    shadowRadius: 4.84,
+                    elevation: 5,
+                  }}>
+                    <Image source={search} className='w-[20px] h-[20px]'/>
+                    <TextInput placeholder='Cari Sesuatu...' placeholderTextColor="#ACACAC" className='font-poppins_regular text-[14px] pr-8' />
                   </View>
-                )}
               </View>
-            </View>
-        </ScrollView>
+              <View className='pl-6 mt-2'>
+                <Text className='font-poppins_semibold text-[20px] text-black mt-4'>Berita Terkini</Text>
+                <NewsProp/>
+              </View>
+              <View className='px-6 pb-10'>
+                <Text className='font-poppins_semibold text-black text-[20px] mt-8'>Rekomendasi</Text>
+                <View className='flex-col gap-6 mt-4'>
+                  {news.length > 0 ? (
+                    news.map((item) => (
+                      <TouchableOpacity key={item.id} onPress={() => navigate.push({ pathname: '/news/[id]', params: { id: item.id } })}>
+                        <View className='flex-row gap-4 items-center pr-28'>
+                          <Image source={{ uri: `${StorageAPI}/${item.image}` }} className='w-[90px] rounded-lg h-[90px]'/>
+                          <View className='flex-col gap-2'>
+                            <Text className='text-black font-poppins_semibold text-[12px] text-justify'>{item.title}</Text>
+                            <Text className='text-black font-poppins_medium text-[10px] text-justify'>{item.desc.slice(0, 110) + "..."}</Text>                          
+                          </View>
+                        </View>
+                      </TouchableOpacity>
+                    ))
+                  ) : (
+                    <View className='w-full flex-col mt-12 gap-24 items-center justify-center'>
+                      {[1, 2, 3].map((item, index) => (
+                        <LoaderCircle key={index}/>
+                      ))}
+                    </View>
+                  )}
+                </View>
+              </View>
+          </ScrollView>
+        </Authenticated>
       </TouchableWithoutFeedback>      
     </SafeAreaView>
   )

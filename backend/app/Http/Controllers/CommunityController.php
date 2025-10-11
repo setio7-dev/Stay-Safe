@@ -17,7 +17,29 @@ class CommunityController extends Controller
         $community = Community::with(["post", "user"])->orderBy("created_at", "DESC")->get();
         return response()->json([
             'message' => "Data Berhasil Diambil!",
-            "data" => $community
+            "data" => $community->map(function($item) {
+                return [
+                    "id" => $item->id,
+                    "name" => $item->name,
+                    "desc" => $item->desc,
+                    "image" => $item->image,
+                    "post" => $item->post->map(function($post) {
+                        return [
+                            "id" => $post->id,
+                            "user_id" => $post->user_id,
+                            "community_id" => $post->community_id,
+                            "message" => $post->message,
+                            "image" => $post->image,
+                            "user" => $post->user,
+                            "created_at" => $post->created_at,
+                            "updated_at" => $post->updated_at,
+                        ];
+                    }),
+                    "user" => $item->user,
+                    "created_at" => $item->created_at,
+                    "updated_at" => $item->updated_at,
+                ];
+            })
         ]);
     }
 
@@ -74,7 +96,27 @@ class CommunityController extends Controller
 
         return response()->json([
             "message" => "Data Berhasil Diambil!",
-            "data" => $community
+            "data" => [
+                "id" => $community->id,
+                "name" => $community->name,
+                "desc" => $community->desc,
+                "image" => $community->image,
+                "post" => $community->post->map(function($post) {
+                    return [
+                        "id" => $post->id,
+                        "user_id" => $post->user_id,
+                        "community_id" => $post->community_id,
+                        "message" => $post->message,
+                        "image" => $post->image,
+                        "user" => $post->user,
+                        "created_at" => $post->created_at,
+                        "updated_at" => $post->updated_at,
+                    ];
+                }),
+                "user" => $community->user,
+                "created_at" => $community->created_at,
+                "updated_at" => $community->updated_at,
+            ]
         ]);
     }
 

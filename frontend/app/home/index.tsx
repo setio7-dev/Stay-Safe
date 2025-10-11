@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react'
-import { ScrollView, View, Text, Image, TouchableOpacity, Dimensions, Animated, StatusBar } from 'react-native'
+import { ScrollView, View, Text, Image, TouchableOpacity, Dimensions, Animated, StatusBar, RefreshControl } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient';
 import logo from "@/assets/images/home/logo.png"
 import notif from "@/assets/images/home/notif.png";
@@ -26,6 +26,7 @@ import CommunityProp from '../components/communityProp';
 import NewsProp from '../components/newsProp';
 import Authenticated from '../context/Authenticated';
 import LoaderCircle from '../lib/loaderCircle';
+import useRefresh from '../lib/refresh';
 
 const width = Dimensions.get("window").width;
 const fiturArray = [
@@ -110,6 +111,11 @@ export default function Index() {
   const translateX = useRef(new Animated.Value(0)).current;
   const [postBar, setPostBar] = useState(0);
   const [sliderWidth, setSliderWidth] = useState(0);
+  
+  const fetchData = async () => {
+    await new Promise(resolve => setTimeout(resolve, 2000));
+  };
+  const { refreshing, onRefresh } = useRefresh(fetchData);
 
   
   useEffect(() => {
@@ -170,17 +176,13 @@ export default function Index() {
     }, 3000);
 
     return () => clearInterval(scrollInterval);
-  }, []);
-
-  const handleRestart = () => {
-    navigate.replace("/home");
-  }
+  }, []);  
   
   return (
     <SafeAreaView style={{ flex: 1 }} edges={['top']} className='bg-white'>
       <StatusBar backgroundColor="#1D4ED8" />
         <Authenticated>
-          <ScrollView>
+          <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
             <LinearGradient
               colors={["#1D4ED8", "#137DD3"]}
               start={{ x: 0, y: 0 }}
@@ -233,7 +235,7 @@ export default function Index() {
                     <Text className='text-red font-poppins_medium mt-[2px] text-[10px]'>Bahaya</Text>
                   </View>
                   <View className='flex-row gap-8 items-center'>
-                    <TouchableOpacity onPress={() => handleRestart}>
+                    <TouchableOpacity onPress={() => onRefresh()}>
                       <LinearGradient
                         colors={["#1D4ED8", "#137DD3"]}
                         start={{ x: 0, y: 0 }}
