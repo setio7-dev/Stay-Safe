@@ -14,6 +14,13 @@ class CommunityMemberController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
+        if ($user->community()->where('community_id', $request->community_id)->exists()) {
+        return response()->json([
+                'message' => 'Pengguna Sudah Bergabung',
+                'data' => null
+            ], 422);
+        }
+
         $user->community()->attach($request->community_id);
 
         return response()->json([

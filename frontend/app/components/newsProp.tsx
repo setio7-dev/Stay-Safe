@@ -25,8 +25,6 @@ export default function NewsProp() {
         const fetchNews = async() => {
             try {
                 const token = await AsyncStorage.getItem("token");
-
-                await new Promise((resolve) => setTimeout(resolve, 3000));
                 const response = await API.get("/guest/news", {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -47,7 +45,7 @@ export default function NewsProp() {
   return (
     <ScrollView className='' horizontal>
       <View className='flex-row items-center gap-10 mt-4 mr-6'>
-        {news.length > 0 ? (
+        {news.length > 0 && !isLoader ? (
             news.map((item) => (
                 <TouchableOpacity key={item.id} onPress={() => navigate.push({ pathname: `/news/[id]`, params: { id: String(item.id) } })}>
                     <View className='flex-col gap-2 w-[260px]'>

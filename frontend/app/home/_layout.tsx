@@ -18,10 +18,7 @@ export default function HomeLayout() {
   }, []);
   return (
     <View className="flex-1">
-      {isLoader ? (
-        <Loader/>
-      ) : (
-        <Tabs
+       <Tabs
           screenOptions={{
             headerShown: false,
             animation: "fade",
@@ -33,7 +30,7 @@ export default function HomeLayout() {
               borderTopWidth: 0.5,
               borderTopColor: "#E5E7EB",
               paddingTop: 10,
-              height: 100
+              height: 90
             },
             tabBarLabelStyle: {
               fontSize: 10,
@@ -82,7 +79,6 @@ export default function HomeLayout() {
             }}
           />
         </Tabs>
-      )}
     </View>
   );
 }

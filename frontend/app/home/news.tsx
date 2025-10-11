@@ -43,7 +43,7 @@ export default function News() {
         fetchNews();
     }, []);
   return (
-    <SafeAreaView edges={['top']} className='bg-white'>
+    <SafeAreaView edges={['top']} className='bg-white h-full'>
       <StatusBar backgroundColor="#1D4ED8" />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView>            
@@ -86,7 +86,7 @@ export default function News() {
                         <Image source={{ uri: `${StorageAPI}/${item.image}` }} className='w-[90px] rounded-lg h-[90px]'/>
                         <View className='flex-col gap-2'>
                           <Text className='text-black font-poppins_semibold text-[12px] text-justify'>{item.title}</Text>
-                          <Text className='text-black font-poppins_medium text-[10px] text-justify'>{item.desc.slice(0, 110) + "..."}</Text>
+                          <Text className='text-black font-poppins_medium text-[10px] text-justify'>{item.desc.slice(0, 110) + "..."}</Text>                          
                         </View>
                       </View>
                     </TouchableOpacity>
@@ -95,7 +95,7 @@ export default function News() {
                   <View className='w-full flex-col mt-12 gap-24 items-center justify-center'>
                     {[1, 2, 3].map((item, index) => (
                       <LoaderCircle key={index}/>
-                    ))};
+                    ))}
                   </View>
                 )}
               </View>

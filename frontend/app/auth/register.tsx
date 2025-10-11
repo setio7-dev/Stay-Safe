@@ -64,7 +64,7 @@ export default function Register() {
                 </View>
                 <View className='flex-col gap-2'>
                   <Text className='text-black font-poppins_medium text-[14px]'>Kata Sandi</Text>
-                  <TextInput value={password} onChangeText={(e) => {setPassword(e)}} className='border-2 pl-4 font-poppins_regular text-[12px] rounded-lg border-gray w-full focus:border-primary' placeholder='Masukkan Kata Sandi' placeholderTextColor="#ACACAC"/>
+                  <TextInput value={password} secureTextEntry onChangeText={(e) => {setPassword(e)}} className='border-2 pl-4 font-poppins_regular text-[12px] rounded-lg border-gray w-full focus:border-primary' placeholder='Masukkan Kata Sandi' placeholderTextColor="#ACACAC"/>
                 </View>
                 <LinearGradient
                   colors={["#1D4ED8", "#137DD3"]}

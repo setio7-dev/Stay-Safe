@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ScrollView, StatusBar, View, Text, Image, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native'
+import { ScrollView, StatusBar, View, Text, Image, TextInput, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { LinearGradient } from 'expo-linear-gradient'
 import search from "@/assets/images/news/search.png"
@@ -61,7 +61,7 @@ export default function Community() {
     fetchCommunity();
   }, []);
   return (
-    <SafeAreaView edges={["top"]} className='bg-white'>
+    <SafeAreaView edges={["top"]} className='bg-white h-full'>
       <StatusBar backgroundColor="#1D4ED8" />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView>
@@ -77,7 +77,9 @@ export default function Community() {
                 <Text className='text-white font-poppins_semibold text-[16px]'>Temukan Semua Komunitas yang Ingin Anda Gabung</Text>
                 <Text className='font-poppins_regular text-[10px] text-white'>Terhubung dengan orang-orang seperti Anda</Text>
               </View>
-              <Image source={chat} className='w-[32px] h-[32px]'/>
+              <TouchableOpacity onPress={() => navigate.push("/community/userCommunity")}>
+                <Image source={chat} className='w-[32px] h-[32px]'/>
+              </TouchableOpacity>
             </View>
           </LinearGradient>
            <View className='flex-col px-6'>
@@ -133,7 +135,7 @@ export default function Community() {
                     </View>
                   ))
                 ) : (
-                  <View className='flex-col gap-6 w-full items-center justify-center'>
+                  <View className='flex-col gap-24 w-full items-center justify-center mt-12'>
                     {[1, 2, 3].map((item, index) => (
                       <LoaderCircle key={index}/>
                     ))}

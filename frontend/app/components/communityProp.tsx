@@ -3,7 +3,7 @@ import API, { StorageAPI } from '../lib/server'
 import { View, Image, Text, TouchableOpacity, ScrollView } from 'react-native'
 import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { showError } from '../lib/toast';
+import { showError, showSuccess } from '../lib/toast';
 import guest from "@/assets/images/home/guest.png";
 import LoaderCircle from '../lib/loaderCircle';
 
@@ -22,6 +22,7 @@ export default function CommunityProp() {
     }
 
     const [community, setCommunity] = useState<communityProp[]>([]);
+    const [isLoader, setIsLoader] = useState(true);
     const navigate = useRouter();
 
     useEffect(() => {
@@ -35,24 +36,41 @@ export default function CommunityProp() {
                 });
 
                 const community = response.data.data;
-                const communityFilter = community.filter((item: any) => {
-                    const data = item.user.length > 0 ? true : false;
-                    return data;
-                });
-
-                setCommunity(communityFilter);
+                setCommunity(community);
             } catch (error: any) {
                 showError(error.response.data.message);
+            } finally {
+                setIsLoader(false);
             }
         }
 
         fetchCommunity();
     }, []);
 
+    const handleJoin = async(communityID: number) => {
+        try {
+            const token = await AsyncStorage.getItem("token");
+            const response = await API.post('/member/community', {
+                community_id: communityID
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            showSuccess(response.data.message);
+            setTimeout(() => {
+                navigate.push({ pathname: "/community/[id]", params: { id: communityID } })
+            }, 3000);
+        } catch (error: any) {
+            showError(error.response.data.message);
+        }
+    }
+
   return (
     <ScrollView horizontal contentContainerStyle={{ paddingHorizontal: 6 }} className='py-2'>
-        <View className='flex-row items-center gap-4 mt-4 mr-6'>
-          {community.length > 0 ? (
+        <View className='flex-row items-center gap-8 mt-4 mr-6'>
+          {community.length > 0 && !isLoader ? (
             community.map((item) => (
               <View key={item.id} className='flex-col bg-white rounded-lg w-[200px] h-[300px] items-center justify-center gap-6'
                style={{
@@ -67,18 +85,22 @@ export default function CommunityProp() {
                       <Text className='font-poppins_semibold text-[16px text-black]'>{item.name}</Text>
                       <Text className='font-poppins_regular text-gray text-[12px]'>{item.desc}</Text>
                   </View>
-                  <View className='-mt-2'>
+                  {item.user.length > 0 ? (
+                    <View className='-mt-2'>
                       {item.user.map((profile) => (
                           <View key={profile.id} className='flex justify-center items-center'>
                               {profile.image ? (
-                                  <Image source={{ uri: `${StorageAPI}/${profile.image}` }} className='w-[36px] h-[36px] border-[1px] border-primary rounded-full'/>
+                                  <Image source={{ uri: `${StorageAPI}/${profile.image}` }} className='w-[20px] h-[20px] border-[1px] border-primary rounded-full'/>
                               ) : (
-                                  <Image source={guest} className='w-[36px] h-[36px] border-[1px] border-primary rounded-full'/>
+                                  <Image source={guest} className='w-[20px] h-[20px] border-[1px] border-primary rounded-full'/>
                               )}
                           </View>
                       ))}
                   </View>
-                  <TouchableOpacity>
+                  ) : (
+                    <View className='h-[20px] -mt-2'></View>
+                  )}
+                  <TouchableOpacity onPress={() => handleJoin(item.id)}>
                       <Text className='text-[12px] font-poppins_semibold text-white bg-secondary px-6 py-2 rounded-lg'>Gabung</Text>
                   </TouchableOpacity>
               </View>
