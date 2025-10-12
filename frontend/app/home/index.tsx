@@ -70,7 +70,7 @@ const fiturArray = [
     id: 7,
     image: fitur7,
     name: "Konsultasi",
-    navigate: "/konsultasi"
+    navigate: "/consultation/consultationBoarding"
   },
   {
     id: 8,

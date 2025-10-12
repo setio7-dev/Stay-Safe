@@ -44,7 +44,7 @@ class EventTransactionController extends Controller
         ]);
         return response()->json([
             "data" => $transaction,
-            "message" => "Data Berhasil Ditambah!"
+            "message" => "Pembelian Tiket Berhasil!"
         ], 201);
     }
 

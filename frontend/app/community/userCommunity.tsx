@@ -52,63 +52,65 @@ export default function UserCommunity() {
     <SafeAreaView edges={["top"]} className='bg-white w-full h-full'>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss}>
         <View style={{ flex: 1 }}>
-          <LinearGradient
-            colors={["#1D4ED8", "#137DD3"]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            className="px-6 pt-8 pb-16 relative h-auto flex-col gap-4"
-            style={{ borderBottomLeftRadius: 12, borderBottomRightRadius: 12, }}
-          >
-            <View className='flex-row justify-between items-center'>
-              <TouchableOpacity onPress={() => navigate.back()}>
-                <Image source={back} className='w-[24px] h-[24px]'/>
-              </TouchableOpacity>
-              <Text className='text-white font-poppins_semibold text-[16px]'>Komunitas Saya</Text>
-              <View></View>
-            </View>
-          </LinearGradient>
-          <View className='px-6 -mt-8'>
-            <View className='bg-white rounded-lg py-2 flex-row items-center gap-4 drop-shadow-2xl px-6' 
-            style={{
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.40,
-              shadowRadius: 4.84,
-              elevation: 5,
-            }}>
-              <Image source={search} className='w-[20px] h-[20px]'/>
-              <TextInput placeholder='Cari Sesuatu...' placeholderTextColor="#ACACAC" className='font-poppins_regular text-[14px] pr-8' />
-            </View>
-          </View>
-          <ScrollView contentContainerStyle={{ paddingBottom: 8 }} refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refreshing}/>}>            
-            <View className='px-6 mt-8 flex-row justify-between flex-wrap'>
-              {community.length > 0 && !isLoader ? (
-                community.map((item) => (
-                  <View key={item.id} className='flex-col bg-white rounded-lg w-[150px] h-[260px] items-center justify-center gap-6'
-                   style={{
-                      shadowColor: '#000',
-                      shadowOffset: { width: 0, height: 0 },
-                      shadowOpacity: 0.40,
-                      shadowRadius: 4.84,
-                      elevation: 5,
-                    }}>
-                      <Image source={{ uri: `${StorageAPI}/${item.image}` }} className='w-[60px] h-[60px]'/>
-                      <View>
-                          <Text className='font-poppins_semibold text-[16px text-black]'>{item.name}</Text>
-                          <Text className='font-poppins_regular text-gray text-[12px]'>{item.desc}</Text>
-                      </View>                  
-                      <TouchableOpacity onPress={() => navigate.push({ pathname: "/community/[id]", params: { id: item.id } })}>
-                          <Text className='text-[12px] font-poppins_semibold text-white bg-secondary px-6 py-2 rounded-lg'>Lihat</Text>
-                      </TouchableOpacity>
-                  </View>
-                ))
-              ) : (
-                <View className='w-full h-full flex justify-center items-center'>
-                  <Loader/>
+          {!isLoader ? (
+            <View>
+              <LinearGradient
+                colors={["#1D4ED8", "#137DD3"]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                className="px-6 pt-8 pb-16 relative h-auto flex-col gap-4"
+                style={{ borderBottomLeftRadius: 12, borderBottomRightRadius: 12, }}
+              >
+                <View className='flex-row justify-between items-center'>
+                  <TouchableOpacity onPress={() => navigate.back()}>
+                    <Image source={back} className='w-[24px] h-[24px]'/>
+                  </TouchableOpacity>
+                  <Text className='text-white font-poppins_semibold text-[16px]'>Komunitas Saya</Text>
+                  <View></View>
                 </View>
-              )}
+              </LinearGradient>
+              <View className='px-6 -mt-8'>
+                <View className='bg-white rounded-lg py-2 flex-row items-center gap-4 drop-shadow-2xl px-6' 
+                style={{
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 0 },
+                  shadowOpacity: 0.40,
+                  shadowRadius: 4.84,
+                  elevation: 5,
+                }}>
+                  <Image source={search} className='w-[20px] h-[20px]'/>
+                  <TextInput placeholder='Cari Sesuatu...' placeholderTextColor="#ACACAC" className='font-poppins_regular text-[14px] pr-8' />
+                </View>
+              </View>
+              <ScrollView contentContainerStyle={{ paddingBottom: 8 }} refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refreshing}/>}>            
+                <View className='px-6 mt-8 flex-row justify-between flex-wrap'>
+                  {community.map((item) => (
+                    <View key={item.id} className='flex-col bg-white rounded-lg w-[150px] h-[260px] items-center justify-center gap-6'
+                     style={{
+                        shadowColor: '#000',
+                        shadowOffset: { width: 0, height: 0 },
+                        shadowOpacity: 0.40,
+                        shadowRadius: 4.84,
+                        elevation: 5,
+                      }}>
+                        <Image source={{ uri: `${StorageAPI}/${item.image}` }} className='w-[60px] h-[60px]'/>
+                        <View>
+                            <Text className='font-poppins_semibold text-[16px text-black]'>{item.name}</Text>
+                            <Text className='font-poppins_regular text-gray text-[12px]'>{item.desc}</Text>
+                        </View>                  
+                        <TouchableOpacity onPress={() => navigate.push({ pathname: "/community/[id]", params: { id: item.id } })}>
+                            <Text className='text-[12px] font-poppins_semibold text-white bg-secondary px-6 py-2 rounded-lg'>Lihat</Text>
+                        </TouchableOpacity>
+                    </View>
+                  ))}
+                </View>
+              </ScrollView>
             </View>
-          </ScrollView>
+          ) : (
+            <View className='w-full h-full flex justify-center items-center'>
+              <Loader/>
+            </View>
+          )}
         </View>
       </TouchableWithoutFeedback>
     </SafeAreaView>

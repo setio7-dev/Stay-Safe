@@ -2,12 +2,14 @@ import pandas as pd
 import numpy as np
 import re
 import os
+import matplotlib.pyplot as plt
+import seaborn as sns
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import LabelEncoder
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, classification_report
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 import joblib
 import warnings
 warnings.filterwarnings('ignore')
@@ -85,7 +87,8 @@ for name, model in models.items():
         'model': model,
         'train_acc': train_acc,
         'test_acc': test_acc,
-        'cv_acc': cv_scores.mean()
+        'cv_acc': cv_scores.mean(),
+        'y_test_pred': y_test_pred
     }
 
 best_model_name = max(results, key=lambda x: results[x]['test_acc'])
@@ -151,6 +154,118 @@ for text in test_texts:
     emotion, confidence = predict_emotion(text)
     print(f"\nText: {text}")
     print(f"Emotion: {emotion} (confidence: {confidence:.2%})")
+
+os.makedirs('result', exist_ok=True)
+
+sns.set_style("whitegrid")
+
+fig = plt.figure(figsize=(16, 12))
+
+ax1 = plt.subplot(2, 3, 1)
+emotion_dist = df['Emotion'].value_counts()
+colors_dist = plt.cm.Set3(np.linspace(0, 1, len(emotion_dist)))
+ax1.bar(emotion_dist.index, emotion_dist.values, color=colors_dist, edgecolor='black', linewidth=1.5)
+ax1.set_title('Emotion Distribution', fontsize=12, fontweight='bold')
+ax1.set_ylabel('Count', fontsize=10)
+ax1.set_xlabel('Emotion', fontsize=10)
+plt.setp(ax1.xaxis.get_majorticklabels(), rotation=45, ha='right')
+for i, v in enumerate(emotion_dist.values):
+    ax1.text(i, v + 5, str(v), ha='center', va='bottom', fontweight='bold', fontsize=9)
+
+ax2 = plt.subplot(2, 3, 2)
+sizes = [len(X_train), len(X_test)]
+labels = [f'Training\n({len(X_train)})', f'Testing\n({len(X_test)})']
+colors_pie = ['#FF9999', '#66B2FF']
+ax2.pie(sizes, labels=labels, autopct='%1.1f%%', colors=colors_pie, startangle=90,
+        textprops={'fontsize': 10, 'fontweight': 'bold'})
+ax2.set_title('Train-Test Split', fontsize=12, fontweight='bold')
+
+ax3 = plt.subplot(2, 3, 3)
+cm = confusion_matrix(y_test_enc, y_test_pred)
+sns.heatmap(cm, annot=True, fmt='d', cmap='YlOrRd', cbar=False,
+            xticklabels=label_encoder.classes_, yticklabels=label_encoder.classes_,
+            annot_kws={'fontsize': 10, 'fontweight': 'bold'}, ax=ax3)
+ax3.set_title(f'Confusion Matrix ({best_model_name})', fontsize=12, fontweight='bold')
+ax3.set_ylabel('Actual', fontsize=10)
+ax3.set_xlabel('Predicted', fontsize=10)
+
+ax4 = plt.subplot(2, 3, 4)
+model_names = list(results.keys())
+train_accs = [results[m]['train_acc'] for m in model_names]
+test_accs = [results[m]['test_acc'] for m in model_names]
+cv_accs = [results[m]['cv_acc'] for m in model_names]
+
+x = np.arange(len(model_names))
+width = 0.25
+ax4.bar(x - width, train_accs, width, label='Train', color='#90EE90', edgecolor='black', linewidth=1.5)
+ax4.bar(x, test_accs, width, label='Test', color='#FFB6C1', edgecolor='black', linewidth=1.5)
+ax4.bar(x + width, cv_accs, width, label='CV', color='#87CEEB', edgecolor='black', linewidth=1.5)
+ax4.set_ylabel('Accuracy', fontsize=10)
+ax4.set_title('Model Comparison', fontsize=12, fontweight='bold')
+ax4.set_xticks(x)
+ax4.set_xticklabels(model_names, fontsize=9)
+ax4.legend(fontsize=9)
+ax4.set_ylim([0, 1.1])
+for i, (tr, te, cv) in enumerate(zip(train_accs, test_accs, cv_accs)):
+    ax4.text(i - width, tr + 0.02, f'{tr:.3f}', ha='center', va='bottom', fontsize=8, fontweight='bold')
+    ax4.text(i, te + 0.02, f'{te:.3f}', ha='center', va='bottom', fontsize=8, fontweight='bold')
+    ax4.text(i + width, cv + 0.02, f'{cv:.3f}', ha='center', va='bottom', fontsize=8, fontweight='bold')
+
+ax5 = plt.subplot(2, 3, 5)
+report_dict = classification_report(y_test_enc, y_test_pred, target_names=label_encoder.classes_, output_dict=True)
+emotions = label_encoder.classes_
+precision = [report_dict[e]['precision'] for e in emotions]
+recall = [report_dict[e]['recall'] for e in emotions]
+f1 = [report_dict[e]['f1-score'] for e in emotions]
+
+x_pos = np.arange(len(emotions))
+ax5.plot(x_pos, precision, marker='o', linewidth=2, markersize=8, label='Precision', color='#FF6B6B')
+ax5.plot(x_pos, recall, marker='s', linewidth=2, markersize=8, label='Recall', color='#4ECDC4')
+ax5.plot(x_pos, f1, marker='^', linewidth=2, markersize=8, label='F1-Score', color='#FFD93D')
+ax5.set_ylabel('Score', fontsize=10)
+ax5.set_xlabel('Emotion', fontsize=10)
+ax5.set_title('Classification Metrics by Emotion', fontsize=12, fontweight='bold')
+ax5.set_xticks(x_pos)
+ax5.set_xticklabels(emotions, rotation=45, ha='right', fontsize=9)
+ax5.legend(fontsize=9)
+ax5.grid(True, alpha=0.3)
+ax5.set_ylim([0, 1.1])
+
+ax6 = plt.subplot(2, 3, 6)
+ax6.axis('off')
+summary_text = f"""
+MODEL PERFORMANCE SUMMARY
+
+Best Model: {best_model_name}
+Test Accuracy: {results[best_model_name]['test_acc']:.4f} ({results[best_model_name]['test_acc']*100:.2f}%)
+
+Dataset Statistics:
+  Total Data: {len(df)}
+  Training Data: {len(X_train)}
+  Testing Data: {len(X_test)}
+  Test Size: 20%
+
+Emotion Classes: {', '.join(label_encoder.classes_)}
+
+TF-IDF Configuration:
+  Max Features: 3000
+  N-gram Range: (1, 2)
+  Min DF: 2
+  Max DF: 0.8
+  Stop Words: English
+
+Model Comparison:
+  Naive Bayes - Test: {results['Naive Bayes']['test_acc']:.4f}
+  Logistic Regression - Test: {results['Logistic Regression']['test_acc']:.4f}
+"""
+ax6.text(0.1, 0.9, summary_text, transform=ax6.transAxes, fontsize=9,
+        verticalalignment='top', fontfamily='monospace',
+        bbox=dict(boxstyle='round', facecolor='#F0F0F0', alpha=0.8))
+
+plt.tight_layout()
+plt.savefig('result/emotion_model_performance.jpg', dpi=300, bbox_inches='tight')
+print("\n✓ Visualization saved: result/emotion_model_performance.jpg")
+plt.close()
 
 print("\n" + "="*50)
 print("DONE! You can now run your Flask API:")

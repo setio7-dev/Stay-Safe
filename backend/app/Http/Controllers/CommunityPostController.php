@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CommunityPostCreated;
 use App\Models\CommunityPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -81,7 +82,10 @@ class CommunityPostController extends Controller
         }
 
         if ($user->role == "admin") {
-            Storage::disk("public")->delete($community->image);
+            if ($community->image) {
+                Storage::disk("public")->delete($community->image);
+            }
+
             $community->delete();
             return response()->json([
                 "message" => "Data Berhasil Dihapus!",
@@ -89,7 +93,10 @@ class CommunityPostController extends Controller
             ], 200);
         } else if ($user->role == "guest") {
             if ($user->id == $community->user_id) {
-                Storage::disk("public")->delete($community->image);
+                if ($community->image) {
+                    Storage::disk("public")->delete($community->image);
+                }
+                
                 $community->delete();
                 return response()->json([
                     "message" => "Data Berhasil Dihapus!",

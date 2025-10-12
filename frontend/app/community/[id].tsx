@@ -146,7 +146,7 @@ export default function CommunityDetail() {
   }
 
   return (
-    <SafeAreaView edges={["top"]} className='bg-white flex-1'>
+    <SafeAreaView edges={["top", 'bottom']} className='bg-white flex-1'>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }} keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}>
         <LinearGradient
           colors={["#1D4ED8", "#137DD3"]}

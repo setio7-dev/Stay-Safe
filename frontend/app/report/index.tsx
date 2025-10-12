@@ -216,7 +216,7 @@ export default function Report() {
               )}
             </TouchableOpacity>
 
-            <TouchableOpacity className='w-full' onPress={handleReport}>
+            <TouchableOpacity className='w-full mb-12' onPress={handleReport}>
               <LinearGradient
                   colors={["#1D4ED8", "#137DD3"]}
                   start={{ x: 0, y: 0 }}
