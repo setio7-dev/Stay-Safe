@@ -86,9 +86,9 @@ export default function CommunityProp() {
                       <Text className='font-poppins_regular text-gray text-[12px]'>{item.desc}</Text>
                   </View>
                   {item.user.length > 0 ? (
-                    <View className='-mt-2'>
+                    <View className='-mt-2 flex-row -gap-6'>
                       {item.user.map((profile) => (
-                          <View key={profile.id} className='flex justify-center items-center'>
+                          <View key={profile.id} className='flex justify-center items-center -mr-2'>
                               {profile.image ? (
                                   <Image source={{ uri: `${StorageAPI}/${profile.image}` }} className='w-[20px] h-[20px] border-[1px] border-primary rounded-full'/>
                               ) : (

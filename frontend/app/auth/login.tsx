@@ -23,6 +23,7 @@ export default function Register() {
       
       const token = response?.data?.data?.token;
       await AsyncStorage.setItem("token", token);
+      Keyboard.dismiss();
 
       showSuccess(response.data.message);
       setTimeout(() => {

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import logo from "@/assets/images/logo/logo-text.png"
 import top from "@/assets/images/auth/top.png"
 import google from "@/assets/images/auth/google.png"
-import { Image, View, Text, TextInput, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform } from 'react-native'
+import { Image, View, Text, TextInput, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, TouchableOpacity } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useRouter } from 'expo-router'
 import API from '../lib/server'
@@ -22,6 +22,7 @@ export default function Register() {
         email
       });      
 
+      Keyboard.dismiss();
       showSuccess(response?.data?.message);
       setTimeout(() => {
         navigate.push("/auth/login");
@@ -73,7 +74,9 @@ export default function Register() {
                   className="px-8 py-4 mt-4"
                   style={{ borderRadius: 8 }}
                 >
-                  <Text onPress={handleRegister} className='font-poppins_medium text-white text-center text-[16px]'>Daftar</Text>
+                  <TouchableOpacity onPress={handleRegister}>
+                    <Text className='font-poppins_medium text-white text-center text-[16px]'>Daftar</Text>
+                  </TouchableOpacity>
                 </LinearGradient>
                 <Text className='text-center font-poppins_regular text-gray text-[14px]'>Atau Dengan</Text>
                 <View className='border-2 rounded-sm border-gray flex-row justify-center items-center gap-2 py-3'>

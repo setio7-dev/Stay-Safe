@@ -10,7 +10,7 @@ export default function RootLayout() {
   
   return (
     <>
-      <Redirect href="/community/1"/>
+      <Redirect href="/home"/>
       <StatusBar style="light" backgroundColor="#1D4ED8" />
       <Stack screenOptions={{
         headerShown: false,

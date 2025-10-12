@@ -76,7 +76,7 @@ const fiturArray = [
     id: 8,
     image: fitur8,
     name: "Webinar",
-    navigate: "/webinar"
+    navigate: "/event/eventBoarding"
   },
 ];
 
@@ -168,7 +168,7 @@ export default function Index() {
     fetchUser();
     fetchMaps();
     scrollPost();
-  }, [postBar, sliderWidth]);
+  }, []);
 
   useEffect(() => {
     const scrollInterval = setInterval(() => {
@@ -280,7 +280,7 @@ export default function Index() {
                 <View className='flex-col'>
                   <Text className='text-white font-poppins_semibold text-[16px]'>Lapor Cepat Sekitarmu</Text>
                   <Text className='text-white font-poppins_medium text-[10px] w-[56%] text-justify'>Lapor kejadian darurat dengan cepat, cukup dengan sekali klik foto.</Text>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={() => navigate.push("/report/reportBoarding")}>
                     <Text className='bg-white rounded-lg text-primary px-4 py-1 font-poppins_semibold text-[12px] w-[70px] mt-4 text-center'>Lapor</Text>
                   </TouchableOpacity>
                 </View>

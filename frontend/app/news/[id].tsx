@@ -52,13 +52,13 @@ export default function NewsDetail() {
   }, [id]);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       {isLoader ? (
         <View className='flex-col h-full w-full justify-center items-center'>
           <Loader/>
         </View>
       ) : (
-        <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
+        <View style={{ flex: 1 }}>
           <LinearGradient
               colors={["#1D4ED8", "#137DD3"]}
               start={{ x: 0, y: 0 }}
@@ -66,20 +66,22 @@ export default function NewsDetail() {
               className="px-6 py-8 relative h-auto flex-col gap-4"
               style={{ borderBottomLeftRadius: 12, borderBottomRightRadius: 12, }}
           >
-            <TouchableOpacity onPress={() => navigate.push("/home/news")}>
+            <TouchableOpacity onPress={() => navigate.back()}>
               <View className='flex-row items-center gap-4'>
-                <Image source={back} className='w-[20px] h-[20px]'/>
+                <Image source={back} className='w-[24px] h-[24px]'/>
                 <Text className='text-white font-poppins_semibold text-[14px]'>Kembali</Text>
               </View>
             </TouchableOpacity>
           </LinearGradient>
-          <View className='px-6 flex-col mt-6 gap-2 pb-14'>
-            <Text className='font-poppins_semibold text-black text-[16px] text-justify'>{news?.title}</Text>
-            <Text className='font-poppins_regular text-black text-[12px]'>{dateFormat(news?.created_at)}</Text>
-            <Image source={{ uri: `${StorageAPI}/${news?.image}` }} className='w-full h-[200px] object-cover bg-cover rounded-lg mt-4'/>
-            <Text style={{ textAlign: 'justify', lineHeight: 20 }} className='text-black text-[12px] font-poppins_medium mt-4 text-justify'>{news?.detail}</Text>
-          </View>
-        </ScrollView>
+          <ScrollView contentContainerStyle={{ paddingBottom: 32 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
+            <View className='px-6 flex-col mt-6 gap-2'>
+              <Text className='font-poppins_semibold text-black text-[16px] text-justify'>{news?.title}</Text>
+              <Text className='font-poppins_regular text-black text-[12px]'>{dateFormat(news?.created_at)}</Text>
+              <Image source={{ uri: `${StorageAPI}/${news?.image}` }} className='w-full h-[200px] object-cover bg-cover rounded-lg mt-4'/>
+              <Text style={{ textAlign: 'justify', lineHeight: 20 }} className='text-black text-[12px] font-poppins_medium mt-4 text-justify'>{news?.detail}</Text>
+            </View>
+          </ScrollView>
+        </View>
       )}
     </SafeAreaView>
   )

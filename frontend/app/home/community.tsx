@@ -64,7 +64,7 @@ export default function Community() {
       } catch (error: any) {
         showError(error.response.data.message);
       }
-    }
+    }    
 
     fetchCommunity();
   }, []);
@@ -114,7 +114,7 @@ export default function Community() {
                 <View className='flex-col justify-center w-full mt-6 gap-6'>
                   {communityPost.length > 0 ? (
                     communityPost.map((item) => (
-                      <View key={item.id} className='w-full h-auto bg-white px-6 py-8 rounded-lg' 
+                      <View key={item.id} className={`w-full h-auto bg-white px-6 py-8 rounded-lg ${item.image ? 'block' : 'hidden'}`} 
                       style={{
                         shadowColor: '#000',
                         shadowOffset: { width: 0, height: 0 },
@@ -140,7 +140,7 @@ export default function Community() {
                             <Image source={hamburger} className='w-[18px] h-[4px] mt-2'/>
                           </View>
                           <View className='mt-6'>
-                            <DynamicImage uri={ `${StorageAPI}/${item.image}` }/>
+                            <DynamicImage source={ `${StorageAPI}/${item.image}` }/>
                           </View>
                           <Text className='text-justify mt-4 font-poppins_semibold text-[10px] text-black'>{item.message}</Text>
                       </View>

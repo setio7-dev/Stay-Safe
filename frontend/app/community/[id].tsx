@@ -1,6 +1,6 @@
 import { LinearGradient } from 'expo-linear-gradient'
 import React, { useEffect, useState } from 'react'
-import { View, ScrollView, Text, Image, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from 'react-native'
+import { View, ScrollView, Text, Image, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, Keyboard } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import back from "@/assets/images/icon/back.png"
 import API, { StorageAPI } from '../lib/server'
@@ -13,6 +13,8 @@ import hamburger from "@/assets/images/icon/hambuger.png"
 import DynamicImage from '../lib/dynamicImage'
 import send from "@/assets/images/icon/send.png"
 import upload from "@/assets/images/icon/upload.png"
+import { handleUploadImage } from '../lib/uploadFile'
+import mime from "mime";
 
 export default function CommunityDetail() {
   interface communityProp {
@@ -42,7 +44,9 @@ export default function CommunityDetail() {
   const { id } = useLocalSearchParams();
   const navigate = useRouter();
   const [message, setMessage] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState<any>(null);
+  const [menuOpenIndex, setMenuOpenIndex] = useState<number | null>(null)
+  const [userId, setUserId] = useState(0);
 
   useEffect(() => {
     const fetchCommunity = async () => {
@@ -55,24 +59,83 @@ export default function CommunityDetail() {
         });
         setCommunityPost(response.data.data);
       } catch (error: any) {
-        showError(error);
+        
       }
     }
+
+    const fetchUser = async() => {
+      const token = await AsyncStorage.getItem("token");
+      
+      try {
+        const response = await API.get("/me", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        
+        setUserId(response.data.data.id);
+      } catch (error: any) {
+
+      }
+    }
+
+    setInterval(() => {      
+      fetchCommunity();
+    }, 5000);
+
+    fetchUser();
     fetchCommunity();
   }, [id]);
 
   const handlePost = async() => {
-    try {
-      const formData = new FormData();
-      formData.append("image", image);
-      formData.append("message", message);
-      formData.append("community_id", id.toString());
-      
+    let newImageUri: any;
+    if (image) {
+      newImageUri =  "file:///" + image.uri?.split("file:/").join("");
+    }
+
+    const formData = new FormData();
+    if (image) {
+      formData.append('image', {
+        uri: newImageUri,
+        type: mime.getType(newImageUri),    
+        name: newImageUri?.split("/").pop(),
+      } as any);
+    }
+    formData.append("message", message);
+    formData.append("community_id", id.toString());
+
+    try {      
       const token = await AsyncStorage.getItem("token");
       const response = await API.post("/communities/post", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data"
+        }
+      });
+
+      Keyboard.dismiss();
+      setMessage("");
+      setImage(null);
+      
+      showSuccess(response?.data?.message);
+    } catch (error: any) {
+      showError(error.response?.data?.message);
+    }
+  }  
+
+  const handleUploadFile = async () => {
+    const image = await handleUploadImage()
+    if (image) {
+      setImage(image)
+    }
+  }
+
+  const handleDelete = async(id: number) => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      const response = await API.delete(`/communities/post/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
         }
       });
 
@@ -84,20 +147,16 @@ export default function CommunityDetail() {
 
   return (
     <SafeAreaView edges={["top"]} className='bg-white flex-1'>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={{ flex: 1 }}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
-      >
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }} keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}>
         <LinearGradient
           colors={["#1D4ED8", "#137DD3"]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
-          className="px-6 py-8 relative flex-col gap-4"
+          className="px-6 py-6 relative flex-col gap-4"
           style={{ borderBottomLeftRadius: 12, borderBottomRightRadius: 12 }}
         >
           <View className='flex-row gap-2 items-center'>
-            <TouchableOpacity onPress={() => navigate.push("/community/userCommunity")}>
+            <TouchableOpacity onPress={() => navigate.back()}>
               <Image source={back} className='w-[24px] h-[24px]'/>
             </TouchableOpacity>
             <Image source={{ uri: `${StorageAPI}/${communityPost?.image}` }} className='w-[52px] h-[52px]'/>
@@ -132,22 +191,35 @@ export default function CommunityDetail() {
                       className={`${item.user.image ? 'border-0' : 'border-[1px] border-primary'} w-[40px] h-[40px] rounded-full`} 
                     />
                     <View>
-                      <Text className='font-poppins_semibold text-black text-[14px]'>{item.user.name}</Text>
+                      <Text className='font-poppins_semibold text-black text-[14px]'>{item.user.id === userId ? "Anda" : item.user.name}</Text>
                       <Text className='font-poppins_regular text-gray text-[10px]'>{timeAgo(item.created_at)}</Text>
                     </View>
                   </View>
-                  <Image source={hamburger} className='w-[18px] h-[4px] -mt-8'/>
-                </View>
+                  <TouchableOpacity 
+                    className='-mt-8'
+                    onPress={() => setMenuOpenIndex(menuOpenIndex === index && item.user.id === userId ? null : index)}
+                  >
+                    <Image source={hamburger} className='w-[18px] h-[4px]'/>
+                  </TouchableOpacity>
+                </View>              
 
                 {item.image && (
                   <View className='mt-6'>
-                    <DynamicImage uri={`${StorageAPI}/${item.image}`} />
+                    <DynamicImage source={`${StorageAPI}/${item.image}`} />
                   </View>
                 )}
 
                 <Text className='w-full text-justify font-poppins_medium text-black text-[12px] mt-6'>
                   {item.message}
                 </Text>
+
+                {menuOpenIndex === index && (
+                  <View className='mt-2 p-2 bg-gray-100 rounded'>
+                    <TouchableOpacity onPress={() => handleDelete(item.id)}>
+                      <Text className='text-red-500 font-poppins_medium text-[12px] bg-secondary text-white rounded-lg text-center py-4'>Hapus Postingan</Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
               </View>
             ))
           ) : (
@@ -156,14 +228,18 @@ export default function CommunityDetail() {
             </View>
           )}
         </ScrollView>
-        <View className='bg-white border-t-[1px] border-gray px-4 py-6'>
+        <View className={`bg-white border-t-[1px] border-gray px-4 pt-8 ${image ? 'pb-20' : 'pb-6'}`}>
+          <Image source={{ uri: image?.uri }} className={`${image ? 'w-[60px] h-[60px] mb-4 rounded-md' : 'hidden'}`}/>
           <View className='flex-row gap-4 items-center'>
             <View className='flex-row border-[1px] border-gray rounded-lg flex-1 items-center px-4'>
-              <Image source={upload} className='w-[20px] h-[20px]'/>
+              <TouchableOpacity onPress={() => handleUploadFile()}>
+                <Image source={upload} className='w-[20px] h-[20px]'/>
+              </TouchableOpacity>
               <TextInput
                 placeholder='Ketik Pesan...'
                 className='text-[12px] font-poppins_regular text-black flex-1 px-2'
                 value={message}
+                multiline
                 onChangeText={(e) => setMessage(e)}
               />
             </View>

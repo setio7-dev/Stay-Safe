@@ -5,10 +5,6 @@ const API = axios.create({
     // baseURL: "http://10.203.1.103:8000/api",
     // baseURL: "http://192.168.40.20:8000/api",
     baseURL: "http://192.168.100.27:8000/api",
-    headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  },
 });
 
 export default API;

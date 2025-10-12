@@ -33,7 +33,7 @@ export default function Authenticated({ children }: any) {
     };
 
     fetchToken();
-  }, [navigate]);
+  }, []);
 
   return (
     <View>
