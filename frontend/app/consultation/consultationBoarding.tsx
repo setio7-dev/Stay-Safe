@@ -27,7 +27,7 @@ export default function ConsultationBoarding() {
               style={{ borderBottomLeftRadius: 12, borderBottomRightRadius: 12, }}
             >
             <View className='flex-row justify-start items-center gap-2'>
-              <TouchableOpacity onPress={() => navigate.back()} className='flex-row justify-start items-center gap-2'>
+              <TouchableOpacity onPress={() => navigate.push('/home')} className='flex-row justify-start items-center gap-2'>
                 <Image source={back} className='w-[24px] h-[24px]'/>
                 <Text className='text-white font-poppins_semibold text-[14px]'>Kembali</Text>
               </TouchableOpacity>

@@ -39,13 +39,22 @@ export default function ConsultationChat() {
   const fetchDoctor = async() => {
     try {
       const token = await AsyncStorage.getItem("token");
+      const user = await API.get("/me", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      const userId = user.data.data.id;
       const response = await API.get("/conversation", {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
 
-      setDoctor(response.data.data);
+      const doctor = response.data.data;
+      const filteredDoctor = doctor.filter((item: any) => item.sender.id === userId);
+      setDoctor(filteredDoctor);
     } catch (error) {
       
     } finally {
@@ -56,6 +65,9 @@ export default function ConsultationChat() {
   const { refreshing, onRefresh } = useRefresh(fetchDoctor);
   useEffect(() => {
     fetchDoctor();
+    setInterval(() => {
+      fetchDoctor();      
+    }, 5000);
   }, []);
 
   return (
@@ -72,7 +84,7 @@ export default function ConsultationChat() {
                 style={{ borderBottomLeftRadius: 12, borderBottomRightRadius: 12, }}
               >
                 <View className='flex-row justify-between items-center'>
-                  <TouchableOpacity onPress={() => navigate.back()}>
+                  <TouchableOpacity onPress={() => navigate.push('/consultation')}>
                     <Image source={back} className='w-[24px] h-[24px]'/>
                   </TouchableOpacity>
                   <Text className='text-white font-poppins_semibold text-[16px]'>Konsultasi Saya</Text>
@@ -115,7 +127,11 @@ export default function ConsultationChat() {
                               <Text className='font-poppins_semibold text-white text-[10px] pt-[1px]'>{item.unread_count}</Text>
                           </View>
                         </View>
-                        <Text className='text-gray text-[12px] font-poppins_medium'>{item.message[item.message.length - 1].message}</Text>
+                        {item.message.length > 0 ? (
+                            <Text className='text-gray text-[12px] font-poppins_medium'>{item.message[item.message.length - 1].message}</Text>
+                        ) : (
+                            <View></View>
+                        )}
                       </View>
                     </TouchableOpacity>
                   ))}

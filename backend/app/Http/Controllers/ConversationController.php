@@ -82,7 +82,7 @@ class ConversationController extends Controller
      */
     public function show(string $id)
     {
-        $conversation = Conversation::with(["sender", "receiver"])->find($id);
+        $conversation = Conversation::with(["senders", "receivers"])->find($id);
         if (!$conversation) {
             return response()->json([
                 "data" => $conversation,

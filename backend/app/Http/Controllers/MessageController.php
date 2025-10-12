@@ -41,12 +41,11 @@ class MessageController extends Controller
             return response()->json([
                 "message" => "Data Harus Diisi!",
                 "data" => null,
-                "aa" => $validateData->errors()
             ], 422);
         }
 
         if ($request->hasFile("image")) {
-            $file = Storage::disk("public")->putFile("message", $request->message);
+            $file = Storage::disk("public")->putFile("message", $request->image);
         }
 
         $message = Message::create([
@@ -65,12 +64,31 @@ class MessageController extends Controller
 
     public function destroy(string $id)
     {
-        $message = Message::find($id);
+        $user = Auth::user();
+        $message = Message::with(["sender", "conversation"])->find($id);
+
         if (!$message) {
             return response()->json([
                 "message" => "Data Tidak Ditemukan!",
                 "data" => null
             ], 404);
         }
+
+        if ($message->sender != $user->id) {
+            return response()->json([
+                "message" => "Data Tidak Bisa Dihapus!",
+                "data" => null
+            ], 422);
+        }
+
+        if ($message->image) {
+            Storage::disk("public")->delete($message->image);
+        }
+
+        $message->delete();
+        return response()->json([
+            "message" => "Data Berhasil Dihapus!",
+            "data" => null
+        ], 200);
     }
 }

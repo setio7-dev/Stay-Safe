@@ -116,6 +116,7 @@ Route::middleware('auth')->group(function() {
     // Message
     Route::get("/conversations/message/{conversationID}", [MessageController::class, "index"]);
     Route::post("/conversations/message", [MessageController::class, "store"]);
+    Route::delete("/conversations/message/{id}", [MessageController::class, "destroy"]);
 
     // Community Post
     Route::resource("/communities/post", CommunityPostController::class);
