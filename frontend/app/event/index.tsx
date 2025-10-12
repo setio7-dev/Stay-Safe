@@ -62,7 +62,7 @@ export default function Index() {
             style={{ borderBottomLeftRadius: 12, borderBottomRightRadius: 12, }}
           >
             <View className='flex-row justify-between items-center'>
-              <TouchableOpacity onPress={() => navigate.back()}>
+              <TouchableOpacity onPress={() => navigate.push('/home')}>
                 <Image source={back} className='w-[24px] h-[24px]'/>
               </TouchableOpacity>
               <Text className='text-white font-poppins_semibold text-[16px]'>Webinar</Text>

@@ -52,7 +52,7 @@ export default function NewsDetail() {
   }, [id]);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }} className='bg-white'>
       {isLoader ? (
         <View className='flex-col h-full w-full justify-center items-center'>
           <Loader/>

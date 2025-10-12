@@ -61,7 +61,7 @@ Route::middleware('auth')->group(function() {
         Route::resource("/event", EventController::class);
         
         // Community
-        // Route::resource("/community", CommunityController::class);
+        Route::resource("/community", CommunityController::class);
     }); 
     
     Route::middleware('role:guest')->group(function() {

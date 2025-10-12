@@ -52,7 +52,7 @@ const fiturArray = [
     id: 4,
     image: fitur4,
     name: "Meditasi",
-    navigate: "/meditasi"
+    navigate: "/meditation/meditationBoarding"
   },
   {
     id: 5,
