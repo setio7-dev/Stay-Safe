@@ -3,41 +3,43 @@ import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react'
 import { View, Image, Text, ScrollView, TouchableWithoutFeedback, Keyboard, TouchableOpacity, TextInput, RefreshControl } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import API, { StorageAPI } from '../lib/server';
-import useRefresh from '../lib/refresh';
-import { Loader } from '../lib/loader';
+import API, { StorageAPI } from '../../lib/server';
+import useRefresh from '../../lib/refresh';
+import { Loader } from '../../lib/loader';
 import { LinearGradient } from 'expo-linear-gradient';
 import back from "@/assets/images/icon/back.png";
 import search from "@/assets/images/icon/search.png";
-import star from "@/assets/images/consultation/star.png"
-import location from "@/assets/images/consultation/location.png"
-import { getShortName } from '../lib/getShortName';
-import chat from "@/assets/images/icon/chat.png"
+import { getShortName } from '../../lib/getShortName';
 
-export default function Index() {  
+export default function ConsultationChat() {  
   interface userProp {
     id: number;
     name: string;
     email: string;
     image: string;
+    category: string;
   }
   
-  interface doctorProp {
+  interface conversationProp {
     id: number;
-    category: string;
-    hospital: string;
-    user_id: number;
-    user: userProp
+    unread_count: number;
+    receiver: userProp
+    message: messageProp[]
+  }
+
+  interface messageProp {
+    id: number;
+    message: string
   }
   
   const [isLoader, setIsLoader] = useState(true);
   const navigate = useRouter();
-  const [doctor, setDoctor] = useState<doctorProp[]>([]);
+  const [doctor, setDoctor] = useState<conversationProp[]>([]);
 
   const fetchDoctor = async() => {
     try {
       const token = await AsyncStorage.getItem("token");
-      const response = await API.get("/guest/doctor", {
+      const response = await API.get("/conversation", {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -56,24 +58,6 @@ export default function Index() {
     fetchDoctor();
   }, []);
 
-  const handleChat = async(id: number) => {
-    try { 
-      const token = await AsyncStorage.getItem("token");
-      const response = await API.post("/conversation", {
-        receiver: id,
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-
-      const conversationId = response.data.data.id;      
-      navigate.push({ pathname: '/consultation/chat/[id]', params: { id: conversationId } });
-    } catch (error: any) {
-      navigate.push('/consultation/chat/consultationChat');
-    }
-  }
-
   return (
     <SafeAreaView edges={['top']} className='flex-1 bg-white w-full'>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -91,10 +75,8 @@ export default function Index() {
                   <TouchableOpacity onPress={() => navigate.back()}>
                     <Image source={back} className='w-[24px] h-[24px]'/>
                   </TouchableOpacity>
-                  <Text className='text-white font-poppins_semibold text-[16px]'>Konsultasi</Text>
-                  <TouchableOpacity onPress={() => navigate.push('/consultation/chat/consultationChat')}>
-                    <Image source={chat} className='w-[30px] h-[30px]'/>
-                  </TouchableOpacity>
+                  <Text className='text-white font-poppins_semibold text-[16px]'>Konsultasi Saya</Text>
+                  <View></View>
                 </View>
               </LinearGradient>
               <View className='px-6 -mt-8'>
@@ -113,7 +95,7 @@ export default function Index() {
               <ScrollView className='pt-8 px-6' refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refreshing}/>}>
                 <View className='flex-col gap-8 items-center justify-center'>
                   {doctor.map((item, index) => (
-                    <View key={index} className='p-4 bg-white w-full flex-row items-center justify-between gap-4'
+                    <TouchableOpacity onPress={() => navigate.push({ pathname: '/consultation/chat/[id]', params: { id: item.id } })} key={index} className='p-4 bg-white w-full flex-row items-start justify-start gap-4'
                     style={{
                       shadowColor: '#000',
                       borderRadius: 10,
@@ -122,30 +104,20 @@ export default function Index() {
                       shadowRadius: 4.84,
                       elevation: 5,
                     }}>
-                      <Image source={{ uri: `${StorageAPI}/${item.user.image}` }} className='w-[86px] h-[86px] rounded-lg object-cover bg-cover'/>
-                      <View className='flex-col'>
-                        <Text className='text-black text-[14px] font-poppins_semibold'>{getShortName(item.user.name)}</Text>
-                        <Text className='text-gray text-[12px] font-poppins_regular'>{item.category}</Text>
-                        <TouchableOpacity onPress={() => handleChat(item.user_id)}>
-                            <LinearGradient
-                                colors={["#1D4ED8", "#137DD3"]}
-                                start={{ x: 0, y: 0 }}
-                                end={{ x: 1, y: 0 }}
-                                className="px-2 mt-4 py-2 w-[90px] h-auto flex-col gap-4"
-                                style={{ borderRadius: 6 }}
-                            >
-                                <Text className='text-white text-[12px] text-center font-poppins_semibold'>Hubungi</Text>
-                            </LinearGradient>
-                        </TouchableOpacity>
-                      </View>
-                      <View className='flex-col justify-between items-end h-full py-2'>
-                        <Image source={star} className='w-[34px] h-[14px]'/>
-                        <View className='flex-row items-center gap-2'>
-                          <Image source={location} className='w-[12px] h-[14px]'/>
-                          <Text className='text-gray text-[10px] font-poppins_regular'>{item.hospital}</Text>
+                      <Image source={{ uri: `${StorageAPI}/${item.receiver.image}` }} className='w-[86px] h-[86px] rounded-lg object-cover bg-cover'/>
+                      <View className='flex-col gap-1'>
+                        <View className='flex-row justify-between w-[180px]'>
+                          <View className='flex-col'>
+                            <Text className='text-black text-[14px] font-poppins_semibold'>{getShortName(item.receiver.name)}</Text>
+                            <Text className='text-gray text-[12px] font-poppins_regular'>{item.receiver.category}</Text>                    
+                          </View>
+                          <View className='rounded-full bg-red w-[20px] h-[20px] flex justify-center items-center'>
+                              <Text className='font-poppins_semibold text-white text-[10px] pt-[1px]'>{item.unread_count}</Text>
+                          </View>
                         </View>
+                        <Text className='text-gray text-[12px] font-poppins_medium'>{item.message[item.message.length - 1].message}</Text>
                       </View>
-                    </View>
+                    </TouchableOpacity>
                   ))}
                 </View>
               </ScrollView>

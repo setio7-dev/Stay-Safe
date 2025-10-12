@@ -119,6 +119,7 @@ export default function CommunityDetail() {
       
       showSuccess(response?.data?.message);
     } catch (error: any) {
+      Keyboard.dismiss();
       showError(error.response?.data?.message);
     }
   }  

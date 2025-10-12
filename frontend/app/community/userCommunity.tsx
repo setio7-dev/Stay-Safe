@@ -82,7 +82,7 @@ export default function UserCommunity() {
                   <TextInput placeholder='Cari Sesuatu...' placeholderTextColor="#ACACAC" className='font-poppins_regular text-[14px] pr-8' />
                 </View>
               </View>
-              <ScrollView contentContainerStyle={{ paddingBottom: 8 }} refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refreshing}/>}>            
+              <ScrollView contentContainerStyle={{ paddingBottom: 8 }} refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refreshing}/>}>
                 <View className='px-6 mt-8 flex-row justify-between flex-wrap'>
                   {community.map((item) => (
                     <View key={item.id} className='flex-col bg-white rounded-lg w-[150px] h-[260px] items-center justify-center gap-6'

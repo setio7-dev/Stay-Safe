@@ -59,11 +59,10 @@ export default function CommunityProp() {
             });
 
             showSuccess(response.data.message);
-            setTimeout(() => {
-                navigate.push({ pathname: "/community/[id]", params: { id: communityID } })
-            }, 3000);
+            navigate.push({ pathname: "/community/[id]", params: { id: communityID } })
         } catch (error: any) {
             showError(error.response.data.message);
+            navigate.push({ pathname: "/community/[id]", params: { id: communityID } })
         }
     }
 

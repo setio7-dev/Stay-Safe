@@ -19,12 +19,12 @@ class Conversation extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function sender()
+    public function senders()
     {
         return $this->belongsTo(User::class, 'sender');
     }
 
-    public function receiver()
+    public function receivers()
     {
         return $this->belongsTo(User::class, 'receiver');
     }

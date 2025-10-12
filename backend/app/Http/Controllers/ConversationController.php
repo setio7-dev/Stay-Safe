@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Conversation;
+use App\Models\Doctor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,20 +15,39 @@ class ConversationController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $conversation = Conversation::with(["sender", "receiver", "message"])->get();
-
+        $conversation = Conversation::with(["senders", "receivers", "message"])->get();
+        
         $conversation->each(function ($conv) use ($user) {
-            if ($user->role === "guest") {
-                $conv->unread_count = $conv->message->where("receiver", $conv->receiver)->where("isread", "false")->count();
-            } elseif ($user->role === "doctor") {
-                $conv->unread_count = $conv->message->where("sender", $conv->sender)->where("isread", "false")->count();
-            } else {
-                $conv->unread_count = 0;
+        if ($user->role === "guest") {
+            $conv->unread_count = $conv->message->where("receiver", $conv->receiver)->where("isread", "false")->count();
+        } elseif ($user->role === "doctor") {
+            $conv->unread_count = $conv->message->where("sender", $conv->sender)->where("isread", "false")->count();
+        } else {
+            $conv->unread_count = 0;
             }
         });
-
+                        
         return response()->json([
-            "data" => $conversation,
+            "data" => $conversation->map(function ($item) {
+                $doctor = Doctor::where('user_id', $item->receivers->id)->first();
+                return [
+                    'id' => $item->id,
+                    "unread_count" => $item->unread_count,
+                    'sender' => $item->senders,
+                    'receiver' =>  [
+                        "id" => $item->receivers->id,
+                        "name" => $item->receivers->name,
+                        "email" => $item->receivers->email,
+                        "image" => $item->receivers->image,
+                        "category" => $doctor->category,
+                        "created_at" => $item->receivers->created_at,
+                        "updated_at" => $item->receivers->updated_at,
+                    ],
+                    'message' => $item->message,
+                    'created_at' => $item->created_at,
+                    'updated_at' => $item->updated_at,
+                ];
+            }),
             "message" => "Data Berhasil Diambil!"
         ]);
     }
@@ -42,7 +62,7 @@ class ConversationController extends Controller
         if ($receiver) {
             return response()->json([
                 "data" => null,
-                "message" => "Data Sudah Ada!"
+                "message" => "Konsultasi Ini Sudah Ada!"
             ], 422);
         }
 
