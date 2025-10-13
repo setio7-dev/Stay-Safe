@@ -86,6 +86,87 @@ PENTING:
         else:
             return f"Berita ini terdeteksi sebagai FAKTA dengan tingkat keyakinan {confidence}%. Pola bahasa menunjukkan karakteristik berita yang kredibel dan objektif."
 
+def generate_blog_check(original_blog_check):
+    """Generate AI rewrite of blog_check with 'Stay Safe' prefix"""
+    try:
+        # Remove the original prefix
+        cleaned_text = re.sub(
+            r'Tim Pemeriksa Fakta Mafindo \(TurnBackHoax\) menelusuri kebenaran\s*',
+            '',
+            original_blog_check,
+            flags=re.IGNORECASE
+        )
+        
+        prompt = f"""Kamu adalah fact-checker profesional. Tulis ulang teks fact-checking berikut dengan gaya bahasa yang lebih natural dan mudah dipahami.
+
+Teks asli:
+{cleaned_text[:1000]}
+
+INSTRUKSI:
+- Awali dengan "Stay Safe menelusuri kebenaran"
+- Tulis ulang dengan gaya bahasa yang lebih sederhana dan mengalir
+- Pertahankan semua informasi faktual dan detail penting
+- Gunakan bahasa Indonesia yang natural
+- HANYA gunakan bold markdown (**text**) untuk penekanan penting
+- JANGAN gunakan bullet points, numbered lists, atau markdown lain
+- Tulis dalam paragraf mengalir
+- Maksimal 5-6 kalimat"""
+        
+        response = gemini_model.generate_content(prompt)
+        text = response.text.strip()
+        
+        # Clean unwanted markdown
+        text = re.sub(r'_([^_]+)_', r'\1', text)
+        text = re.sub(r'\*([^\*]+)\*(?!\*)', r'\1', text)
+        text = re.sub(r'~~([^~]+)~~', r'\1', text)
+        text = re.sub(r'`([^`]+)`', r'\1', text)
+        text = re.sub(r'```[^`]*```', '', text)
+        
+        return text
+    except Exception as e:
+        print(f"⚠️ Gemini API Error in blog_check: {e}")
+        # Fallback: simple replacement
+        return re.sub(
+            r'Tim Pemeriksa Fakta Mafindo \(TurnBackHoax\) menelusuri kebenaran',
+            'Stay Safe menelusuri kebenaran',
+            original_blog_check,
+            flags=re.IGNORECASE
+        )
+
+def generate_blog_conclusion(original_blog_conclusion, flag):
+    """Generate AI rewrite of blog_conclusion"""
+    try:
+        prompt = f"""Kamu adalah fact-checker profesional. Tulis ulang kesimpulan fact-checking berikut dengan gaya bahasa yang lebih jelas dan tegas.
+
+Kesimpulan asli:
+{original_blog_conclusion[:500]}
+
+Flag: {flag}
+
+INSTRUKSI:
+- Tulis ulang dengan gaya bahasa yang lebih lugas dan mudah dipahami
+- Pertahankan kesimpulan utama (HOAX/FAKTA/SALAH/etc)
+- Gunakan bahasa Indonesia yang natural dan tegas
+- HANYA gunakan bold markdown (**text**) untuk penekanan kesimpulan
+- JANGAN gunakan bullet points, numbered lists, atau markdown lain
+- Tulis dalam 2-3 kalimat maksimal
+- Fokus pada kesimpulan akhir yang jelas"""
+        
+        response = gemini_model.generate_content(prompt)
+        text = response.text.strip()
+        
+        # Clean unwanted markdown
+        text = re.sub(r'_([^_]+)_', r'\1', text)
+        text = re.sub(r'\*([^\*]+)\*(?!\*)', r'\1', text)
+        text = re.sub(r'~~([^~]+)~~', r'\1', text)
+        text = re.sub(r'`([^`]+)`', r'\1', text)
+        text = re.sub(r'```[^`]*```', '', text)
+        
+        return text
+    except Exception as e:
+        print(f"⚠️ Gemini API Error in blog_conclusion: {e}")
+        return original_blog_conclusion
+
 def find_similar_in_dataset(title, description, threshold=0.5):
     try:
         from sklearn.metrics.pairwise import cosine_similarity
@@ -100,17 +181,31 @@ def find_similar_in_dataset(title, description, threshold=0.5):
         for idx, sim in enumerate(similarities):
             if sim >= threshold:
                 row = dataset.iloc[idx]
+                
+                # Get original blog_check and blog_conclusion
+                original_blog_check = str(row.get('blog_check', ''))
+                original_blog_conclusion = str(row.get('blog_conclusion', ''))
+                flag = str(row.get('flag', ''))
+                
+                # Generate AI rewritten versions
+                ai_blog_check = generate_blog_check(original_blog_check) if original_blog_check else ""
+                ai_blog_conclusion = generate_blog_conclusion(original_blog_conclusion, flag) if original_blog_conclusion else ""
+                
                 matches.append({
                     'similarity': round(float(sim), 4),
                     'blog_title': str(row.get('blog_title', '')),
                     'post_text': str(row.get('post_text', ''))[:500],
-                    'flag': str(row.get('flag', '')),
+                    'flag': flag,
                     'blog_url': str(row.get('blog_url', '')),
                     'post_share': int(row['post_share']) if pd.notna(row.get('post_share')) else 0,
                     'post_view': int(row['post_view']) if pd.notna(row.get('post_view')) else 0,
                     'post_likes': int(row['post_likes']) if pd.notna(row.get('post_likes')) else 0,
                     'blog_date': str(row.get('blog_date', '')),
-                    'thumbnail': str(row.get('thumbnail', ''))
+                    'thumbnail': str(row.get('thumbnail', '')),
+                    'blog_check': ai_blog_check,
+                    'blog_conclusion': ai_blog_conclusion,
+                    'original_blog_check': original_blog_check,
+                    'original_blog_conclusion': original_blog_conclusion
                 })
         matches.sort(key=lambda x: x['similarity'], reverse=True)
         return matches[:5]
@@ -191,8 +286,14 @@ def predict_hoax(title, description, image_url="", news_url="", include_ai_desc=
 def index():
     return jsonify({
         'service': 'Hoax Detector ML API with AI Description',
-        'version': '2.0',
+        'version': '2.1',
         'model': 'Random Forest + TF-IDF + Gemini 2.0 Flash',
+        'features': [
+            'AI-generated explanations',
+            'AI-rewritten blog_check (Stay Safe prefix)',
+            'AI-rewritten blog_conclusion',
+            'Similar news detection'
+        ],
         'endpoints': {
             'POST /api/predict': 'Predict news authenticity with AI explanation',
             'POST /api/batch-predict': 'Batch prediction',
