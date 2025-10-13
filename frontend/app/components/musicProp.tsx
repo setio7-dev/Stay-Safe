@@ -1,12 +1,16 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { View, Image, Text } from 'react-native';
+import { View, Image, Text, TouchableOpacity } from 'react-native';
 import API, { StorageAPI } from '../lib/server';
 import { songDuration } from '../lib/audioTime';
 import play from "@/assets/images/meditation/play.png"
 
-export default function MusicProp() {
+interface MusicPropProps {
+  onNavigate?: () => Promise<void> | void;
+}
+
+export default function MusicProp({ onNavigate }: MusicPropProps) {
   interface musicProp {
     id: number;
     title: string;
@@ -49,6 +53,11 @@ export default function MusicProp() {
     fetchMusic();
   }, []);
 
+  const handlePress = async (id: number) => {
+    if (onNavigate) await onNavigate();
+    navigate.push({ pathname: '/meditation/music/[id]', params: { id } });
+  };
+
   return (
     <View className='flex-col items-center justify-center gap-6'>
       {music.map((item, index) => (
@@ -76,7 +85,9 @@ export default function MusicProp() {
               </Text>
             </View>
           </View>
-          <Image source={play} className='w-[24px] h-[24px] mr-6'/>
+          <TouchableOpacity onPress={() => handlePress(item.id)}>
+            <Image source={play} className='w-[24px] h-[24px] mr-6'/>
+          </TouchableOpacity>
         </View>
       ))}
     </View>

@@ -46,7 +46,7 @@ const fiturArray = [
     id: 3,
     image: fitur3,
     name: "Asisten Pintar",
-    navigate: "/asisten"
+    navigate: "/chatbot/chatbotBoarding"
   },
   {
     id: 4,

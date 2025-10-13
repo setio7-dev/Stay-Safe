@@ -8,7 +8,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Loader } from '../lib/loader'
 import { LinearGradient } from 'expo-linear-gradient'
 import play from "@/assets/images/meditation/play.png"
-import resume from "@/assets/images/meditation/resume.png"
 import playWhite from "@/assets/images/meditation/play-white.png"
 import MusicProp from '../components/musicProp'
 
@@ -34,7 +33,6 @@ export default function Index() {
     const navigate = useRouter();
     const [isLoader, setIsLoader] = useState(true);
     const [meditation, setMeditation] = useState<meditationProp[]>([]);
-    const [music, setMusic] = useState<musicProp[]>([]);
     const [musicTop, setMusicTop] = useState<musicProp[]>([]);
 
     useEffect(() => {
@@ -65,7 +63,6 @@ export default function Index() {
                 });
 
                 const musicRes = response.data.data;
-                setMusic(musicRes);
                 setMusicTop(musicRes.slice(-2));
             } catch (error) {
                 
@@ -81,7 +78,7 @@ export default function Index() {
   return (
     <SafeAreaView edges={['top']} style={{ flex: 1 }} className='bg-white'>
       {!isLoader ? (
-        <View>
+        <View style={{ flex: 1 }}>
             <LinearGradient
               colors={["#1D4ED8", "#137DD3"]}
               start={{ x: 0, y: 0 }}
@@ -94,11 +91,11 @@ export default function Index() {
                   <Image source={back} className='w-[24px] h-[24px]'/>
                 </TouchableOpacity>
                 <Text className='text-white font-poppins_semibold text-[16px]'>Meditasi</Text>
-                <View/>
+                <View className='mr-6'></View>
               </View>
             </LinearGradient>
-            <ScrollView>
-                <ScrollView horizontal contentContainerStyle={{ paddingHorizontal: 24 }} className='pt-8'>
+            <ScrollView contentContainerStyle={{ paddingBottom: 32,}}  className='pt-8'>
+                <ScrollView horizontal contentContainerStyle={{ paddingHorizontal: 24 }}>
                     <View className='flex-row gap-6'>
                         {musicTop.map((item, index) => (
                             <ImageBackground key={index} source={{ uri: `${StorageAPI}/${item.image}` }} resizeMode="cover" className='w-[300px] h-[200px] flex-col justify-end rounded-lg'>
@@ -107,7 +104,7 @@ export default function Index() {
                                     <Text className="text-white text-[16px] font-poppins_semibold">{item.title}</Text>
                                     <Text className="text-white text-[12px] font-poppins_medium">{item.author}</Text>
                                   </View>
-                                  <TouchableOpacity>
+                                  <TouchableOpacity onPress={() => navigate.push({ pathname: '/meditation/music/[id]', params: { id: item.id } })}>
                                     <Image source={playWhite} className='w-[40px] h-[40px]'/>
                                   </TouchableOpacity>
                                 </View>
@@ -121,21 +118,23 @@ export default function Index() {
                 <ScrollView horizontal contentContainerStyle={{ paddingHorizontal: 24 }} className='py-1'>
                     <View className='flex-row gap-6 mt-4'>
                         {meditation.map((item, index) => (
-                            <View key={index} className='p-6 bg-white rounded-lg w-[300px] flex-col gap-4' 
-                            style={{
-                              shadowColor: '#000',
-                              shadowOffset: { width: 0, height: 0 },
-                              shadowOpacity: 0.40,
-                              shadowRadius: 4.84,
-                              elevation: 5,
-                            }}>
-                                <Text className='font-poppins_semibold text-justify text-[14px] text-black'>{item.title}</Text>
-                                <Text className='font-poppins_regular text-justify text-[12px] text-gray'>{item.author}</Text>
-                                <View className='relative h-[160px]'>
-                                    <Image source={play} className="w-[44px] h-[44px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10" />
-                                    <Image source={{ uri: `${StorageAPI}/${item.thumbnail}` }} className='w-full h-[160px] bg-cover object-cover rounded-lg'/>
+                            <TouchableOpacity key={index} onPress={() => navigate.push({ pathname: '/meditation/video/[id]', params: { id: item.id } })}>
+                                <View className='p-6 bg-white rounded-lg w-[320px] flex-col gap-4' 
+                                style={{
+                                  shadowColor: '#000',
+                                  shadowOffset: { width: 0, height: 0 },
+                                  shadowOpacity: 0.40,
+                                  shadowRadius: 4.84,
+                                  elevation: 5,
+                                }}>
+                                    <Text className='font-poppins_semibold text-justify text-[14px] text-black'>{item.title}</Text>
+                                    <Text className='font-poppins_regular text-justify text-[12px] text-gray'>{item.author}</Text>
+                                    <View className='relative h-[160px]'>
+                                        <Image source={play} className="w-[44px] h-[44px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10" />
+                                        <Image source={{ uri: `${StorageAPI}/${item.thumbnail}` }} className='w-full h-[160px] bg-cover object-cover rounded-lg'/>
+                                    </View>
                                 </View>
-                            </View>
+                            </TouchableOpacity>
                         ))}
                     </View>
                 </ScrollView>
