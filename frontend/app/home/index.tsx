@@ -64,7 +64,7 @@ const fiturArray = [
     id: 6,
     image: fitur6,
     name: "Cek Mental",
-    navigate: "/mental"
+    navigate: "/cek-mental/cekMentalBoarding"
   },
   {
     id: 7,

@@ -66,7 +66,7 @@ export default function UserCommunity() {
                     <Image source={back} className='w-[24px] h-[24px]'/>
                   </TouchableOpacity>
                   <Text className='text-white font-poppins_semibold text-[16px]'>Komunitas Saya</Text>
-                  <View></View>
+                  <View className='mr-6'></View>
                 </View>
               </LinearGradient>
               <View className='px-6 -mt-8'>
