@@ -86,7 +86,7 @@ export default function Index() {
                     <View className='mr-6'></View>
                   </View>
                 </LinearGradient>
-                <ScrollView className='flex-1' contentContainerStyle={{ paddingTop: 30, paddingBottom: 80 }}>
+                <ScrollView className='flex-1' contentContainerStyle={{ paddingTop: 30, paddingBottom: 40 }}>
                     <View className='px-6 flex-col gap-8'>
                         <DynamicImage source={example}/>
                         <TouchableOpacity onPress={() => handleUploadFile()}>

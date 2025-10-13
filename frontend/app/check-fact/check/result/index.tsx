@@ -4,7 +4,6 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import back from "@/assets/images/icon/back.png"
 import { LinearGradient } from 'expo-linear-gradient'
 import { useLocalSearchParams, useRouter } from 'expo-router'
-import DynamicImage from '@/app/lib/dynamicImage'
 import hoax from "@/assets/images/check-fact/hoax.png";
 import fact from "@/assets/images/check-fact/fact.png";
 import empty from "@/assets/images/check-fact/empty.png";
@@ -20,8 +19,6 @@ export default function Index() {
         return [];
       }
     }, [result]);
-
-    console.log(parsedResult)
   return (
     <SafeAreaView edges={['top']} className='flex-1 bg-white'>
       <View className='flex-1'>
