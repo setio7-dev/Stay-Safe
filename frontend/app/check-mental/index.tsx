@@ -11,7 +11,7 @@ import DynamicImage from '../lib/dynamicImage'
 const boardingData = {
     image: icon,
     desc: "Jawablah beberapa pertanyaan sederhana tentang perasaan dan keseharianmu. Proses ini hanya butuh 2–3 menit, tidak ada jawaban benar atau salah. Semua jawaban aman, bersifat pribadi, dan akan dianalisis oleh AI untuk memberikan gambaran kondisi mental serta saran positif untukmu.",
-    route: "/cek-mental/cekMental" as any
+    route: "/check-mental/checkMental" as any
 }
 
 export default function Index() {
@@ -38,7 +38,7 @@ export default function Index() {
             <View className='w-full mt-0 h-full flex-col items-center justify-center px-6 gap-10'>
                 <DynamicImage source={status1}/>
                 <Image source={boardingData.image} className='w-[140px] h-[140px] mt-4'/>
-                <Text className='text-center font-poppins_regular text-black text-[12px]'>{boardingData.desc}</Text>
+                <Text className='text-center font-poppins_medium text-black text-[12px]'>{boardingData.desc}</Text>
                 <TouchableOpacity className='w-full' onPress={() => navigate.push(boardingData.route)}>
                     <LinearGradient
                         colors={["#1D4ED8", "#137DD3"]}

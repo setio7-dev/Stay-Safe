@@ -40,7 +40,7 @@ const fiturArray = [
     id: 2,
     image: fitur2,
     name: "Cek Fakta",
-    navigate: "/fakta"
+    navigate: "/check-fact/checkFactBoarding"
   },
   {
     id: 3,
@@ -64,7 +64,7 @@ const fiturArray = [
     id: 6,
     image: fitur6,
     name: "Cek Mental",
-    navigate: "/cek-mental/cekMentalBoarding"
+    navigate: "/check-mental/checkMentalBoarding"
   },
   {
     id: 7,
@@ -198,7 +198,7 @@ export default function Index() {
                 <Text className='font-poppins_semibold text-white text-[20px]'>HI, {user?.name.toUpperCase()}</Text>
                 <Text className='font-poppins_medium text-white text-[14px]'>Bagaimana Kabarmu?</Text>
               </View>
-              <View className='flex-row items-center justify-between gap-4 bg-white h-[140px] rounded-lg p-2 mr-2 mt-2'>
+              <View className='flex-row items-center justify-between w-full bg-white h-[140px] rounded-lg p-2 mr-2 mt-2'>
                 {loading || !location ? (
                   <View className='w-[120px] h-full flex justify-center items-center'>
                     <LoaderCircle/>
@@ -226,7 +226,7 @@ export default function Index() {
                     </MapView>
                   </View>
                 )}
-                <View className='flex-col'>
+                <View className='flex-col mr-2'>
                   <Text className='text-gray font-poppins_medium text-[8px]'>Lokasi Kamu</Text>
                   <Text className='text-primary font-poppins_semibold text-[16px]'>{address?.district ?? "Memuat..."}</Text>
                   <Text className='text-gray font-poppins_medium text-[8px]'>Status</Text>

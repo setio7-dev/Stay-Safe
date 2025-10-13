@@ -1,4 +1,5 @@
 Best Model: Logistic Regression
-Test Accuracy: 0.8727
+Test Accuracy: 0.8742
 Emotions: anger, fear, happy, love, sadness, surprise
 Number of features: 3000
+Training notes: Happy & Sadness data reduced by 50%, class_weight='balanced' applied

@@ -20,17 +20,54 @@ def clean_text(text):
     text = ' '.join(text.split())
     return text
 
-print("Loading data...")
+print("="*60)
+print("LOADING DATA...")
+print("="*60)
 df = pd.read_csv("./emotion_final.csv")
 df.columns = df.columns.str.strip()
 print(f"\nDataset shape: {df.shape}")
 print(f"Missing values:\n{df.isnull().sum()}")
 df = df.dropna()
+
+print("\n" + "="*60)
+print("EMOTION DISTRIBUTION SEBELUM PENGURANGAN")
+print("="*60)
+print(df['Emotion'].value_counts())
+print(df['Emotion'].value_counts(normalize=True).round(4))
+
+print("\n" + "="*60)
+print("MENGURANGI DATA 'HAPPY' & 'SADNESS' (50% sampling)...")
+print("="*60)
+
+# Separate happy, sadness, dan yang lain
+happy_df = df[df['Emotion'].str.lower() == 'happy']
+sadness_df = df[df['Emotion'].str.lower() == 'sadness']
+other_df = df[~df['Emotion'].str.lower().isin(['happy', 'sadness'])]
+
+print(f"\nJumlah 'happy' sebelum: {len(happy_df)}")
+print(f"Jumlah 'sadness' sebelum: {len(sadness_df)}")
+print(f"Jumlah emotion lainnya: {len(other_df)}")
+
+# Kurangi happy dan sadness jadi 50%
+happy_reduced = happy_df.sample(frac=0.5, random_state=42)
+sadness_reduced = sadness_df.sample(frac=0.5, random_state=42)
+
+print(f"\nJumlah 'happy' setelah dikurangi 50%: {len(happy_reduced)}")
+print(f"Jumlah 'sadness' setelah dikurangi 50%: {len(sadness_reduced)}")
+
+# Gabung semua
+df = pd.concat([happy_reduced, sadness_reduced, other_df], ignore_index=True)
+df = df.sample(frac=1, random_state=42).reset_index(drop=True)
+
+print("\n" + "="*60)
+print("EMOTION DISTRIBUTION SETELAH PENGURANGAN")
+print("="*60)
+print(df['Emotion'].value_counts())
+print(df['Emotion'].value_counts(normalize=True).round(4))
+
 print("\nCleaning text...")
 df['Text_Clean'] = df['Text'].apply(clean_text)
 df = df[df['Text_Clean'].str.len() > 0]
-print("\nEmotion distribution:")
-print(df['Emotion'].value_counts())
 
 X_train, X_test, y_train, y_test = train_test_split(
     df['Text_Clean'], 
@@ -59,14 +96,19 @@ y_test_enc = label_encoder.transform(y_test)
 
 print(f"Feature matrix shape: {X_train_vec.shape}")
 print(f"Number of emotions: {len(label_encoder.classes_)}")
+print(f"Emotions: {label_encoder.classes_}")
 
-print("\n" + "="*50)
-print("TRAINING MODELS (only those with predict_proba)")
-print("="*50)
+print("\n" + "="*60)
+print("TRAINING MODELS (dengan class_weight='balanced')")
+print("="*60)
 
 models = {
     'Naive Bayes': MultinomialNB(),
-    'Logistic Regression': LogisticRegression(max_iter=1000, random_state=42)
+    'Logistic Regression': LogisticRegression(
+        max_iter=1000, 
+        random_state=42,
+        class_weight='balanced'
+    )
 }
 
 results = {}
@@ -94,15 +136,15 @@ for name, model in models.items():
 best_model_name = max(results, key=lambda x: results[x]['test_acc'])
 best_model = results[best_model_name]['model']
 
-print("\n" + "="*50)
+print("\n" + "="*60)
 print(f"BEST MODEL: {best_model_name}")
-print("="*50)
+print("="*60)
 print(f"Test Accuracy: {results[best_model_name]['test_acc']:.4f}")
 
 y_test_pred = best_model.predict(X_test_vec)
-print("\n" + "="*50)
+print("\n" + "="*60)
 print("CLASSIFICATION REPORT")
-print("="*50)
+print("="*60)
 print(classification_report(
     y_test_enc, 
     y_test_pred,
@@ -120,6 +162,7 @@ with open('mood-training/model_info.txt', 'w') as f:
     f.write(f"Test Accuracy: {results[best_model_name]['test_acc']:.4f}\n")
     f.write(f"Emotions: {', '.join(label_encoder.classes_)}\n")
     f.write(f"Number of features: {X_train_vec.shape[1]}\n")
+    f.write(f"Training notes: Happy & Sadness data reduced by 50%, class_weight='balanced' applied\n")
 
 print("\nModels saved successfully!")
 print("Files created in mood-training/ folder:")
@@ -137,9 +180,9 @@ def predict_emotion(text):
     confidence = proba.max()
     return emotion, confidence
 
-print("\n" + "="*50)
+print("\n" + "="*60)
 print("TESTING PREDICTIONS")
-print("="*50)
+print("="*60)
 
 test_texts = [
     "I am so happy and excited about this!",
@@ -147,7 +190,10 @@ test_texts = [
     "I'm scared and worried about what might happen",
     "This is so sad, I feel terrible",
     "I love this so much!",
-    "I hate when this happens"
+    "I hate when this happens",
+    "aku sedih sekali",
+    "saya sangat marah",
+    "aku takut",
 ]
 
 for text in test_texts:
@@ -165,7 +211,7 @@ ax1 = plt.subplot(2, 3, 1)
 emotion_dist = df['Emotion'].value_counts()
 colors_dist = plt.cm.Set3(np.linspace(0, 1, len(emotion_dist)))
 ax1.bar(emotion_dist.index, emotion_dist.values, color=colors_dist, edgecolor='black', linewidth=1.5)
-ax1.set_title('Emotion Distribution', fontsize=12, fontweight='bold')
+ax1.set_title('Emotion Distribution (After Reduction)', fontsize=12, fontweight='bold')
 ax1.set_ylabel('Count', fontsize=10)
 ax1.set_xlabel('Emotion', fontsize=10)
 plt.setp(ax1.xaxis.get_majorticklabels(), rotation=45, ha='right')
@@ -247,6 +293,11 @@ Dataset Statistics:
 
 Emotion Classes: {', '.join(label_encoder.classes_)}
 
+Optimization:
+  Happy data reduced: 50%
+  Sadness data reduced: 50%
+  Class weight: balanced
+  
 TF-IDF Configuration:
   Max Features: 3000
   N-gram Range: (1, 2)
@@ -267,7 +318,14 @@ plt.savefig('result/emotion_model_performance.jpg', dpi=300, bbox_inches='tight'
 print("\n✓ Visualization saved: result/emotion_model_performance.jpg")
 plt.close()
 
-print("\n" + "="*50)
-print("DONE! You can now run your Flask API:")
+print("\n" + "="*60)
+print("✅ TRAINING COMPLETE!")
+print("="*60)
+print("\nYou can now run your Flask API:")
 print("  python mood-detection.py")
-print("="*50)
+print("\nSekarang model sudah di-retrain dengan:")
+print("  ✓ Happy data dikurangi 50%")
+print("  ✓ Sadness data dikurangi 50%")
+print("  ✓ class_weight='balanced' diterapkan")
+print("  ✓ Semua file model sudah disimpan")
+print("="*60)

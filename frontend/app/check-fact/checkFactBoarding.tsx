@@ -4,16 +4,16 @@ import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import back from "@/assets/images/icon/back.png"
 import { useRouter } from 'expo-router'
-import icon from "@/assets/images/cek-mental/icon.png";
+import icon from "@/assets/images/check-fact/icon.png";
 
 const boardingData = {
     image: icon,
-    name: "Cek Mental",
-    desc: "Cek Mental membantumu mengenali perasaan dan kondisi pikiranmu dengan cara yang cepat dan sederhana.",
-    route: "/cek-mental" as any
+    name: "Cek Fakta",
+    desc: "Cek Fakta membantu memastikan informasi yang kamu terima benar dan terhindar dari hoaks.",
+    route: "/check-fact/check" as any
 }
 
-export default function ChatbotBoarding() {
+export default function CheckFactBoarding() {
     const navigate = useRouter();
 
   return (
