@@ -102,6 +102,9 @@ Route::middleware('auth')->group(function() {
         // Community Member
         Route::post("/member/community", [CommunityMemberController::class, "store"]);
         Route::delete("/member/community", [CommunityMemberController::class, "destroy"]);
+
+        // Update Warning
+        Route::put("/guest/warning", [UserController::class, "warningActive"]);
     });
 
     // Report

@@ -58,7 +58,7 @@ const fiturArray = [
     id: 5,
     image: fitur5,
     name: "Darurat",
-    navigate: "/darurat"
+    navigate: "/warning/warningBoarding"
   },
   {
     id: 6,

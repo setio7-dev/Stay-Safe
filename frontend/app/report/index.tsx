@@ -128,7 +128,7 @@ export default function Report() {
               <Image source={back} className='w-[24px] h-[24px]'/>
             </TouchableOpacity>
             <Text className='text-white font-poppins_semibold text-[16px]'>Lapor Cepat</Text>
-            <View/>
+            <View className='mr-6'></View>
           </View>
         </LinearGradient>
 

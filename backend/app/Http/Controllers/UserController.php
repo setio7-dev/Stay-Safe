@@ -179,4 +179,27 @@ class UserController extends Controller
             "data" => $user
         ]); 
     }
+
+   public function warningActive()
+   {
+        $user = Auth::user();
+        if ($user->warning_widget === "false") {
+            $user->warning_widget = "true";
+            $user->save();
+
+            return response()->json([
+                'message' => "Status Berhasil Diubah!",
+                "data" => $user
+            ]); 
+        } else {
+            $user->warning_widget = "false";
+            $user->save();
+            
+            return response()->json([
+                'message' => "Status Berhasil Diubah!",
+                "data" => $user
+            ]); 
+        }
+    
+   }
 }
