@@ -104,7 +104,7 @@ export default function Profile() {
             className="px-6 py-12 relative h-auto flex-col justify-center items-center gap-2 w-full"
             style={{ borderBottomLeftRadius: 12, borderBottomRightRadius: 12 }}
           >
-            <Image source={user?.image ? { uri: `${StorageAPI}/${user.image}`} : guest} className='w-[70px] h-[70px] mb-4'/>
+            <Image source={user?.image ? { uri: `${StorageAPI}/${user.image}`} : guest} className='w-[70px] h-[70px] rounded-full mb-4'/>
             <Text className='text-white font-poppins_semibold text-[20px]'>{user?.name}</Text>
             <Text className='text-white font-poppins_regular text-[14px]'>{user?.email}</Text>
           </LinearGradient>

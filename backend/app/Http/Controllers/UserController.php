@@ -128,7 +128,7 @@ class UserController extends Controller
 
         $user->name = $request->name ?? $user->name;
         $user->email = $request->email ?? $user->email;
-        $user->password = Hash::make($request->password) ?? $user->password;
+        $user->password = $request->filled('password') ? Hash::make($request->password) : $user->password;
         $user->save();
 
         return response()->json([
