@@ -31,8 +31,12 @@ export default function NewsProp() {
                     }
                 });
 
-                const news = response.data.data;
-                setNews(news);
+                const news = response.data.data.slice(-3);
+                setNews(prev => {
+                  const ids = prev.map((item: any) => item.id);
+                  const unique = news.filter((item: any) => !ids.includes(item.id));
+                  return [...prev, ...unique];
+                });
             } catch (error: any) {
                 showError(error.response.data.message);
             } finally {
@@ -41,6 +45,9 @@ export default function NewsProp() {
         }
 
         fetchNews();
+        setInterval(() => {
+            fetchNews();            
+        }, 5000);
     }, []);
   return (
     <ScrollView className='' horizontal>

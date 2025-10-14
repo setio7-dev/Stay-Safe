@@ -45,6 +45,9 @@ export default function CommunityProp() {
         }
 
         fetchCommunity();
+        setInterval(() => {
+            fetchCommunity();        
+        }, 3000);
     }, []);
 
     const handleJoin = async(communityID: number) => {
@@ -79,10 +82,10 @@ export default function CommunityProp() {
                   shadowRadius: 4.84,
                   elevation: 5,
                 }}>
-                  <Image source={{ uri: `${StorageAPI}/${item.image}` }} className='w-[60px] h-[60px]'/>
+                  <Image source={{ uri: `${StorageAPI}/${item.image}` }} className='w-[60px] rounded-full border-[1px] border-primary h-[60px]'/>
                   <View>
-                      <Text className='font-poppins_semibold text-[16px text-black]'>{item.name}</Text>
-                      <Text className='font-poppins_regular text-gray text-[12px]'>{item.desc}</Text>
+                      <Text className='font-poppins_semibold  text-center text-[16px text-black]'>{item.name}</Text>
+                      <Text className='font-poppins_regular text-center text-gray text-[12px]'>{item.desc}</Text>
                   </View>
                   {item.user.length > 0 ? (
                     <View className='-mt-2 flex-row -gap-6'>

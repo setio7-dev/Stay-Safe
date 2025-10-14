@@ -48,6 +48,9 @@ export default function News() {
         }        
 
         fetchNews();
+        setInterval(() => {
+          fetchNews();          
+        }, 5000);
     }, []);
   return (
     <SafeAreaView edges={['top']} className='bg-white h-full'>

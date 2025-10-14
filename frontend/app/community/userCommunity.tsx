@@ -50,7 +50,7 @@ export default function UserCommunity() {
   }, []);
   return (
     <SafeAreaView edges={["top"]} className='bg-white w-full h-full'>
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss}>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={{ flex: 1 }}>
           {!isLoader ? (
             <View>
@@ -93,10 +93,10 @@ export default function UserCommunity() {
                         shadowRadius: 4.84,
                         elevation: 5,
                       }}>
-                        <Image source={{ uri: `${StorageAPI}/${item.image}` }} className='w-[60px] h-[60px]'/>
+                        <Image source={{ uri: `${StorageAPI}/${item.image}` }} className='w-[60px] h-[60px] rounded-full border-[1px] border-primary'/>
                         <View>
-                            <Text className='font-poppins_semibold text-[16px text-black]'>{item.name}</Text>
-                            <Text className='font-poppins_regular text-gray text-[12px]'>{item.desc}</Text>
+                            <Text className='font-poppins_semibold text-center text-[16px text-black]'>{item.name}</Text>
+                            <Text className='font-poppins_regular text-center text-gray text-[12px]'>{item.desc}</Text>
                         </View>                  
                         <TouchableOpacity onPress={() => navigate.push({ pathname: "/community/[id]", params: { id: item.id } })}>
                             <Text className='text-[12px] font-poppins_semibold text-white bg-secondary px-6 py-2 rounded-lg'>Lihat</Text>

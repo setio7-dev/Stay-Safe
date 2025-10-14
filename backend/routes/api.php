@@ -105,6 +105,7 @@ Route::middleware('auth')->group(function() {
 
         // Update Warning
         Route::put("/guest/warning", [UserController::class, "warningActive"]);
+        Route::put('/guest/user/{id}', [UserController::class, 'update']);
     });
 
     // Report

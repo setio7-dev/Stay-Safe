@@ -306,7 +306,7 @@ export default function Index() {
               </Animated.View>
             </View>
             <View className='pl-6 mt-6'>
-              <Text className='font-poppins_semibold text-[20px] text-black mt-4'>Komunitas Anda</Text>
+              <Text className='font-poppins_semibold text-[20px] text-black mt-4'>Komunitas</Text>
               <CommunityProp/>
             </View>
             <View className='pl-6 mt-6 pb-12'>

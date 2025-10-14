@@ -15,29 +15,6 @@ import { useRouter } from 'expo-router'
 import useRefresh from '../lib/refresh'
 import Authenticated from '../context/Authenticated'
 
-const settingData = [
-  {
-    id: 1,
-    image: profile,
-    name: "Ubah Profile",
-  },
-  {
-    id: 2,
-    image: post,
-    name: "Postingan Saya",
-  },
-  {
-    id: 3,
-    image: privacy,
-    name: "Keamanan & Privasi",
-  },
-  {
-    id: 4,
-    image: setting,
-    name: "Pengaturan",
-  },
-];
-
 export default function Profile() {
   interface userProp {
     id: number;
@@ -63,13 +40,11 @@ export default function Profile() {
             Authorization: `Bearer ${token}`
           }
         });
-
         setUser(response.data.data);
       } catch (error: any) {
         showError("Terjadi Kesalahan", error);
       }
     }
-
     fetchUser();
   }, []);
 
@@ -81,10 +56,8 @@ export default function Profile() {
           Authorization: `Bearer ${token}`
         }
       });
-
       showSuccess(response.data.message);
       await AsyncStorage.removeItem("token");
-
       setTimeout(() => {
         navigate.push("/");
       }, 3000);
@@ -92,6 +65,34 @@ export default function Profile() {
       showError(error);
     }
   }
+
+  const settingData = [
+    {
+      id: 1,
+      image: profile,
+      name: "Ubah Profile",
+      route: `/profile/[id]`
+    },
+    {
+      id: 2,
+      image: post,
+      name: "Postingan Saya",
+      route: "/home/profile"
+    },
+    {
+      id: 3,
+      image: privacy,
+      name: "Keamanan & Privasi",
+      route: "/home/profile"
+    },
+    {
+      id: 4,
+      image: setting,
+      name: "Pengaturan",
+      route: "/home/profile"
+    },
+  ];
+
   return (
     <SafeAreaView className='bg-white h-full w-full'>
       <Authenticated>
@@ -101,7 +102,7 @@ export default function Profile() {
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             className="px-6 py-12 relative h-auto flex-col justify-center items-center gap-2 w-full"
-            style={{ borderBottomLeftRadius: 12, borderBottomRightRadius: 12, }}
+            style={{ borderBottomLeftRadius: 12, borderBottomRightRadius: 12 }}
           >
             <Image source={user?.image ? { uri: `${StorageAPI}/${user.image}`} : guest} className='w-[70px] h-[70px] mb-4'/>
             <Text className='text-white font-poppins_semibold text-[20px]'>{user?.name}</Text>
@@ -109,7 +110,16 @@ export default function Profile() {
           </LinearGradient>
           <View className='flex-col items-start w-full mt-14 gap-10 px-14'>
             {settingData.map((item, index) => (
-              <TouchableOpacity key={index}>
+              <TouchableOpacity onPress={() => {
+                if (item.id === 1) {
+                  navigate.push({
+                    pathname: '/profile/[id]',
+                    params: { id: String(user?.id) },
+                  });
+                } else {
+                  navigate.push(item.route as any);
+                }
+              }} key={index}>
                 <View className='flex-row items-center justify-between w-full'>
                   <View className='flex-row items-center gap-6'>
                     <Image source={item.image} className='w-[16px] h-[20px]'/>

@@ -160,7 +160,7 @@ export default function CommunityDetail() {
             <TouchableOpacity onPress={() => navigate.back()}>
               <Image source={back} className='w-[24px] h-[24px]'/>
             </TouchableOpacity>
-            <Image source={{ uri: `${StorageAPI}/${communityPost?.image}` }} className='w-[52px] h-[52px]'/>
+            <Image source={{ uri: `${StorageAPI}/${communityPost?.image}` }} className='w-[52px] h-[52px] rounded-full border-[1px] border-primary'/>
             <View className='flex-col ml-2'>
               <Text className='font-poppins_semibold text-white text-[16px]'>{communityPost?.name}</Text>
               <Text className='font-poppins_regular text-white text-[10px]'>{communityPost?.user?.length ?? 0} Pengikut</Text>
