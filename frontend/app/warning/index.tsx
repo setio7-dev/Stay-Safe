@@ -65,13 +65,13 @@ export default function Index() {
                         colors={["#1D4ED8", "#137DD3"]}
                         start={{ x: 0, y: 0 }}
                         end={{ x: 1, y: 0 }}
-                        className="px-4 py-4 h-auto w-full flex-row items-center gap-4"
+                        className="px-4 py-4 h-auto w-full flex-row items-center gap-6"
                         style={{ borderRadius: 8 }}
                     >
                         <Image source={icon} className='w-[66px] h-[66px]'/>
-                        <View className='flex-col'>
+                        <View className='flex-col flex-1'>
                             <Text className='text-white font-poppins_semibold text-[16px]'>Hubungi jadi lebih cepat</Text>
-                            <Text className='text-white font-poppins_medium text-[10px] w-[51%] text-justify'>
+                            <Text className='text-white font-poppins_medium text-[10px] text-justify'>
                                 Aktifkan widget darurat untuk langsung menghubungi Polisi atau Rumah Sakit
                             </Text>
                             <TouchableOpacity onPress={() => navigate.push("/warning/widget")}>

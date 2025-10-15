@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('zones', function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->bigInteger("latitude");
-            $table->bigInteger("longitude");
+            $table->decimal("latitude", 10, 6);
+            $table->decimal("longitude", 10, 6);
             $table->bigInteger("radius");
             $table->string("category");
             $table->timestamps();
