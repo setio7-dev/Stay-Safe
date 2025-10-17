@@ -13,13 +13,8 @@ export default function Index() {
     const showOnBoarding = async() => {
       await new Promise(resolve => setTimeout(resolve, 3000));
       const token = await AsyncStorage.getItem("token");
-      const response = await API.get("/me", {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
 
-      if (response.data.data.id) {
+      if (token) {
         navigate.push('/home');
       } else {
         navigate.push("/auth/login");
