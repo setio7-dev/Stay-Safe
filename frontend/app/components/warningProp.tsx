@@ -6,7 +6,7 @@ import cancel from "@/assets/images/icon/cancel.png"
 import { LinearGradient } from 'expo-linear-gradient'
 import { Audio } from 'expo-av'
 
-export default function WarningProp() {
+export default function WarningProp({ onEvacuate }: { onEvacuate: () => void }) {
   const [show, setShow] = useState(true)
   const soundRef = useRef<Audio.Sound | null>(null)
 
@@ -38,8 +38,15 @@ export default function WarningProp() {
         </TouchableOpacity>
         <Image source={warning} className='w-[140px] h-[140px]'/>        
         <Text className='text-red text-center text-[24px] font-poppins_semibold'>PERINGATAN!!</Text>
-        <Text className='text-center text-black font-poppins_medium text-[12px]'>Anda berada di area berisiko tinggi. Harap segera waspada dan ambil langkah untuk melindungi diri.</Text>
-        <TouchableOpacity>
+        <Text className='text-center text-black font-poppins_medium text-[12px]'>
+          Anda berada di area berisiko tinggi. Harap segera waspada dan ambil langkah untuk melindungi diri.
+        </Text>
+        <TouchableOpacity
+          onPress={() => {
+            setShow(false)
+            onEvacuate()
+          }}
+        >
           <LinearGradient
             colors={["#1D4ED8", "#137DD3"]}
             start={{ x: 0, y: 0 }}

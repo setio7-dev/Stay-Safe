@@ -109,69 +109,82 @@ export default function Index() {
   }
 
   const handleEvacuation = async () => {
-    setEvacuation(true)
-    if (places.length > 0 && location && dangerZones.length > 0) {
-      const zone = dangerZones[0]
-      const zoneLat = parseFloat(zone.latitude)
-      const zoneLng = parseFloat(zone.longitude)
-      const zoneRadius = parseFloat(zone.radius)
-      const isOutsideZone = (lat: number, lng: number) => {
-        const R = 6371e3
+    if (!location || places.length === 0 || dangerZones.length === 0) return
+
+    const isOutsideAllZones = (lat: number, lng: number) => {
+      const R = 6371e3
+      for (const zone of dangerZones) {
+        const zoneLat = parseFloat(zone.latitude)
+        const zoneLng = parseFloat(zone.longitude)
+        const zoneRadius = parseFloat(zone.radius)
         const phi1 = lat * Math.PI / 180
         const phi2 = zoneLat * Math.PI / 180
         const deltaPhi = (zoneLat - lat) * Math.PI / 180
         const deltaLambda = (zoneLng - lng) * Math.PI / 180
         const a = Math.sin(deltaPhi / 2) ** 2 +
-          Math.cos(phi1) * Math.cos(phi2) *
-          Math.sin(deltaLambda / 2) ** 2
+                  Math.cos(phi1) * Math.cos(phi2) *
+                  Math.sin(deltaLambda / 2) ** 2
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
         const d = R * c
-        return d > zoneRadius
+        if (d <= zoneRadius) return false
       }
-      const safePlaces = places.filter((p: any) =>
-        isOutsideZone(p.geometry.coordinates[1], p.geometry.coordinates[0])
-      )
-      if (safePlaces.length === 0) return
-      safePlaces.sort((a: any, b: any) => {
-        const d1 = Math.sqrt(
-          (a.geometry.coordinates[1] - location.latitude) ** 2 +
-          (a.geometry.coordinates[0] - location.longitude) ** 2
-        )
-        const d2 = Math.sqrt(
-          (b.geometry.coordinates[1] - location.latitude) ** 2 +
-          (b.geometry.coordinates[0] - location.longitude) ** 2
-        )
-        return d1 - d2
-      })
-      const nearest = safePlaces[0]
-      const url = `https://api.geoapify.com/v1/routing?waypoints=${location.latitude},${location.longitude}|${nearest.geometry.coordinates[1]},${nearest.geometry.coordinates[0]}&mode=walk&apiKey=${GEOAPIFY_KEY}`
-      const res = await axios.get(url)
-      const steps = res.data.features[0].geometry.coordinates[0]
-      const route = steps.map((c: any) => ({ latitude: c[1], longitude: c[0] }))
-      setRouteCoords(route)
-      setDestination({ lat: nearest.geometry.coordinates[1], lng: nearest.geometry.coordinates[0] })
-      mapRef.current?.fitToCoordinates(route, {
-        edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
-        animated: true
-      })
+      return true
     }
+
+    const safePlaces = places.filter((p: any) =>
+      isOutsideAllZones(p.geometry.coordinates[1], p.geometry.coordinates[0])
+    )
+
+    if (safePlaces.length === 0) return
+
+    safePlaces.sort((a: any, b: any) => {
+      const d1 = Math.sqrt(
+        (a.geometry.coordinates[1] - location.latitude) ** 2 +
+        (a.geometry.coordinates[0] - location.longitude) ** 2
+      )
+      const d2 = Math.sqrt(
+        (b.geometry.coordinates[1] - location.latitude) ** 2 +
+        (b.geometry.coordinates[0] - location.longitude) ** 2
+      )
+      return d1 - d2
+    })
+
+    const nearest = safePlaces[0]
+    const url = `https://api.geoapify.com/v1/routing?waypoints=${location.latitude},${location.longitude}|${nearest.geometry.coordinates[1]},${nearest.geometry.coordinates[0]}&mode=walk&apiKey=${GEOAPIFY_KEY}`
+    const res = await axios.get(url)
+    const steps = res.data.features[0].geometry.coordinates[0]
+    const route = steps.map((c: any) => ({ latitude: c[1], longitude: c[0] }))
+
+    setRouteCoords(route)
+    setDestination({ lat: nearest.geometry.coordinates[1], lng: nearest.geometry.coordinates[0] })
+    mapRef.current?.fitToCoordinates(route, {
+      edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
+      animated: true
+    })
+
+    setEvacuation(true) // set setelah route siap
   }
 
   return (
     <SafeAreaView edges={['top']} className='flex-1 bg-white'>
       {!loader ? (
         <View className='flex-1'>
-          {dangerZones.length > 0 && <WarningProp/>}
+          {inDangerZone && <WarningProp onEvacuate={handleEvacuation} />}
           {evacuation && (
-            <LinearGradient
-              colors={["#1D4ED8", "#137DD3"]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              className="px-6 py-2 h-auto absolute top-32 z-20 left-1/2 -translate-x-1/2"
-              style={{ borderRadius: 6 }}
-            >
-              <Text className='text-white font-poppins_medium text-[14px]'>Ikuti Jalur Ini</Text>
-            </LinearGradient>
+            <View className='absolute top-32 z-20 left-1/2 -translate-x-1/2'>
+              <LinearGradient
+                colors={["#1D4ED8", "#137DD3"]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                className="px-6 py-2 h-auto flex-col justify-between items-center"
+                style={{ borderRadius: 6 }}
+              >
+                <Text className='text-white font-poppins_medium text-[14px]'>Ikuti Jalur Ini</Text>
+              </LinearGradient>
+              <TouchableOpacity onPress={() => setEvacuation(false)} className='mt-4'>
+                <Text className='text-white text-center font-poppins_semibold text-[14px] bg-red px-3 py-2 rounded-lg'>Selesai</Text>
+              </TouchableOpacity>
+            </View>
           )}
           <View className='flex-1'>
             <LinearGradient
