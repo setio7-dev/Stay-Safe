@@ -6,7 +6,7 @@ import cancel from "@/assets/images/icon/cancel.png"
 import { LinearGradient } from 'expo-linear-gradient'
 import { Audio } from 'expo-av'
 
-export default function WarningProp({ onEvacuate }: { onEvacuate: () => void }) {
+export default function WarningProp({ onEvacuate = () => {} }: { onEvacuate?: () => void }) {
   const [show, setShow] = useState(true)
   const soundRef = useRef<Audio.Sound | null>(null)
 

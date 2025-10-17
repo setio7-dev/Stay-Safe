@@ -83,7 +83,7 @@ export default function UserCommunity() {
                 </View>
               </View>
               <ScrollView contentContainerStyle={{ paddingBottom: 8 }} refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refreshing}/>}>
-                <View className='px-6 mt-8 flex-row justify-between flex-wrap'>
+                <View className='px-6 mt-8 flex-row gap-8 justify-between flex-wrap'>
                   {community.map((item) => (
                     <View key={item.id} className='flex-col bg-white rounded-lg w-[150px] h-[260px] items-center justify-center gap-6'
                      style={{

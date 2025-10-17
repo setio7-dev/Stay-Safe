@@ -77,10 +77,10 @@ export default function Register() {
                   </LinearGradient>
                 </TouchableOpacity>
                 <Text className='text-center font-poppins_regular text-gray text-[14px]'>Atau Dengan</Text>
-                <TouchableOpacity onPress={() => navigate.push({ pathname: "/community/[id]", params: {id: 1} })} className='border-2 z-50 rounded-sm border-gray flex-row justify-center items-center gap-2 py-3'>
+                <View className='border-2 z-50 rounded-sm border-gray flex-row justify-center items-center gap-2 py-3'>
                   <Image source={google} className='w-[22px] h-[22px]'/>
                   <Text className='font-poppins_regular text-gray text-center text-[12px]'>Google</Text>
-                </TouchableOpacity>
+                </View>
               </View>
             </View>
           </View>

@@ -9,7 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useRouter } from 'expo-router';
 import { showError } from '../lib/toast';
 import API from '../lib/server';
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, Circle } from "react-native-maps";
 import * as Location from "expo-location";
 import cloud from "@/assets/images/home/cloud.png";
 import fitur1 from "@/assets/images/home/fitur1.png";
@@ -27,151 +27,101 @@ import NewsProp from '../components/newsProp';
 import Authenticated from '../context/Authenticated';
 import LoaderCircle from '../lib/loaderCircle';
 import useRefresh from '../lib/refresh';
+import WarningProp from '../components/warningProp';
 
 const width = Dimensions.get("window").width;
 const fiturArray = [
-  {
-    id: 1,
-    image: fitur1,
-    name: "Pantau Sekitar",
-    navigate: "/maps/mapsBoarding"
-  },
-  {
-    id: 2,
-    image: fitur2,
-    name: "Cek Fakta",
-    navigate: "/check-fact/checkFactBoarding"
-  },
-  {
-    id: 3,
-    image: fitur3,
-    name: "Asisten Pintar",
-    navigate: "/chatbot/chatbotBoarding"
-  },
-  {
-    id: 4,
-    image: fitur4,
-    name: "Meditasi",
-    navigate: "/meditation/meditationBoarding"
-  },
-  {
-    id: 5,
-    image: fitur5,
-    name: "Darurat",
-    navigate: "/warning/warningBoarding"
-  },
-  {
-    id: 6,
-    image: fitur6,
-    name: "Cek Mental",
-    navigate: "/check-mental/checkMentalBoarding"
-  },
-  {
-    id: 7,
-    image: fitur7,
-    name: "Konsultasi",
-    navigate: "/consultation/consultationBoarding"
-  },
-  {
-    id: 8,
-    image: fitur8,
-    name: "Webinar",
-    navigate: "/event/eventBoarding"
-  },
+  { id: 1, image: fitur1, name: "Pantau Sekitar", navigate: "/maps/mapsBoarding" },
+  { id: 2, image: fitur2, name: "Cek Fakta", navigate: "/check-fact/checkFactBoarding" },
+  { id: 3, image: fitur3, name: "Asisten Pintar", navigate: "/chatbot/chatbotBoarding" },
+  { id: 4, image: fitur4, name: "Meditasi", navigate: "/meditation/meditationBoarding" },
+  { id: 5, image: fitur5, name: "Darurat", navigate: "/warning/warningBoarding" },
+  { id: 6, image: fitur6, name: "Cek Mental", navigate: "/check-mental/checkMentalBoarding" },
+  { id: 7, image: fitur7, name: "Konsultasi", navigate: "/consultation/consultationBoarding" },
+  { id: 8, image: fitur8, name: "Webinar", navigate: "/event/eventBoarding" },
 ];
 
 const postData = [
-  {
-    id: 1,
-    image: post1,
-    translate: width,
-  },
-  {
-    id: 2,
-    image: post1,
-    translate: 0,
-  },
-  {
-    id: 3,
-    image: post1,
-    translate: -width
-  },
+  { id: 1, image: post1, translate: width },
+  { id: 2, image: post1, translate: 0 },
+  { id: 3, image: post1, translate: -width },
 ];
 
 export default function Index() {
-  interface userProp {
-    name: string;
-  }
+  interface userProp { name: string; }
 
   const [user, setUser] = useState<userProp | null>(null);
   const [location, setLocation] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [address, setAddress] = useState<Location.LocationGeocodedAddress | null>(null);
+  const [dangerZones, setDangerZones] = useState<any[]>([]);
+  const [isDanger, setIsDanger] = useState(false);
   const navigate = useRouter();
   const translateX = useRef(new Animated.Value(0)).current;
   const [postBar, setPostBar] = useState(0);
   const [sliderWidth, setSliderWidth] = useState(0);
 
-  const fetchData = async () => {
-    await new Promise(resolve => setTimeout(resolve, 2000));
-  };
+  const fetchData = async () => { await new Promise(resolve => setTimeout(resolve, 2000)); };
   const { refreshing, onRefresh } = useRefresh(fetchData);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const token = await AsyncStorage.getItem("token");
-        const response = await API.get("/me", {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
+        const response = await API.get("/me", { headers: { Authorization: `Bearer ${token}` } });
         setUser(response.data.data);
-      } catch (error: any) {
-        showError(error.response.data.message);
-      }
+      } catch (error: any) { showError(error.response.data.message); }
     }
 
     const fetchMaps = async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        alert("Izin lokasi dibutuhkan untuk menampilkan peta.");
-        return;
-      }
+      if (status !== "granted") { alert("Izin lokasi dibutuhkan untuk menampilkan peta."); return; }
 
-      const currentLocation = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.Balanced,
-      });
-
-      const [placemark] = await Location.reverseGeocodeAsync({
-        latitude: currentLocation.coords.latitude,
-        longitude: currentLocation.coords.longitude,
-      });
-
+      const currentLocation = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
+      const [placemark] = await Location.reverseGeocodeAsync({ latitude: currentLocation.coords.latitude, longitude: currentLocation.coords.longitude });
       setLocation(currentLocation.coords);
       setAddress(placemark);
       setLoading(false);
     }
 
+    const fetchZones = async () => {
+      try {
+        const token = await AsyncStorage.getItem("token");
+        const res = await API.get("/guest/zone", { headers: { Authorization: `Bearer ${token}` } });
+        setDangerZones(res.data.data);
+      } catch (error) {}
+    }
+
     fetchUser();
     fetchMaps();
+    fetchZones();
   }, []);
 
   useEffect(() => {
-    const scrollInterval = setInterval(() => {
-      setPostBar((prev) => (prev < 2 ? prev + 1 : 0));
-    }, 3000);
+    if (location && dangerZones.length > 0) {
+      const inside = dangerZones.some((zone: { latitude: string; longitude: string; radius: string }) => {
+        const R = 6371e3;
+        const phi1 = location.latitude * Math.PI / 180;
+        const phi2 = parseFloat(zone.latitude) * Math.PI / 180;
+        const deltaPhi = (parseFloat(zone.latitude) - location.latitude) * Math.PI / 180;
+        const deltaLambda = (parseFloat(zone.longitude) - location.longitude) * Math.PI / 180;
+        const a = Math.sin(deltaPhi / 2) ** 2 + Math.cos(phi1) * Math.cos(phi2) * Math.sin(deltaLambda / 2) ** 2;
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const d = R * c;
+        return d <= parseFloat(zone.radius);
+      });
+      setIsDanger(inside);
+    }
+  }, [location, dangerZones]);
 
+  useEffect(() => {
+    const scrollInterval = setInterval(() => { setPostBar((prev) => (prev < 2 ? prev + 1 : 0)); }, 3000);
     return () => clearInterval(scrollInterval);
   }, []);
 
   useEffect(() => {
     if (sliderWidth > 0) {
-      Animated.timing(translateX, {
-        toValue: -postBar * sliderWidth,
-        duration: 700,
-        useNativeDriver: true,
-      }).start();
+      Animated.timing(translateX, { toValue: -postBar * sliderWidth, duration: 700, useNativeDriver: true }).start();
     }
   }, [postBar, sliderWidth]);
 
@@ -179,14 +129,12 @@ export default function Index() {
     <SafeAreaView style={{ flex: 1 }} edges={['top']} className='bg-white'>
       <StatusBar backgroundColor="#1D4ED8" />
       <Authenticated>
+        {isDanger && (
+          <WarningProp onEvacuate={() => navigate.push('/maps')} />
+        )}
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-          <LinearGradient
-            colors={["#1D4ED8", "#137DD3"]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            className="px-6 py-8 h-auto flex-col gap-4"
-            style={{ borderBottomLeftRadius: 24, borderBottomRightRadius: 24, }}
-          >
+          <LinearGradient colors={["#1D4ED8", "#137DD3"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
+            className="px-6 py-8 h-auto flex-col gap-4" style={{ borderBottomLeftRadius: 24, borderBottomRightRadius: 24 }}>
             <View className='flex-row gap-4 flex-1 justify-between items-center'>
               <Image source={logo} className='w-[160px] h-[70px]' />
               <Image source={notif} className='w-[32px] h-[32px]' />
@@ -197,29 +145,17 @@ export default function Index() {
             </View>
             <View className='flex-row items-center justify-start gap-6 flex-1 bg-white h-[140px] rounded-lg p-2 mr-2 mt-2'>
               {loading || !location ? (
-                <View className='w-[120px] h-full flex justify-center items-center'>
-                  <LoaderCircle />
-                </View>
+                <View className='w-[120px] h-full flex justify-center items-center'><LoaderCircle /></View>
               ) : (
                 <View className="w-[120px] h-full border-primary border-2 rounded-lg">
-                  <MapView
-                    style={{ width: "100%", height: "100%", borderRadius: 20 }}
-                    initialRegion={{
-                      latitude: location.latitude,
-                      longitude: location.longitude,
-                      latitudeDelta: 0.01,
-                      longitudeDelta: 0.01,
-                    }}
-                    showsUserLocation={true}
-                  >
-                    <Marker
-                      coordinate={{
-                        latitude: location.latitude,
-                        longitude: location.longitude,
-                      }}
-                      title="Lokasi Saya"
-                      description="Posisi saat ini"
-                    />
+                  <MapView style={{ width: "100%", height: "100%", borderRadius: 20 }} initialRegion={{
+                    latitude: location.latitude, longitude: location.longitude, latitudeDelta: 0.01, longitudeDelta: 0.01,
+                  }} showsUserLocation={true}>
+                    <Marker coordinate={{ latitude: location.latitude, longitude: location.longitude }} title="Lokasi Saya" description="Posisi saat ini" />
+                    {dangerZones.map((zone, idx) => (
+                      <Circle key={idx} center={{ latitude: parseFloat(zone.latitude), longitude: parseFloat(zone.longitude) }}
+                        radius={parseFloat(zone.radius)} strokeWidth={2} strokeColor="rgba(255,0,0,0.8)" fillColor="rgba(255,0,0,0.2)" />
+                    ))}
                   </MapView>
                 </View>
               )}
@@ -229,17 +165,14 @@ export default function Index() {
                   <Text className='text-primary font-poppins_semibold text-[16px]'>{address?.district ?? "Memuat..."}</Text>
                   <Text className='text-gray font-poppins_medium text-[10px]'>Status</Text>
                   <View className='flex-row items-center gap-2'>
-                    <View className='bg-red w-2 h-2 rounded-full'></View>
-                    <Text className='text-red font-poppins_medium mt-[2px] text-[12px]'>Bahaya</Text>
+                    <View className={`w-2 h-2 rounded-full ${isDanger ? 'bg-red' : 'bg-green'}`}></View>
+                    <Text className={`font-poppins_medium mt-[2px] text-[12px] ${isDanger ? 'text-red' : 'text-green'}`}>
+                      {isDanger ? 'Bahaya' : 'Aman'}
+                    </Text>
                   </View>
                   <TouchableOpacity onPress={() => onRefresh()}>
-                    <LinearGradient
-                      colors={["#1D4ED8", "#137DD3"]}
-                      start={{ x: 0, y: 0 }}
-                      end={{ x: 1, y: 0 }}
-                      className="px-2 py-2 w-[100px] mt-2"
-                      style={{ borderRadius: 100 }}
-                    >
+                    <LinearGradient colors={["#1D4ED8", "#137DD3"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
+                      className="px-2 py-2 w-[100px] mt-2" style={{ borderRadius: 100 }}>
                       <Text className='text-white text-center font-poppins_medium text-[8px]'>Segarkan Lokasimu</Text>
                     </LinearGradient>
                   </TouchableOpacity>
@@ -256,26 +189,16 @@ export default function Index() {
           </LinearGradient>
           <View className="flex-row flex-wrap justify-between px-4 mt-8">
             {fiturArray.map((item) => (
-              <TouchableOpacity
-                key={item.id}
-                onPress={() => navigate.push(item.navigate as any)}
-                className="w-1/4 mb-6 flex items-center"
-              >
+              <TouchableOpacity key={item.id} onPress={() => navigate.push(item.navigate as any)}
+                className="w-1/4 mb-6 flex items-center">
                 <Image source={item.image} className="w-[50.5px] h-[50px]" />
-                <Text className="font-poppins_medium text-black text-[10px] text-center mt-2">
-                  {item.name}
-                </Text>
+                <Text className="font-poppins_medium text-black text-[10px] text-center mt-2">{item.name}</Text>
               </TouchableOpacity>
             ))}
           </View>
           <View className='flex-1 px-6 mt-6'>
-            <LinearGradient
-              colors={["#1D4ED8", "#137DD3"]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              className="px-4 py-4 h-auto flex-1 flex-row items-center gap-4"
-              style={{ borderRadius: 8 }}
-            >
+            <LinearGradient colors={["#1D4ED8", "#137DD3"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
+              className="px-4 py-4 h-auto flex-1 flex-row items-center gap-4" style={{ borderRadius: 8 }}>
               <Image source={laporCepat} className='w-[70px] h-[80px]' />
               <View className='flex-col flex-1'>
                 <Text className='text-white font-poppins_semibold text-[16px]'>Lapor Cepat Sekitarmu</Text>
@@ -286,33 +209,17 @@ export default function Index() {
               </View>
             </LinearGradient>
           </View>
-          <View
-            onLayout={(e) => setSliderWidth(e.nativeEvent.layout.width)}
-            className="mt-10"
-          >
-            <Animated.View
-              className="flex-row items-center justify-start"
-              style={{ transform: [{ translateX }] }}
-            >
+          <View onLayout={(e) => setSliderWidth(e.nativeEvent.layout.width)} className="mt-10">
+            <Animated.View className="flex-row items-center justify-start" style={{ transform: [{ translateX }] }}>
               {postData.map((item) => (
                 <View key={item.id} className='px-6' style={{ width: sliderWidth }}>
-                  <Image
-                    source={item.image}
-                    style={{ width: '100%', height: 200, borderRadius: 12 }}
-                    resizeMode="cover"
-                  />
+                  <Image source={item.image} style={{ width: '100%', height: 200, borderRadius: 12 }} resizeMode="cover" />
                 </View>
               ))}
             </Animated.View>
           </View>
-          <View className='pl-6 mt-6'>
-            <Text className='font-poppins_semibold text-[20px] text-black mt-4'>Komunitas</Text>
-            <CommunityProp />
-          </View>
-          <View className='pl-6 mt-6 pb-12'>
-            <Text className='font-poppins_semibold text-[20px] text-black mt-4'>Berita Terkini</Text>
-            <NewsProp />
-          </View>
+          <View className='pl-6 mt-6'><Text className='font-poppins_semibold text-[20px] text-black mt-4'>Komunitas</Text><CommunityProp /></View>
+          <View className='pl-6 mt-6 pb-12'><Text className='font-poppins_semibold text-[20px] text-black mt-4'>Berita Terkini</Text><NewsProp /></View>
         </ScrollView>
       </Authenticated>
     </SafeAreaView>

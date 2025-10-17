@@ -225,7 +225,7 @@ export default function CommunityDetail() {
             ))
           ) : (
             <View>
-              <Text>Belum ada postingan</Text>
+              <Text className='font-poppins_medium text-[14px] text-center'>Belum ada postingan</Text>
             </View>
           )}
         </ScrollView>
