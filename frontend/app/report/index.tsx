@@ -32,6 +32,7 @@ export default function Report() {
   const [items, setItems] = useState([
     { label: 'Kecelakaan', value: 'Kecelakaan' },
     { label: 'Kriminalitas', value: 'Kriminalitas' },
+    { label: 'Kerusuhan', value: 'Kerusuhan' },
     { label: 'Bencana Alam', value: 'Bencana Alam' },
   ])
   const [location, setLocation] = useState<{latitude: number, longitude: number, address: string} | null>(null)

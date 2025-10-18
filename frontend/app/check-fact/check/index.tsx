@@ -50,6 +50,10 @@ export default function Index() {
           }
         });
         showSuccess("Berhasil Dianalisis");
+        setNewsUrl("");
+        setDescription("");
+        setImage(null);
+        setTitle("");
 
         setTimeout(() => {
           navigate.push({ pathname: '/check-fact/check/result', params: { result: JSON.stringify(response.data) } })
