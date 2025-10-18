@@ -113,7 +113,7 @@ export default function Index() {
               <ScrollView className='pt-8 px-6' refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refreshing}/>}>
                 <View className='flex-col gap-8 items-center justify-center'>
                   {doctor.map((item, index) => (
-                    <View key={index} className='p-4 bg-white w-full flex-row items-center justify-between gap-4'
+                    <View key={index} className='p-4 bg-white w-full flex-row items-center h-[124px] justify-between gap-4'
                     style={{
                       shadowColor: '#000',
                       borderRadius: 10,
@@ -122,21 +122,23 @@ export default function Index() {
                       shadowRadius: 4.84,
                       elevation: 5,
                     }}>
-                      <Image source={{ uri: `${StorageAPI}/${item.user.image}` }} className='w-[86px] h-[86px] rounded-lg object-cover bg-cover'/>
-                      <View className='flex-col'>
-                        <Text className='text-black text-[14px] font-poppins_semibold'>{getShortName(item.user.name)}</Text>
-                        <Text className='text-gray text-[12px] font-poppins_regular'>{item.category}</Text>
-                        <TouchableOpacity onPress={() => handleChat(item.user_id)}>
-                            <LinearGradient
-                                colors={["#1D4ED8", "#137DD3"]}
-                                start={{ x: 0, y: 0 }}
-                                end={{ x: 1, y: 0 }}
-                                className="px-2 mt-4 py-2 w-[90px] h-auto flex-col gap-4"
-                                style={{ borderRadius: 6 }}
-                            >
-                                <Text className='text-white text-[12px] text-center font-poppins_semibold'>Hubungi</Text>
-                            </LinearGradient>
-                        </TouchableOpacity>
+                      <View className='flex-row gap-4 items-center'>
+                        <Image source={{ uri: `${StorageAPI}/${item.user.image}` }} className='w-[86px] h-[86px] rounded-lg object-cover bg-cover'/>
+                        <View className='flex-col'>
+                          <Text className='text-black text-[14px] font-poppins_semibold'>{getShortName(item.user.name)}</Text>
+                          <Text className='text-gray text-[12px] font-poppins_regular'>{item.category}</Text>
+                          <TouchableOpacity onPress={() => handleChat(item.user_id)}>
+                              <LinearGradient
+                                  colors={["#1D4ED8", "#137DD3"]}
+                                  start={{ x: 0, y: 0 }}
+                                  end={{ x: 1, y: 0 }}
+                                  className="px-2 mt-4 py-2 w-[90px] h-auto flex-col gap-4"
+                                  style={{ borderRadius: 6 }}
+                              >
+                                  <Text className='text-white text-[12px] text-center font-poppins_semibold'>Hubungi</Text>
+                              </LinearGradient>
+                          </TouchableOpacity>
+                        </View>
                       </View>
                       <View className='flex-col justify-between items-end h-full py-2'>
                         <Image source={star} className='w-[34px] h-[14px]'/>

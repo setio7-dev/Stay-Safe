@@ -128,7 +128,7 @@ export default function ConsultationChat() {
                           </View>
                         </View>
                         {item.message.length > 0 ? (
-                            <Text className='text-gray mt-2 text-[12px] font-poppins_medium'>{item.message[item.message.length - 1].message}</Text>
+                            <Text className='text-gray mt-2 text-[12px] font-poppins_medium'>{item.message[item.message.length - 1].message.slice(0, 12) }</Text>
                         ) : (
                             <View></View>
                         )}

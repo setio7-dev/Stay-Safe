@@ -67,6 +67,9 @@ export default function Community() {
     }    
 
     fetchCommunity();
+    setInterval(() => {
+      fetchCommunity();      
+    }, 4000);
   }, []);
   return (
     <SafeAreaView edges={["top"]} className='bg-white h-full'>
