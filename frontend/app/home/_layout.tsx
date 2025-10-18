@@ -4,9 +4,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { Loader } from '../lib/loader'
 import { useEffect, useState } from "react";
 import { View } from "react-native";
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 export default function HomeLayout() {
   const [isLoader, setIsLoader] = useState(true);
+  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     const fetchLoader = async() => {
@@ -30,7 +32,8 @@ export default function HomeLayout() {
               borderTopWidth: 0.5,
               borderTopColor: "#E5E7EB",
               paddingTop: 10,
-              height: 90
+              paddingBottom: insets.bottom + 10,
+              height: 70 + insets.bottom, 
             },
             tabBarLabelStyle: {
               fontSize: 10,

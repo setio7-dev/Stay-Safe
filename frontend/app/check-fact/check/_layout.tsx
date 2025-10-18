@@ -2,8 +2,10 @@ import { Tabs } from "expo-router";
 import "../../global.css";
 import { Ionicons } from "@expo/vector-icons";
 import { View } from "react-native";
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 export default function HomeLayout() {
+  const insets = useSafeAreaInsets();
   return (
     <View className="flex-1">
       <Tabs
@@ -18,7 +20,8 @@ export default function HomeLayout() {
             borderTopWidth: 0.5,
             borderTopColor: "#E5E7EB",
             paddingTop: 10,
-            height: 90
+            paddingBottom: insets.bottom + 10,
+            height: 70 + insets.bottom, 
           },
           tabBarLabelStyle: {
             fontSize: 10,
