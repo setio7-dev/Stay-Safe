@@ -1,6 +1,6 @@
 import { LinearGradient } from 'expo-linear-gradient'
 import React, { useEffect, useState, useRef } from 'react'
-import { View, Text, Image, TouchableOpacity, Animated, ScrollView } from 'react-native'
+import { View, Text, Image, TouchableOpacity, Animated, ScrollView, Modal } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import back from "@/assets/images/icon/back.png"
 import * as Location from 'expo-location'
@@ -31,6 +31,9 @@ export default function Index() {
   const expanded = useRef(false)
   const mapRef = useRef<MapView>(null)
   const [evacuation, setEvacuation] = useState(false)
+
+  const [selectedZone, setSelectedZone] = useState<any>(null)
+  const [modalVisible, setModalVisible] = useState(false)
 
   useEffect(() => {
     (async () => {
@@ -162,7 +165,7 @@ export default function Index() {
       animated: true
     })
 
-    setEvacuation(true) // set setelah route siap
+    setEvacuation(true)
   }
 
   return (
@@ -223,6 +226,10 @@ export default function Index() {
                           longitude: parseFloat(zone.longitude),
                         }}
                         image={warning}
+                        onPress={() => {
+                          setSelectedZone(zone)
+                          setModalVisible(true)
+                        }}
                       />
                       <Circle
                         center={{
@@ -320,6 +327,26 @@ export default function Index() {
               </Animated.View>
             )}
           </View>
+
+          <Modal
+            visible={modalVisible}
+            transparent
+            animationType="fade"
+            onRequestClose={() => setModalVisible(false)}
+          >
+            <View className='flex-1 bg-black/50 justify-center items-center px-6'>
+              <View className='bg-white p-6 rounded-lg w-full'>
+                <Text className='text-[18px] font-poppins_semibold mb-2'>{selectedZone?.name || 'Zona Tanpa Nama'}</Text>
+                <Text className='text-[14px] font-poppins_regular text-black mb-4'>{selectedZone?.desc || 'Tidak ada deskripsi.'}</Text>
+                <TouchableOpacity
+                  onPress={() => setModalVisible(false)}
+                  className='bg-secondary py-2 rounded-lg'
+                >
+                  <Text className='text-white text-center font-poppins_semibold text-[14px]'>Tutup</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
         </View>
       ) : (
         <View className='flex w-full flex-1 justify-center items-center'>

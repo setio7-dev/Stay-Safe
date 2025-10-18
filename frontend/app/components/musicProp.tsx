@@ -65,12 +65,12 @@ export default function MusicProp({ onNavigate }: MusicPropProps) {
           key={index}
           className='w-full p-2 bg-white flex-row justify-between items-center gap-4'
           style={{
-            borderRadius: 8,
             shadowColor: '#000',
+            borderRadius: 10,
             shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.4,
+            shadowOpacity: 0.40,
             shadowRadius: 4.84,
-            elevation: 5,
+            elevation: 2,
           }}>
           <View className='flex-row items-center justify-start gap-4'>
             <Image

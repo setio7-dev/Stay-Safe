@@ -117,18 +117,18 @@ export default function ConsultationChat() {
                       elevation: 5,
                     }}>
                       <Image source={{ uri: `${StorageAPI}/${item.receiver.image}` }} className='w-[86px] h-[86px] rounded-lg object-cover bg-cover'/>
-                      <View className='flex-col gap-1'>
-                        <View className='flex-row justify-between w-[180px]'>
+                      <View className='flex-col flex-1'>
+                        <View className='flex-row justify-between'>
                           <View className='flex-col'>
                             <Text className='text-black text-[14px] font-poppins_semibold'>{getShortName(item.receiver.name)}</Text>
                             <Text className='text-gray text-[12px] font-poppins_regular'>{item.receiver.category}</Text>                    
                           </View>
                           <View className='rounded-full bg-red w-[20px] h-[20px] flex justify-center items-center'>
-                              <Text className='font-poppins_semibold text-white text-[10px] pt-[1px]'>{item.unread_count}</Text>
+                              <Text className='font-poppins_semibold text-white text-[10px] pt-[1px]'>{item.unread_count === 0 ? 1 : item.unread_count}</Text>
                           </View>
                         </View>
                         {item.message.length > 0 ? (
-                            <Text className='text-gray text-[12px] font-poppins_medium'>{item.message[item.message.length - 1].message}</Text>
+                            <Text className='text-gray mt-2 text-[12px] font-poppins_medium'>{item.message[item.message.length - 1].message}</Text>
                         ) : (
                             <View></View>
                         )}

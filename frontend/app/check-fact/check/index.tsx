@@ -98,7 +98,7 @@ export default function Index() {
                         </View>
                         <View className='flex-col gap-2'>
                           <Text className='text-black font-poppins_medium text-[1rem]'>Deskripsi Berita</Text>
-                          <TextInput value={description} onChangeText={(e) => setDescription(e)} className='border-2 pl-4 font-poppins_regular text-[12px] rounded-lg border-gray w-full focus:border-primary' placeholder='Masukkan Deskripsi Berita...' placeholderTextColor="#ACACAC"/>
+                          <TextInput value={description} onChangeText={(e) => setDescription(e)} className='border-2 pl-4 font-poppins_regular text-[12px] rounded-lg border-gray w-full h-[120px] align-top pt-3 focus:border-primary' placeholder='Masukkan Deskripsi Berita...' placeholderTextColor="#ACACAC"/>
                         </View>
                         <View className='flex-col gap-2'>
                           <Text className='text-black font-poppins_medium text-[1rem]'>Link Berita (Jika Ada)</Text>
