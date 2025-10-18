@@ -31,7 +31,6 @@ export default function Index() {
   const expanded = useRef(false)
   const mapRef = useRef<MapView>(null)
   const [evacuation, setEvacuation] = useState(false)
-
   const [selectedZone, setSelectedZone] = useState<any>(null)
   const [modalVisible, setModalVisible] = useState(false)
 
@@ -149,17 +148,17 @@ export default function Index() {
         (b.geometry.coordinates[1] - location.latitude) ** 2 +
         (b.geometry.coordinates[0] - location.longitude) ** 2
       )
-      return d1 - d2
+      return d2 - d1
     })
 
-    const nearest = safePlaces[0]
-    const url = `https://api.geoapify.com/v1/routing?waypoints=${location.latitude},${location.longitude}|${nearest.geometry.coordinates[1]},${nearest.geometry.coordinates[0]}&mode=walk&apiKey=${GEOAPIFY_KEY}`
+    const farthest = safePlaces[0]
+    const url = `https://api.geoapify.com/v1/routing?waypoints=${location.latitude},${location.longitude}|${farthest.geometry.coordinates[1]},${farthest.geometry.coordinates[0]}&mode=walk&apiKey=${GEOAPIFY_KEY}`
     const res = await axios.get(url)
     const steps = res.data.features[0].geometry.coordinates[0]
     const route = steps.map((c: any) => ({ latitude: c[1], longitude: c[0] }))
 
     setRouteCoords(route)
-    setDestination({ lat: nearest.geometry.coordinates[1], lng: nearest.geometry.coordinates[0] })
+    setDestination({ lat: farthest.geometry.coordinates[1], lng: farthest.geometry.coordinates[0] })
     mapRef.current?.fitToCoordinates(route, {
       edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
       animated: true
