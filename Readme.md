@@ -1,6 +1,6 @@
 # 🛡️ Stay Safe – Aplikasi Layanan Keamanan & Kesehatan Digital Modern
 
-![Stay Safe Screenshot](./project.png)
+![Stay Safe Screenshot](./projects.png)
 
 ---
 
