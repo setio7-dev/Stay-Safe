@@ -71,8 +71,8 @@ export default function Index() {
       const fetchPlaces = async () => {
         try {
           const radius = 2000
-          const categories = "catering.restaurant,catering.cafe,commercial.supermarket,commercial.shopping_mall"
-          const url = `https://api.geoapify.com/v2/places?categories=${categories}&filter=circle:${location.longitude},${location.latitude},${radius}&limit=50&apiKey=${GEOAPIFY_KEY}`
+          const categories = "service.police,service.fire_station,service.post.office,healthcare.hospital,healthcare.clinic_or_praxis,office.government";
+          const url = `https://api.geoapify.com/v2/places?categories=${categories}&filter=circle:${location.longitude},${location.latitude},${radius}&limit=50&apiKey=${GEOAPIFY_KEY}`;
           const response = await axios.get(url)
           setPlaces(response.data.features)
         } catch (error) {}

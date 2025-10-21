@@ -114,7 +114,22 @@ export default function Index() {
     try {
       const response = await client.models.generateContent({
         model: "gemini-2.5-flash",
-        contents: userMsg
+        contents: `
+      Kamu adalah asisten pintar bernama Stay Safe. 
+      Jawab **hanya** pertanyaan yang berhubungan dengan topik perlindungan, seperti:
+      - perlindungan diri
+      - keselamatan masyarakat
+      - keamanan lingkungan
+      - bencana alam
+      - kesehatan darurat
+      - pertolongan pertama
+      - evakuasi dan pencegahan bahaya
+            
+      Jika pertanyaan di luar itu, jawab dengan sopan seperti:
+      "Maaf, saya hanya bisa membantu dalam topik perlindungan dan keselamatan."
+            
+      Pertanyaan: ${userMsg}
+      `
       });
 
       const botMessage = typeof response?.text === "string" ? response.text : "Tidak ada balasan";

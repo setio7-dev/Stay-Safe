@@ -1,31 +1,33 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import warning from "@/assets/images/maps/warning.png"
-import cancel from "@/assets/images/icon/cancel.png"
 import { LinearGradient } from 'expo-linear-gradient'
 import { Audio } from 'expo-av'
+import { useFocusEffect } from '@react-navigation/native'
+import warning from "@/assets/images/maps/warning.png"
+import cancel from "@/assets/images/icon/cancel.png"
 
 export default function WarningProp({ onEvacuate = () => {} }: { onEvacuate?: () => void }) {
   const [show, setShow] = useState(true)
   const soundRef = useRef<Audio.Sound | null>(null)
 
-  useEffect(() => {
-    const loadSound = async () => {
-      const { sound } = await Audio.Sound.createAsync(require('@/assets/images/maps/alarm.wav'))
-      soundRef.current = sound
-      if (show) soundRef.current.replayAsync()
-    }
-    loadSound()
-    return () => {
-      if (soundRef.current) soundRef.current.unloadAsync()
-    }
-  }, [])
+  useFocusEffect(
+    React.useCallback(() => {
+      const loadSound = async () => {
+        const { sound } = await Audio.Sound.createAsync(require('@/assets/images/maps/alarm.wav'))
+        soundRef.current = sound
+        if (show) await soundRef.current.replayAsync()
+      }
+      loadSound()
 
-  useEffect(() => {
-    if (show && soundRef.current) soundRef.current.replayAsync()
-    if (!show && soundRef.current) soundRef.current.stopAsync()
-  }, [show])
+      return () => {
+        if (soundRef.current) {
+          soundRef.current.stopAsync()
+          soundRef.current.unloadAsync()
+        }
+      }
+    }, [show])
+  )
 
   return (
     <SafeAreaView
